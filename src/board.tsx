@@ -6,9 +6,14 @@ interface DrawState {
     x?:number,
     y?:number
 }
+
+// Referenced
+
 export default function Whiteboard() {
     let current:DrawState = {color:'#000000'};
-    let currentColor:string = '#000000';
+
+    const [currentColor, setCurrentColor] = useState<string>("#000000");
+
     function throttledMouseMove(e: React.MouseEvent<HTMLCanvasElement,MouseEvent>,delay:number) {
         var previousCall = new Date().getTime();
         return function() {
@@ -76,9 +81,8 @@ export default function Whiteboard() {
     //     color:'black'
     // });
     function changeColor(colorHex: string) {
-        currentColor = colorHex;
-        console.log('changing to '+currentColor);
-    }
+        setCurrentColor(colorHex);
+      }
    
 
     function drawLine(x1:number,y1:number,x2:number,y2:number,color:string):void {
