@@ -13,6 +13,7 @@ export default function Whiteboard() {
     let current:DrawState = {color:'#000000'};
 
     const [currentColor, setCurrentColor] = useState<string>("#000000");
+    const [currentWidth, setCurrentWidth] = useState<number>(2);
 
     function throttledMouseMove(e: React.MouseEvent<HTMLCanvasElement,MouseEvent>,delay:number) {
         var previousCall = new Date().getTime();
@@ -31,7 +32,7 @@ export default function Whiteboard() {
             return;
         }
         if(current.x!=undefined&&current.y!=undefined){
-            drawLine(current.x,current.y,e.clientX,e.clientY,currentColor);
+            drawLine(current.x,current.y,e.clientX,e.clientY,currentColor, currentWidth);
         }
         // setCurrent(prev => ({
         //     ...prev,
@@ -52,7 +53,7 @@ export default function Whiteboard() {
         }
         setDrawing(false);
         if(current.x!=undefined&&current.y!=undefined){
-            drawLine(current.x,current.y,e.clientX,e.clientY,currentColor);
+            drawLine(current.x,current.y,e.clientX,e.clientY,currentColor, currentWidth);
         }
         
     }
@@ -84,8 +85,11 @@ export default function Whiteboard() {
         setCurrentColor(colorHex);
       }
    
+    function changeWidth(width:number) {
+        setCurrentWidth(width);
+    }
 
-    function drawLine(x1:number,y1:number,x2:number,y2:number,color:string):void {
+    function drawLine(x1:number,y1:number,x2:number,y2:number,color:string, width:number):void {
         console.log(currentColor);
         if(boardRef!=null&&boardRef.current!=null) {
             const context:undefined|CanvasRenderingContext2D|null = boardRef.current.getContext('2d');
@@ -94,7 +98,8 @@ export default function Whiteboard() {
                 context.moveTo(x1, y1);
                 context.lineTo(x2, y2);
                 context.strokeStyle = color;
-                context.lineWidth = 2;
+                context.lineWidth = width;
+                context.lineCap = "round"; //make it so that a stroke is a circle, not a rectangle
                 context.stroke();
                 context.closePath();
             }
@@ -110,6 +115,8 @@ export default function Whiteboard() {
             onMouseUp={(e)=>{mouseUp(e)}}
             onMouseMove={(e)=>{mouseMove(e)}}
             ref={boardRef}></canvas>
+            <div className="widthPicker">
+                
             <div className="colorPicker">
                 <div className="colorChoice" style={{
                     border:'1px solid black',
