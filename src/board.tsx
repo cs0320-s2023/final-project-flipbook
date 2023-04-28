@@ -14,6 +14,7 @@ export default function Whiteboard() {
 
     const [currentColor, setCurrentColor] = useState<string>("#000000");
     const [currentWidth, setCurrentWidth] = useState<number>(2);
+    const [currentWidth,setCurrentWidth] = useState<number>(5);
 
     function throttledMouseMove(e: React.MouseEvent<HTMLCanvasElement,MouseEvent>,delay:number) {
         var previousCall = new Date().getTime();
@@ -76,6 +77,7 @@ export default function Whiteboard() {
 
     const [drawing,setDrawing] = useState<boolean>(false);
     const maybeBoard = document.getElementsByClassName("board-canvas");
+    
 
     const boardRef = useRef<HTMLCanvasElement|null>(null);
     // const [current,setCurrent] = useState<DrawState>({
@@ -100,10 +102,16 @@ export default function Whiteboard() {
                 context.strokeStyle = color;
                 context.lineWidth = width;
                 context.lineCap = "round"; //make it so that a stroke is a circle, not a rectangle
+                context.lineWidth = currentWidth;
                 context.stroke();
                 context.closePath();
             }
         }
+    }
+
+    function changeStroke(e:React.ChangeEvent<HTMLInputElement>) {
+        const parsedValue: number = parseInt(e.target.value);
+        setCurrentWidth(parsedValue);
     }
     
     return (
@@ -161,6 +169,9 @@ export default function Whiteboard() {
                 }}
                 onClick = {()=>changeColor('#FF0000')}
                 ></div>
+            </div>
+            <div className="lineWidthInput">
+                <input type="range" min="1" max="75" value="5" onChange={(e)=>changeStroke(e)}></input>
             </div>
         </div>
         
