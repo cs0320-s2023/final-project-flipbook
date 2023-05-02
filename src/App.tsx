@@ -1,10 +1,12 @@
 import logo from './logo.svg';
 import Whiteboard from './board';
+import FrameInterface from './FrameInterface';
+import mockedFrames from './frameMocks';
 
 function App() {
   return (
     <div className="App">
-      <Whiteboard/>
+      <FrameInterface frames={mockedFrames}/>
     </div>
   );
 }

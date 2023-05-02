@@ -1,5 +1,6 @@
 import React, { useState,useRef } from "react"
 import "./styles/board.css";
+import{ FrameData} from './frameData'
 
 interface DrawState {
     color:string,
@@ -7,9 +8,12 @@ interface DrawState {
     y?:number
 }
 
-// Referenced
+export interface WhiteboardProps {
+    currentFrame:FrameData,
+    setCurrentFrame:(n:FrameData)=>void
+}
 
-export default function Whiteboard() {
+export default function Whiteboard(props:WhiteboardProps) {
     let current:DrawState = {color:'#000000'};
 
     const [currentColor, setCurrentColor] = useState<string>("#000000");
@@ -32,17 +36,22 @@ export default function Whiteboard() {
             return;
         }
         if(current.x!=undefined&&current.y!=undefined){
-            drawLine(current.x,current.y,e.clientX,e.clientY,currentColor, currentWidth);
+            drawLine(current.x,current.y,e.nativeEvent.offsetX,e.nativeEvent.offsetY,currentColor, currentWidth);
         }
         // setCurrent(prev => ({
         //     ...prev,
         //     x:e.clientX,
         //     y:e.clientY
         // }));
+        // current = {
+        //     ...current,
+        //     x:e.nativeEvent.clientX+e.nativeEvent.offsetX,
+        //     y:e.nativeEvent.clientY+e.nativeEvent.offsetY
+        // }
         current = {
             ...current,
-            x:e.clientX,
-            y:e.clientY
+            x:e.nativeEvent.offsetX,
+            y:e.nativeEvent.offsetY
         }
         
     }
@@ -68,8 +77,8 @@ export default function Whiteboard() {
         // }));
         current = {
             ...current,
-            x:e.clientX,
-            y:e.clientY
+            x:e.nativeEvent.offsetX,
+            y:e.nativeEvent.offsetY
         }
     }
     
