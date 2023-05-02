@@ -8,9 +8,10 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "test": "vitest",
-    "start":"vite"
+    "start": "vite"
   },
   "dependencies": {
+    "@uiw/react-color-colorful": "^1.2.1",
     "mapbox-gl": "^2.13.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
