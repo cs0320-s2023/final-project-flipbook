@@ -1,6 +1,8 @@
 import React, { useState, useRef } from "react";
 import "./styles/board.css";
+import { HsvaColor, ColorResult } from "@uiw/color-convert";
 import { FrameData } from "./frameData";
+import Colorful from "@uiw/react-color-colorful";
 
 interface DrawState {
   color: string;
@@ -11,6 +13,15 @@ interface DrawState {
 export interface WhiteboardProps {
   currentFrame: FrameData;
   setCurrentFrame: (n: FrameData) => void;
+}
+
+// ColorWheel Interface
+export interface ColorfulProps
+  extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange" | "color"> {
+  prefixCls?: string;
+  onChange?: (color: ColorResult) => void;
+  color?: string | HsvaColor;
+  disableAlpha?: boolean;
 }
 
 export default function Whiteboard(props: WhiteboardProps) {
@@ -96,6 +107,17 @@ export default function Whiteboard(props: WhiteboardProps) {
       x: e.nativeEvent.offsetX,
       y: e.nativeEvent.offsetY,
     };
+    if (resyncColors.indexOf(currentColor) == -1) {
+      {
+        setResyncColors([
+          currentColor,
+          resyncColors[0],
+          resyncColors[1],
+          resyncColors[2],
+          resyncColors[3],
+        ]);
+      }
+    }
   }
 
   const [drawing, setDrawing] = useState<boolean>(false);
@@ -134,8 +156,19 @@ export default function Whiteboard(props: WhiteboardProps) {
     }
   }
 
+  const [hex, setHex] = useState("#59c09a");
+  const [disableAlpha, setDisableAlpha] = useState(false);
+  const [resyncColors, setResyncColors] = useState<string[]>([
+    "#000000",
+    "#FFFFFF",
+    "#0000FF",
+    "#00FF00",
+    "#FF0000",
+  ]);
+
   function changeStroke(e: React.ChangeEvent<HTMLInputElement>) {
     const parsedValue: number = parseInt(e.target.value);
+
     setCurrentWidth(parsedValue);
   }
 
@@ -161,20 +194,18 @@ export default function Whiteboard(props: WhiteboardProps) {
       ></canvas>
       <div className="widthPicker">
         <div className="colorPicker">
-          {["#000000", "#FFFFFF", "#0000FF", "#00FF00", "#FF0000"].map(
-            (color) => (
-              <div
-                className="colorChoice"
-                style={{
-                  border: "1px solid black",
-                  background: color,
-                  width: 50,
-                  height: 50,
-                }}
-                onClick={() => changeColor(color)}
-              ></div>
-            )
-          )}
+          {resyncColors.map((color) => (
+            <div
+              className="colorChoice"
+              style={{
+                border: "1px solid black",
+                background: color,
+                width: 50,
+                height: 50,
+              }}
+              onClick={() => changeColor(color)}
+            ></div>
+          ))}
         </div>
         <div className="lineWidthInput">
           <input
@@ -186,6 +217,18 @@ export default function Whiteboard(props: WhiteboardProps) {
           ></input>
         </div>
       </div>
+      <>
+        <label></label>
+        <Colorful
+          color={hex}
+          disableAlpha={disableAlpha}
+          onChange={(color) => {
+            setHex(color.hexa);
+            changeColor(color.hexa);
+          }}
+        />
+        <div style={{ background: hex, marginTop: 30, padding: 10 }}>{hex}</div>
+      </>
     </div>
   );
 }
