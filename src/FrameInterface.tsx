@@ -7,6 +7,7 @@ import { useState } from "react";
 export interface FrameInterfaceProps {
     frames: FrameData[]
 }
+
 export default function FrameInterface(props: FrameInterfaceProps) {
 
     const [currentFrame,setCurrentFrame] = useState<FrameData>(props.frames[0]);

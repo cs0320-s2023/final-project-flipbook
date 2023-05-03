@@ -1,15 +1,17 @@
+
+
 const mongoose = require('mongoose')
 const usersScehma = new mongoose.Schema({
-    name: {
+    title: {
+        type: String,
+        required: false
+    },
+    pid: {
         type: String,
         required: true
     },
-    age: {
-        type: Number,
-        required: true
-    },
-    username: {
-        type: String,
+    frameData: {
+        type: Array,
         required: true
     }
 
@@ -18,3 +20,4 @@ const usersScehma = new mongoose.Schema({
 const userModel = mongoose.model("users", usersScehma)
 
 module.exports = userModel;
+
