@@ -58,6 +58,7 @@ export default function Whiteboard(props: WhiteboardProps) {
         currentColor,
         currentWidth
       );
+      //save this as an action ^
     }
     // setCurrent(prev => ({
     //     ...prev,
@@ -185,6 +186,9 @@ export default function Whiteboard(props: WhiteboardProps) {
         }}
         onMouseMove={(e) => {
           mouseMove(e);
+        }}
+        onMouseLeave={() => {
+          setDrawing(false);
         }}
         ref={boardRef}
       ></canvas>
