@@ -38,4 +38,24 @@ mockedFrames.push(frame1);
 mockedFrames.push(frame2);
 
 
+export function createMockFrames() {
+    let mockedFrames: FrameData[] = [];
+
+    const frame1Actions: Action[] = [{},{}];
+    const frame1: FrameData = {actions:frame1Actions,image:createMockImg(), frameNum:1}
+
+    const frame2Actions: Action[] = [{},{}];
+    const frame2: FrameData = {actions:frame2Actions, image:createMockImg(), frameNum:2}
+
+    mockedFrames.push(frame1);
+    mockedFrames.push(frame2);
+    return mockedFrames;
+}
+
+export function createMockFramesJSON() {
+    return JSON.stringify(createMockFrames());  
+}
+
+
+
 export default mockedFrames;
