@@ -1,9 +1,11 @@
 export interface FrameData {
-    actions: Action[],
-    image: ImageData,
-    frameNum: number
+  actions: Action[];
+  image: ImageData;
+  frameNum: number;
 }
 
-export interface Action {
-    
-}
+// export interface ColorResult {
+
+// }
+
+export interface Action {}
