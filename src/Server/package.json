@@ -1,13 +1,17 @@
 {
-  "name": "jsstuff",
+  "name": "server",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+  "dependencies": {
+    "@babel/register": "^7.21.0",
+    "babel": "^6.23.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
   },
-  "keywords": [],
+  "scripts": {
+    "index": "index"
+  },
   "author": "",
   "license": "ISC"
 }
