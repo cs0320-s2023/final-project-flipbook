@@ -159,10 +159,10 @@ export default function Whiteboard(props: WhiteboardProps) {
   const [disableAlpha, setDisableAlpha] = useState(false);
   const [resyncColors, setResyncColors] = useState<string[]>([
     "#000000",
-    "#FFFFFF",
-    "#0000FF",
-    "#00FF00",
-    "#FF0000",
+    "#ffffff",
+    "#0000ff",
+    "#00ff00",
+    "#ff0000",
   ]);
 
   function changeStroke(e: React.ChangeEvent<HTMLInputElement>) {
@@ -186,45 +186,42 @@ export default function Whiteboard(props: WhiteboardProps) {
         onMouseMove={(e) => {
           mouseMove(e);
         }}
+        onMouseLeave={() => setDrawing(false)}
         ref={boardRef}
-      ></canvas>
-      <div className="widthPicker">
-        <div className="colorPicker">
-          {resyncColors.map((color) => (
-            <div
-              className="colorChoice"
-              style={{
-                border: "1px solid black",
-                background: color,
-                width: 50,
-                height: 50,
-              }}
-              onClick={() => changeColor(color)}
-            ></div>
-          ))}
-        </div>
-        <div className="lineWidthInput">
-          <input
-            type="range"
-            min="1"
-            max="75"
-            value={currentWidth}
-            onChange={(e) => changeStroke(e)}
-          ></input>
+      />
+      <div className="colorPicker">
+        <Colorful
+          className="colorful"
+          color={currentColor}
+          onChange={(color) => changeColor(color.hex)}
+        />
+        <div className="controls">
+          <div className="swatch-container">
+            {resyncColors.map((color, i) => (
+              <div
+                key={i}
+                className="color-swatch"
+                style={{ backgroundColor: color }}
+                onClick={() => setCurrentColor(color)}
+              ></div>
+            ))}
+          </div>
+          <div className="color-text">
+            <span id="currentColor" style={{ color: currentColor }}>
+              {currentColor}
+            </span>
+          </div>
+          <div className="slider">
+            <input
+              type="range"
+              min="1"
+              max="80"
+              value={currentWidth}
+              onChange={changeStroke}
+            />
+          </div>
         </div>
       </div>
-      <>
-        <label></label>
-        <Colorful
-          color={hex}
-          disableAlpha={disableAlpha}
-          onChange={(color) => {
-            setHex(color.hexa);
-            changeColor(color.hexa);
-          }}
-        />
-        <div style={{ background: hex, marginTop: 30, padding: 10 }}>{hex}</div>
-      </>
     </div>
   );
 }
