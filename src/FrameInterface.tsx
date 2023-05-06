@@ -21,6 +21,9 @@ export default function FrameInterface(props: FrameInterfaceProps) {
         <div className="whiteboardDisplay">
             <Whiteboard currentFrame={currentFrame} setCurrentFrame={setCurrentFrame}/>
         </div>
+        <div className="Save">
+            <Save frames={props.frames}  ></Save>
+        </div>
         </>
     )
 }
