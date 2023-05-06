@@ -9,8 +9,10 @@ export default function Thumbnail(props: ThumbnailProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ctx = canvasRef.current?.getContext("2d");
   useEffect(() => {
-    ctx?.putImageData(props.data.image, 0, 0, 0, 0, 80, 60);
-  });
+    if (canvasRef.current && props.data.image) {
+      ctx?.putImageData(props.data.image, 0, 0, 0, 0, 80, 60);
+    }
+  }, [props.data.image, canvasRef.current]);
 
   return (
     <canvas

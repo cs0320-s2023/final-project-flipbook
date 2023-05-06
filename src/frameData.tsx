@@ -8,4 +8,8 @@ export interface FrameData {
 
 // }
 
-export interface Action {}
+export interface Action {
+  color:string,
+  radius:number,
+  pos:number[][],
+}
