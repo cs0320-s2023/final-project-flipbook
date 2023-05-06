@@ -1,3 +1,42 @@
+.frameThumbnail:hover {
+  opacity: 0.8;
+}
+
 .frameThumbnail {
   margin: 10px;
+  cursor: pointer;
+  border: black 2px solid;
+  display: flex;
+  justify-content: center;
+}
+
+.addFrameButton {
+  margin: 10px;
+  margin-left: 47px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+.frameContainer {
+  overflow-y: auto;
+  height: calc(100vh - 120px); /* Adjust the height as needed */
+}
+
+.frameContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.frameContainer::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+
+.frameContainer::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+.frameContainer::-webkit-scrollbar-track {
+  background-color: #eee;
 }
