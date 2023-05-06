@@ -1,7 +1,7 @@
 import { FrameInterfaceProps } from "./FrameInterface";
 import ConvertApi from "convertapi-js";
+import { FrameData } from "./frameData";
 
-let convertApi = ConvertApi.auth('M14k2t0rrCHHD7Ox')
 export default function Export(props: FrameInterfaceProps){
 
     async function exportGif(){
@@ -9,11 +9,10 @@ export default function Export(props: FrameInterfaceProps){
 
         try {
             const params = convertApi.createParams();
-            props.frames.forEach((frame) => {
-                //TODO: Convert the frame.image to a png 
+            props.frames.forEach(async (frame: FrameData) => {
+               const pngFile = await createPngFile(frame.image);
 
-                //pass in png here
-                params.add('file', frame);
+               params.add('file', pngFile);
             });
         
             const result = await convertApi.convert("png", "gif", params);
@@ -28,6 +27,22 @@ export default function Export(props: FrameInterfaceProps){
             console.error(error);
             }
       }
+
+      async function createPngFile(imageData: ImageData): Promise<File> {
+        const canvas = document.createElement('canvas');
+        canvas.width = imageData.width;
+        canvas.height = imageData.height;
+        const ctx = canvas.getContext('2d');
+        if (ctx) {
+            ctx.putImageData(imageData, 0, 0);
+            const dataUrl = canvas.toDataURL('image/png');
+            const blob = await (await fetch(dataUrl)).blob();
+            const file = new File([blob], "frame.png", { type: blob.type });
+            return file;
+        } else {
+            throw new Error("Could not create canvas context.");
+        }
+    }
 
     return (
         <button onClick={exportGif}>Export</button>
