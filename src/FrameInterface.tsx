@@ -3,7 +3,7 @@ import Whiteboard from "./board"
 import Thumbnail from "./Thumbnail"
 import "./styles/FrameInterface.css";
 import { useState } from "react";
-import Save from "./Save";
+import { createMockFramesJSON } from "./frameMocks";
 
 export interface FrameInterfaceProps {
     frames: FrameData[]
@@ -12,7 +12,7 @@ export interface FrameInterfaceProps {
 export default function FrameInterface(props: FrameInterfaceProps) {
 
     const [currentFrame,setCurrentFrame] = useState<FrameData>(props.frames[0]);
-
+    createMockFramesJSON();
     return (
         <>
         <div className="Frames">

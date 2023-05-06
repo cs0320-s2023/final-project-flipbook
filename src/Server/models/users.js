@@ -1,6 +1,6 @@
-
-
 const mongoose = require('mongoose')
+const frame = require("./frame")
+
 const usersScehma = new mongoose.Schema({
     title: {
         type: String,
@@ -11,13 +11,14 @@ const usersScehma = new mongoose.Schema({
         required: true
     },
     frameData: {
-        type: Array,
+        type: [frame.schema],
         required: true
     }
-
 })
 
-const userModel = mongoose.model("users", usersScehma)
+const userModel = mongoose.model("users", usersScehma);
 
-module.exports = userModel;
-
+module.exports = {
+    model:userModel,
+    schema:usersScehma
+};

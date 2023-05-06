@@ -1,54 +1,29 @@
-
 const mongoose = require("mongoose");
-const userModel = require("./models/users")
+const user = require("./models/users")
+const frame = require("./models/frame")
+const action = require("./models/action")
 const express = require('express')
-const app = express();
-
-
-// async function appGet(){
-//   app.get("/getUsers", async (req: any, res: { json: (arg0: any) => void; }) => {
-//     console.log(req)
-//     try {
-//         const data = await userModel.aggregate([{
-//             $match: {
-//             pid: {$exists: true},
-//             }
-//         },{
-//             $group: {
-//             _id: {name: "$name"},
-  
-//             age: {$sum: "$age"},
-//             }
-//         },
-//         {
-//             $limit: 0 || 10
-//         }])
-//         if (!data) {
-//             res.json(data)
-//         } else {
-//             res.json(data)
-//         }
-//     }
-//     catch (error){
-//         console.log(error);
-//     }
-//   })
-// }
-
+const fs = require('fs');
 
 async function main() {
   await mongoose.connect(
     "mongodb+srv://admin:admin@flipbookbe.zh51nq0.mongodb.net/test"
   );
 
+  let rawdata1 = fs.readFileSync('./mocks/mockFrame1.json');
+  const frame1Data = JSON.parse(rawdata1);
 
-  const mockUser = new userModel({ title: "mock1" , pid : "abcdef" , frameData : {}})
-  console.log(mockUser)
+  let rawdata2 = fs.readFileSync('./mocks/mockFrame1.json');
+  const frame2Data = JSON.parse(rawdata2);
+
+  let rawdataUser = fs.readFileSync('./mocks/mockUser.json');
+  const userParsed = JSON.parse(rawdataUser);
+
+  const mockFrame1Schema = new frame.model({actions:frame1Data.actions,image:frame1Data.image,frameNum:frame1Data.frameNum});
+  const mockFrame2Schema = new frame.model({actions:frame2Data.actions,image:frame2Data.image,frameNum:frame2Data.frameNum});
+  const mockFrames = [mockFrame1Schema,mockFrame2Schema]
+  const mockUser = new user.model(userParsed);
   await mockUser.save(); 
-  // fluffy.speak();
-  // await Kitten.find({ name: /^fluff/ });
 }
 
 main()
-
-
