@@ -3,6 +3,7 @@ import Whiteboard from "./board"
 import Thumbnail from "./Thumbnail"
 import "./styles/FrameInterface.css";
 import { useState } from "react";
+import Save from "./Save";
 
 export interface FrameInterfaceProps {
     frames: FrameData[]
@@ -19,6 +20,9 @@ export default function FrameInterface(props: FrameInterfaceProps) {
         </div>
         <div className="whiteboardDisplay">
             <Whiteboard currentFrame={currentFrame} setCurrentFrame={setCurrentFrame}/>
+        </div>
+        <div className="Save">
+            <Save frames={props.frames}  ></Save>
         </div>
         </>
     )
