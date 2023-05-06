@@ -1,8 +1,10 @@
 import React, { useState, useRef } from "react";
 import "./styles/board.css";
 import { HsvaColor, ColorResult } from "@uiw/color-convert";
-import { FrameData } from "./frameData";
+import { FrameData, Action } from "./frameData";
 import Colorful from "@uiw/react-color-colorful";
+import mockedFrames, { createMockFrame1, createMockFrame2 } from './frameMocks';
+
 
 interface DrawState {
   color: string;
@@ -29,6 +31,8 @@ export default function Whiteboard(props: WhiteboardProps) {
 
   const [currentColor, setCurrentColor] = useState<string>("#000000");
   const [currentWidth, setCurrentWidth] = useState<number>(5);
+  const [actions,setActions] = useState<Action[]>();
+  let currentActionPositions:number[][] = [];
 
   function throttledMouseMove(
     e: React.MouseEvent<HTMLCanvasElement, MouseEvent>,
@@ -58,7 +62,7 @@ export default function Whiteboard(props: WhiteboardProps) {
         currentColor,
         currentWidth
       );
-      //save this as an action ^
+      currentActionPositions.push([current.x,current.y,e.nativeEvent.offsetX,e.nativeEvent.offsetY]);
     }
     // setCurrent(prev => ({
     //     ...prev,
@@ -92,21 +96,28 @@ export default function Whiteboard(props: WhiteboardProps) {
         currentWidth
       );
     }
+    let addedAction:Action = {color:currentColor,radius:currentWidth,pos:currentActionPositions}
+    if (actions!=undefined){
+      setActions([...actions,addedAction]);
+    }else {
+      setActions([addedAction]);
+    }
+    currentActionPositions = [];
+    console.log(actions);
   }
+
 
   function mouseDown(e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) {
     setDrawing(true);
-    console.log(currentColor);
-    // setCurrent(prev => ({
-    //     ...prev,
-    //     x:e.clientX,
-    //     y:e.clientY
-    // }));
+    currentActionPositions = [];
     current = {
       ...current,
       x: e.nativeEvent.offsetX,
       y: e.nativeEvent.offsetY,
     };
+    if (current.x != undefined && current.y != undefined) {
+      currentActionPositions.push([current.x,current.y,e.nativeEvent.offsetX,e.nativeEvent.offsetY]);
+    }
     if (resyncColors.indexOf(currentColor) == -1) {
       {
         setResyncColors([
@@ -160,11 +171,17 @@ export default function Whiteboard(props: WhiteboardProps) {
   const [disableAlpha, setDisableAlpha] = useState(false);
   const [resyncColors, setResyncColors] = useState<string[]>([
     "#000000",
-    "#FFFFFF",
-    "#0000FF",
-    "#00FF00",
-    "#FF0000",
+    "#ffffff",
+    "#0000ff",
+    "#00ff00",
+    "#ff0000",
   ]);
+
+  function drawAction(a: Action) {
+    for(var i=0;i<a.pos.length;i++) {
+      drawLine(a.pos[i][0],a.pos[i][1],a.pos[i][2],a.pos[i][3],a.color,a.radius);
+    }
+  }
 
   function changeStroke(e: React.ChangeEvent<HTMLInputElement>) {
     const parsedValue: number = parseInt(e.target.value);
@@ -187,48 +204,43 @@ export default function Whiteboard(props: WhiteboardProps) {
         onMouseMove={(e) => {
           mouseMove(e);
         }}
-        onMouseLeave={() => {
-          setDrawing(false);
-        }}
+        onMouseLeave={(e) => mouseUp(e)}
         ref={boardRef}
-      ></canvas>
-      <div className="widthPicker">
-        <div className="colorPicker">
-          {resyncColors.map((color) => (
-            <div
-              className="colorChoice"
-              style={{
-                border: "1px solid black",
-                background: color,
-                width: 50,
-                height: 50,
-              }}
-              onClick={() => changeColor(color)}
-            ></div>
-          ))}
-        </div>
-        <div className="lineWidthInput">
-          <input
-            type="range"
-            min="1"
-            max="75"
-            value={currentWidth}
-            onChange={(e) => changeStroke(e)}
-          ></input>
+      />
+      <button onClick={()=>drawAction(createMockFrame1().actions[0])}>mockAction</button>
+      <div className="colorPicker">
+        <Colorful
+          className="colorful"
+          color={currentColor}
+          onChange={(color) => changeColor(color.hex)}
+        />
+        <div className="controls">
+          <div className="swatch-container">
+            {resyncColors.map((color, i) => (
+              <div
+                key={i}
+                className="color-swatch"
+                style={{ backgroundColor: color }}
+                onClick={() => setCurrentColor(color)}
+              ></div>
+            ))}
+          </div>
+          <div className="color-text">
+            <span id="currentColor" style={{ color: currentColor }}>
+              {currentColor}
+            </span>
+          </div>
+          <div className="slider">
+            <input
+              type="range"
+              min="1"
+              max="80"
+              value={currentWidth}
+              onChange={changeStroke}
+            />
+          </div>
         </div>
       </div>
-      <>
-        <label></label>
-        <Colorful
-          color={hex}
-          disableAlpha={disableAlpha}
-          onChange={(color) => {
-            setHex(color.hexa);
-            changeColor(color.hexa);
-          }}
-        />
-        <div style={{ background: hex, marginTop: 30, padding: 10 }}>{hex}</div>
-      </>
     </div>
   );
 }
