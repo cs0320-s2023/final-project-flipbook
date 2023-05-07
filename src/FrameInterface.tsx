@@ -4,7 +4,7 @@ import Thumbnail from "./Thumbnail"
 import "./styles/FrameInterface.css";
 import { useState } from "react";
 import { createMockFramesJSON } from "./frameMocks";
-import Save from "./Save";
+import Save from "./Save.jsx";
 
 export interface FrameInterfaceProps {
     frames: FrameData[]

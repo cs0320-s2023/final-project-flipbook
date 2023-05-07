@@ -6,12 +6,16 @@
   "dependencies": {
     "@babel/register": "^7.21.0",
     "babel": "^6.23.0",
+    "cors": "^2.8.5",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
   },
   "scripts": {
-    "index": "index"
+    "start": "ts-node-dev index.ts"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "ts-node-dev": "^2.0.0"
+  }
 }

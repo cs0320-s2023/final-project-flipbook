@@ -19,6 +19,6 @@ const usersScehma = new mongoose.Schema({
 const userModel = mongoose.model("users", usersScehma);
 
 module.exports = {
-    model:userModel,
-    schema:usersScehma
+    model: userModel,
+    schema: usersScehma
 };
