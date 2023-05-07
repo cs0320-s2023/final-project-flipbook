@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "./styles/board.css";
 import { HsvaColor, ColorResult } from "@uiw/color-convert";
 import { FrameData, Action } from "./frameData";
@@ -12,8 +12,8 @@ interface DrawState {
 }
 
 export interface WhiteboardProps {
-  currentFrame: FrameData;
-  setCurrentFrame: (n: FrameData) => void;
+  displayedFrame: FrameData;
+  setCurrentFrame: (n: number) => void;
 }
 
 // ColorWheel Interface
@@ -32,6 +32,11 @@ export default function Whiteboard(props: WhiteboardProps) {
   const [currentWidth, setCurrentWidth] = useState<number>(5);
   const [actions, setActions] = useState<Action[]>();
   let currentActionPositions: number[][] = [];
+
+  useEffect(() => {
+    clearCanvas();
+    props.displayedFrame.actions.forEach((action)=>{drawAction(action)});
+  }, [props.displayedFrame]);
 
   function throttledMouseMove(
     e: React.MouseEvent<HTMLCanvasElement, MouseEvent>,
@@ -85,6 +90,7 @@ export default function Whiteboard(props: WhiteboardProps) {
     };
   }
 
+<<<<<<< HEAD
   function undo() {
     if (boardRef != null && boardRef.current != null) {
       const ctx: undefined | CanvasRenderingContext2D | null =
@@ -99,6 +105,9 @@ export default function Whiteboard(props: WhiteboardProps) {
       }
     }
   }
+=======
+  
+>>>>>>> a46e8842e8af517ebfaf33b115d5a1e001f5aa95
 
   function mouseUp(e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) {
     if (!drawing) {
@@ -129,6 +138,20 @@ export default function Whiteboard(props: WhiteboardProps) {
     console.log(actions);
   }
 
+<<<<<<< HEAD
+=======
+
+  function clearCanvas() {
+    if (boardRef != null && boardRef.current != null) {
+      const context: undefined | CanvasRenderingContext2D | null =
+        boardRef.current.getContext("2d");
+      if (context instanceof CanvasRenderingContext2D) {
+        context.clearRect(0,0,800,600);
+      }
+    }
+  }
+
+>>>>>>> a46e8842e8af517ebfaf33b115d5a1e001f5aa95
   function mouseDown(e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) {
     setDrawing(true);
     currentActionPositions = [];
@@ -174,7 +197,6 @@ export default function Whiteboard(props: WhiteboardProps) {
     color: string,
     width: number
   ): void {
-    console.log(currentColor);
     if (boardRef != null && boardRef.current != null) {
       const context: undefined | CanvasRenderingContext2D | null =
         boardRef.current.getContext("2d");
