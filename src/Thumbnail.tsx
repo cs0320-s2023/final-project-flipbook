@@ -3,7 +3,7 @@ import { useEffect, useRef } from "react";
 
 export interface ThumbnailProps {
   data: FrameData;
-  setCurrentFrame: (n: FrameData) => void;
+  setCurrentFrame: (n: number) => void;
 }
 export default function Thumbnail(props: ThumbnailProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -20,7 +20,7 @@ export default function Thumbnail(props: ThumbnailProps) {
       height={props.data.image.height}
       width={props.data.image.width}
       ref={canvasRef}
-      onClick={() => props.setCurrentFrame(props.data)}
+      onClick={() => props.setCurrentFrame(props.data.frameNum)}
     ></canvas>
   );
 }

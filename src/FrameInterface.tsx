@@ -11,15 +11,25 @@ export interface FrameInterfaceProps {
 
 export default function FrameInterface(props: FrameInterfaceProps) {
 
-    const [currentFrame,setCurrentFrame] = useState<FrameData>(props.frames[0]);
-    createMockFramesJSON();
+    function findFrameIndex(frameNum: number):number {
+        for(var i=0;i<props.frames.length;i++) {
+            if(props.frames[i].frameNum==frameNum) {
+                return i;
+            }
+        }
+        return -1;
+
+    }
+
+    
+    const [currentFrame,setCurrentFrame] = useState<number>(0);
     return (
         <>
         <div className="Frames">
-            {props.frames.map((object:FrameData, i) => <Thumbnail setCurrentFrame={setCurrentFrame} key={i} data={object}/>)}   
+            {props.frames.map((object:FrameData, i) => <Thumbnail setCurrentFrame={(value:number)=>setCurrentFrame(findFrameIndex(value))} key={i} data={object}/>)}   
         </div>
         <div className="whiteboardDisplay">
-            <Whiteboard currentFrame={currentFrame} setCurrentFrame={setCurrentFrame}/>
+            <Whiteboard displayedFrame={props.frames[currentFrame]} setCurrentFrame={(frameNum:number)=> {setCurrentFrame(findFrameIndex(frameNum))}}/>
         </div>
         </>
     )
