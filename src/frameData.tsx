@@ -4,10 +4,6 @@ export interface FrameData {
   frameNum: number;
 }
 
-// export interface ColorResult {
-
-// }
-
 export interface Action {
   color:string,
   radius:number,
