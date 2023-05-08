@@ -35,9 +35,13 @@ export default function Whiteboard(props: WhiteboardProps) {
 
   useEffect(() => {
     clearCanvas();
-    props.displayedFrame.actions.forEach((action) => {
-      drawAction(action);
-    });
+    // This if stataement checks if the frame and the actions both exist.
+    // When a new frame is added, the frame exists but the actions do not
+    if (props.displayedFrame && props.displayedFrame.actions) {
+      props.displayedFrame.actions.forEach((action) => {
+        drawAction(action);
+      });
+    }
   }, [props.displayedFrame]);
 
   function throttledMouseMove(

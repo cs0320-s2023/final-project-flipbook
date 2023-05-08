@@ -38,7 +38,33 @@ export default function FrameInterface(props: FrameInterfaceProps) {
 
   const handleAddThumbnail = () => {
     const newFrameNum = frameArray.length + 1;
-    const newFrameActions: Action[] = [];
+    const newFrameActions: Action[] = [
+      {
+        color: "#00ff00",
+        radius: 5,
+        pos: [
+          [280, 312, 280, 311],
+          [280, 311, 280, 308],
+          [280, 308, 280, 303],
+          [280, 303, 280, 293],
+          [280, 293, 280, 282],
+          [280, 282, 280, 268],
+          [280, 268, 280, 252],
+          [280, 252, 280, 235],
+          [280, 235, 280, 229],
+          [280, 229, 280, 215],
+          [280, 215, 280, 201],
+          [280, 201, 280, 198],
+          [280, 198, 280, 192],
+          [280, 192, 280, 186],
+          [280, 186, 280, 182],
+          [280, 182, 280, 180],
+          [280, 180, 280, 179],
+          [280, 179, 280, 179],
+          [280, 179, 280, 179],
+        ],
+      },
+    ];
     const newFrame: FrameData = {
       actions: newFrameActions,
       image: createBlankImage(),
