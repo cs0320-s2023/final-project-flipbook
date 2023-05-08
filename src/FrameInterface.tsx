@@ -56,6 +56,8 @@ export default function FrameInterface(props: FrameInterfaceProps) {
 
     }
 
+     
+
     const handleThumbnailClick = (frame: FrameData) => {
         // instead of just logging, we could use the setCurrentFrame fxn to change the frame that is being displayed
         console.log("hi")

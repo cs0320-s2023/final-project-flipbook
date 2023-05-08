@@ -156,6 +156,11 @@ export default function Whiteboard(props: WhiteboardProps) {
     }
     currentActionPositions = [];
     console.log(actions);
+    console.log("actions")
+    props.displayedFrame.actions.push(addedAction)
+    console.log(props.displayedFrame.actions)
+    console.log("prop actions")
+
   }
 
   function clearCanvas() {
@@ -239,7 +244,7 @@ export default function Whiteboard(props: WhiteboardProps) {
     "#ff0000",
   ]);
 
-  function drawAction(a: Action) {
+   function drawAction(a: Action) {
     for (var i = 0; i < a.pos.length; i++) {
       drawLine(
         a.pos[i][0],
