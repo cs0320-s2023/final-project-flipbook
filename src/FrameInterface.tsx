@@ -58,17 +58,21 @@ export default function FrameInterface(props: FrameInterfaceProps) {
 
     const handleThumbnailClick = (frame: FrameData) => {
         // instead of just logging, we could use the setCurrentFrame fxn to change the frame that is being displayed
+        console.log("hi")
+        console.log(frame.actions)
         setCurrentFrame(findFrameIndex(frame.frameNum));
+
       };
 
     
     const [currentFrame,setCurrentFrame] = useState<number>(0);
-    
+
     return (
         <>
         <div className="Frames">
             {props.frames.map((object:FrameData, i) => <Thumbnail 
             setCurrentFrame={(value:number)=>setCurrentFrame(findFrameIndex(value))} 
+            handleThumbnailClick={handleThumbnailClick}
             key={i} data={object}
             onClick={handleThumbnailClick}
             />)}

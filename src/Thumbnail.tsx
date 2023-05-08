@@ -3,6 +3,7 @@ import { FrameData } from "./frameData";
 
 export interface ThumbnailProps {
   data: FrameData;
+  handleThumbnailClick: (frame: FrameData) => void;
   setCurrentFrame: (n: number) => void;
   onClick: (frame: FrameData) => void;
 }
@@ -24,7 +25,7 @@ const Thumbnail: React.FC<ThumbnailProps> = (props: ThumbnailProps) => {
       height={props.data.image.height}
       width={props.data.image.width}
       ref={canvasRef}
-      onClick={() => props.setCurrentFrame(props.data.frameNum)}
+      onClick={() => props.handleThumbnailClick(props.data)}
     ></canvas>
   );
 };
