@@ -71,3 +71,11 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 Bugs
 * error where when user scrolls down, the drawing points "detaches" from the cursorq
+
+Accessibility todo
+* zooming in doesn't break the fit of whiteboard
+* keyboard shortcut for undo
+* keyboard shortcut for adding frame
+* color reading feature, read hexcode?
+Defensive/Error Handling todo
+Unit testing todo
