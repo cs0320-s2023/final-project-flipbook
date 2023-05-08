@@ -1,3 +1,50 @@
+.frameThumbnail:hover {
+  opacity: 0.8;
+}
+
 .frameThumbnail {
-    margin:10px
+  margin-bottom: 10px;
+  margin-right: 20px;
+  margin-top: 20px;
+  margin-left: 250px;
+  cursor: pointer;
+  border: black 2px solid;
+  display: flex;
+  justify-content: center;
+}
+
+.addFrameButton {
+  margin: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: 290px;
+}
+
+.frameContainer {
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+}
+
+.frameContainer::-webkit-scrollbar {
+  width: 8px;
+}
+
+.frameContainer::-webkit-scrollbar-thumb {
+  background-color: #888;
+  border-radius: 4px;
+}
+
+.frameContainer::-webkit-scrollbar-thumb:hover {
+  background-color: #555;
+}
+
+.frameContainer::-webkit-scrollbar-track {
+  background-color: #eee;
 }

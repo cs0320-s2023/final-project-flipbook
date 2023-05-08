@@ -1,18 +1,22 @@
+import React, { useEffect, useRef } from "react";
 import { FrameData } from "./frameData";
-import { useEffect, useRef } from "react";
 
 export interface ThumbnailProps {
   data: FrameData;
   setCurrentFrame: (n: number) => void;
+  onClick: (frame: FrameData) => void;
 }
-export default function Thumbnail(props: ThumbnailProps) {
+
+const Thumbnail: React.FC<ThumbnailProps> = (props: ThumbnailProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ctx = canvasRef.current?.getContext("2d");
+
   useEffect(() => {
     if (canvasRef.current && props.data.image) {
       ctx?.putImageData(props.data.image, 0, 0, 0, 0, 80, 60);
     }
   }, [props.data.image, canvasRef.current]);
+
 
   return (
     <canvas
@@ -23,4 +27,6 @@ export default function Thumbnail(props: ThumbnailProps) {
       onClick={() => props.setCurrentFrame(props.data.frameNum)}
     ></canvas>
   );
-}
+};
+
+export default Thumbnail;

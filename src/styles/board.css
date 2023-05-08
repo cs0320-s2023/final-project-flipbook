@@ -2,7 +2,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center; /* Added justify-content to center the board horizontally */
   margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .whiteboardCanvas {
