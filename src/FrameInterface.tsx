@@ -3,6 +3,8 @@ import Whiteboard from "./board";
 import Thumbnail from "./Thumbnail";
 import { Action, FrameData } from "./frameData";
 import "./styles/FrameInterface.css";
+import { createMockFramesJSON } from "./frameMocks";
+import Save from "./Save.jsx";
 
 export interface FrameInterfaceProps {
   frames: FrameData[];
@@ -31,12 +33,11 @@ function createBlankImage() {
 }
 
 export default function FrameInterface(props: FrameInterfaceProps) {
-  const [currentFrame, setCurrentFrame] = useState<FrameData>(props.frames[0]);
   const [frameArray, setFrameArray] = useState<FrameData[]>(props.frames);
 
   const handleAddThumbnail = () => {
     const newFrameNum = frameArray.length + 1;
-    const newFrameActions: Action[] = [{}, {}];
+    const newFrameActions: Action[] = [];
     const newFrame: FrameData = {
       actions: newFrameActions,
       image: createBlankImage(),
@@ -45,33 +46,41 @@ export default function FrameInterface(props: FrameInterfaceProps) {
     setFrameArray((prevFrames) => [...prevFrames, newFrame]);
   };
 
-  const handleThumbnailClick = (frame: FrameData) => {
-    // instead of just logging, we could use the setCurrentFrame fxn to change the frame that is being displayed
-    console.log(frame.frameNum);
-    setCurrentFrame(frame);
-  };
+    function findFrameIndex(frameNum: number):number {
+        for(var i=0;i<props.frames.length;i++) {
+            if(props.frames[i].frameNum==frameNum) {
+                return i;
+            }
+        }
+        return -1;
 
-  return (
-    <div className="frameContainer">
-      <div className="frameList">
-        {frameArray.map((object: FrameData, i) => (
-          <Thumbnail
-            key={i}
-            data={object}
+    }
+
+    const handleThumbnailClick = (frame: FrameData) => {
+        // instead of just logging, we could use the setCurrentFrame fxn to change the frame that is being displayed
+        setCurrentFrame(findFrameIndex(frame.frameNum));
+      };
+
+    
+    const [currentFrame,setCurrentFrame] = useState<number>(0);
+    return (
+        <>
+        <div className="Frames">
+            {props.frames.map((object:FrameData, i) => <Thumbnail 
+            setCurrentFrame={(value:number)=>setCurrentFrame(findFrameIndex(value))} 
+            key={i} data={object}
             onClick={handleThumbnailClick}
-            setCurrentFrame={setCurrentFrame}
-          />
-        ))}
-        <button className="addFrameButton" onClick={handleAddThumbnail}>
+            />)}
+            <button className="addFrameButton" onClick={handleAddThumbnail}>
           +
-        </button>
-      </div>
-      <div className="whiteboardContainer">
-        <Whiteboard
-          currentFrame={currentFrame}
-          setCurrentFrame={setCurrentFrame}
-        />
-      </div>
-    </div>
-  );
+        </button>   
+        </div>
+        <div className="whiteboardDisplay">
+            <Whiteboard displayedFrame={props.frames[currentFrame]} setCurrentFrame={(frameNum:number)=> {setCurrentFrame(findFrameIndex(frameNum))}}/>
+        </div>
+        <div className="Save">
+            <Save frames={props.frames}  ></Save>
+        </div>
+        </>
+    )
 }
