@@ -55,10 +55,17 @@ export default function FrameInterface(props: FrameInterfaceProps) {
     };
     if (traceChecked) {
       setFrameArray((prevFrames) => [...prevFrames, traceFrame]);
-    }
-    else {
+    } else {
       setFrameArray((prevFrames) => [...prevFrames, newFrame]);
     }
+  };
+
+  const handleRemoveThumbnail = () => {
+    const newFrameArray = frameArray.filter(
+      (frame) => frame.frameNum !== frameArray.length
+    );
+    setFrameArray(newFrameArray);
+    setCurrentFrame(frameArray.length - 2);
   };
 
   function findFrameIndex(frameNum: number): number {
@@ -94,10 +101,18 @@ export default function FrameInterface(props: FrameInterfaceProps) {
               // frameNumber={object.frameNum}
             />
           ))}
-          <button className="addFrameButton" onClick={handleAddThumbnail}>
-            +
-          </button>
-          <label>
+          <div className="buttonContainer">
+            <button className="addFrameButton" onClick={handleAddThumbnail}>
+              +
+            </button>
+            <button
+              className="removeFrameButton"
+              onClick={handleRemoveThumbnail}
+            >
+              –
+            </button>
+          </div>
+          <label className="traceBox">
             <input
               type="checkbox"
               id="trace"
