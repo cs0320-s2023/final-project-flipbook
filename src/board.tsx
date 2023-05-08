@@ -35,8 +35,32 @@ export default function Whiteboard(props: WhiteboardProps) {
 
   useEffect(() => {
     clearCanvas();
-    props.displayedFrame.actions.forEach((action)=>{drawAction(action)});
+    props.displayedFrame.actions.forEach((action) => {
+      drawAction(action);
+    });
+    document.addEventListener("keydown", handleKeyDown); // Add event listener
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown); // Remove event listener on cleanup
+    };
   }, [props.displayedFrame]);
+
+  //keyboard shortcuts
+  function handleKeyDown(event: KeyboardEvent) {
+    //shortcut for undo --> "Command + Z"
+    if (event.key === "z" && (event.metaKey || event.ctrlKey)) {
+      // Check for "Command + Z" key combination
+      console.log("Undo");
+      undo();
+    }
+    //shortcut for zoom in --> "Command + +" or "Command + ="
+    else if (
+      (event.key === "+" || event.key === "=") &&
+      (event.metaKey || event.ctrlKey)
+    ) {
+      // Check for "Command + +" or "Command + =" key combination
+      console.log("Zoom in");
+    }
+  }
 
   function throttledMouseMove(
     e: React.MouseEvent<HTMLCanvasElement, MouseEvent>,
@@ -134,13 +158,12 @@ export default function Whiteboard(props: WhiteboardProps) {
     console.log(actions);
   }
 
-
   function clearCanvas() {
     if (boardRef != null && boardRef.current != null) {
       const context: undefined | CanvasRenderingContext2D | null =
         boardRef.current.getContext("2d");
       if (context instanceof CanvasRenderingContext2D) {
-        context.clearRect(0,0,800,600);
+        context.clearRect(0, 0, 800, 600);
       }
     }
   }
@@ -254,6 +277,7 @@ export default function Whiteboard(props: WhiteboardProps) {
         ref={boardRef}
       />
       <button onClick={() => undo()}>Undo</button>
+
       <div className="colorPicker">
         <Colorful
           className="colorful"
