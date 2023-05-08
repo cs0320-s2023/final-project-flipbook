@@ -34,6 +34,11 @@ function createBlankImage() {
 
 export default function FrameInterface(props: FrameInterfaceProps) {
   const [frameArray, setFrameArray] = useState<FrameData[]>(props.frames);
+  const [traceChecked, setChecked] = React.useState(false);
+
+  const handleChange = () => {
+    setChecked(!traceChecked);
+  };
 
   const handleAddThumbnail = () => {
     const newFrameNum = frameArray.length + 1;
@@ -43,7 +48,24 @@ export default function FrameInterface(props: FrameInterfaceProps) {
       image: createBlankImage(),
       frameNum: newFrameNum,
     };
-    setFrameArray((prevFrames) => [...prevFrames, newFrame]);
+    const traceFrame: FrameData = {
+      actions: structuredClone(frameArray[frameArray.length - 1].actions),
+      image: createBlankImage(),
+      frameNum: newFrameNum,
+    };
+    if (traceChecked) {
+      setFrameArray((prevFrames) => [...prevFrames, traceFrame]);
+    } else {
+      setFrameArray((prevFrames) => [...prevFrames, newFrame]);
+    }
+  };
+
+  const handleRemoveThumbnail = () => {
+    const newFrameArray = frameArray.filter(
+      (frame) => frame.frameNum !== frameArray.length
+    );
+    setFrameArray(newFrameArray);
+    setCurrentFrame(frameArray.length - 2);
   };
 
   function findFrameIndex(frameNum: number): number {
@@ -65,29 +87,49 @@ export default function FrameInterface(props: FrameInterfaceProps) {
 
   return (
     <>
-      <div className="Frames">
-        {frameArray.map((object: FrameData, i) => (
-          <Thumbnail
-            setCurrentFrame={(value: number) =>
-              setCurrentFrame(findFrameIndex(value))
+      <div className="frameContainer">
+        <div className="frameList">
+          {frameArray.map((object: FrameData, i) => (
+            <Thumbnail
+              setCurrentFrame={(value: number) =>
+                setCurrentFrame(findFrameIndex(value))
+              }
+              handleThumbnailClick={handleThumbnailClick}
+              key={i}
+              data={object}
+              onClick={handleThumbnailClick}
+              // frameNumber={object.frameNum}
+            />
+          ))}
+          <div className="buttonContainer">
+            <button className="addFrameButton" onClick={handleAddThumbnail}>
+              +
+            </button>
+            <button
+              className="removeFrameButton"
+              onClick={handleRemoveThumbnail}
+            >
+              –
+            </button>
+          </div>
+          <label className="traceBox">
+            <input
+              type="checkbox"
+              id="trace"
+              checked={traceChecked}
+              onChange={handleChange}
+            />
+            Trace
+          </label>
+        </div>
+        <div className="whiteboardDisplay">
+          <Whiteboard
+            displayedFrame={frameArray[currentFrame]}
+            setCurrentFrame={(frameNum: number) =>
+              setCurrentFrame(findFrameIndex(frameNum))
             }
-            handleThumbnailClick={handleThumbnailClick}
-            key={i}
-            data={object}
-            onClick={handleThumbnailClick}
           />
-        ))}
-        <button className="addFrameButton" onClick={handleAddThumbnail}>
-          +
-        </button>
-      </div>
-      <div className="whiteboardDisplay">
-        <Whiteboard
-          displayedFrame={frameArray[currentFrame]}
-          setCurrentFrame={(frameNum: number) =>
-            setCurrentFrame(findFrameIndex(frameNum))
-          }
-        />
+        </div>
       </div>
       <div className="Save">
         <Save frames={frameArray}></Save>
