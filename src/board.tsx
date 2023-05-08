@@ -4,6 +4,7 @@ import { HsvaColor, ColorResult } from "@uiw/color-convert";
 import { FrameData, Action } from "./frameData";
 import Colorful from "@uiw/react-color-colorful";
 import mockedFrames, { createMockFrame1, createMockFrame2 } from "./frameMocks";
+import {AddImage} from "./AddImage"
 
 interface DrawState {
   color: string;
@@ -38,6 +39,7 @@ export default function Whiteboard(props: WhiteboardProps) {
     props.displayedFrame.actions.forEach((action) => {
       drawAction(action);
     });
+    // clearAndPopulateCanvas("https://i.ibb.co/djvJMbM/8045-ADB9-EC9-F-4-D56-A1-E5-1-DA942-DC0031.jpg")
     document.addEventListener("keydown", handleKeyDown); // Add event listener
     return () => {
       document.removeEventListener("keydown", handleKeyDown); // Remove event listener on cleanup
@@ -175,6 +177,8 @@ export default function Whiteboard(props: WhiteboardProps) {
     }
   }
 
+  
+
   function mouseDown(e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) {
     setDrawing(true);
     currentActionPositions = [];
@@ -284,7 +288,9 @@ export default function Whiteboard(props: WhiteboardProps) {
         ref={boardRef}
       />
       <button onClick={() => undo()}>Undo</button>
-
+      <div className="AddImage">
+      <AddImage imageUrl="https://i.ibb.co/djvJMbM/8045-ADB9-EC9-F-4-D56-A1-E5-1-DA942-DC0031.jpg" boardRef={boardRef} />
+      </div>
       <div className="colorPicker">
         <Colorful
           className="colorful"
