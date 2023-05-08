@@ -46,48 +46,52 @@ export default function FrameInterface(props: FrameInterfaceProps) {
     setFrameArray((prevFrames) => [...prevFrames, newFrame]);
   };
 
-    function findFrameIndex(frameNum: number):number {
-        for(var i=0;i<props.frames.length;i++) {
-            if(props.frames[i].frameNum==frameNum) {
-                return i;
-            }
-        }
-        return -1;
-
+  function findFrameIndex(frameNum: number): number {
+    for (let i = 0; i < frameArray.length; i++) {
+      if (frameArray[i].frameNum === frameNum) {
+        return i;
+      }
     }
+    return -1;
+  }
 
-     
+  const handleThumbnailClick = (frame: FrameData) => {
+    console.log("hi");
+    console.log(frame.actions);
+    setCurrentFrame(findFrameIndex(frame.frameNum));
+  };
 
-    const handleThumbnailClick = (frame: FrameData) => {
-        // instead of just logging, we could use the setCurrentFrame fxn to change the frame that is being displayed
-        console.log("hi")
-        console.log(frame.actions)
-        setCurrentFrame(findFrameIndex(frame.frameNum));
+  const [currentFrame, setCurrentFrame] = useState<number>(0);
 
-      };
-
-    
-    const [currentFrame,setCurrentFrame] = useState<number>(0);
-
-    return (
-        <>
-        <div className="Frames">
-            {props.frames.map((object:FrameData, i) => <Thumbnail 
-            setCurrentFrame={(value:number)=>setCurrentFrame(findFrameIndex(value))} 
+  return (
+    <>
+      <div className="Frames">
+        {frameArray.map((object: FrameData, i) => (
+          <Thumbnail
+            setCurrentFrame={(value: number) =>
+              setCurrentFrame(findFrameIndex(value))
+            }
             handleThumbnailClick={handleThumbnailClick}
-            key={i} data={object}
+            key={i}
+            data={object}
             onClick={handleThumbnailClick}
-            />)}
-            <button className="addFrameButton" onClick={handleAddThumbnail}>
+          />
+        ))}
+        <button className="addFrameButton" onClick={handleAddThumbnail}>
           +
-        </button>   
-        </div>
-        <div className="whiteboardDisplay">
-            <Whiteboard displayedFrame={props.frames[currentFrame]} setCurrentFrame={(frameNum:number)=> {setCurrentFrame(findFrameIndex(frameNum))}}/>
-        </div>
-        <div className="Save">
-            <Save frames={props.frames}  ></Save>
-        </div>
-        </>
-    )
+        </button>
+      </div>
+      <div className="whiteboardDisplay">
+        <Whiteboard
+          displayedFrame={frameArray[currentFrame]}
+          setCurrentFrame={(frameNum: number) =>
+            setCurrentFrame(findFrameIndex(frameNum))
+          }
+        />
+      </div>
+      <div className="Save">
+        <Save frames={frameArray}></Save>
+      </div>
+    </>
+  );
 }
