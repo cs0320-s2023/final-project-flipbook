@@ -1,8 +1,8 @@
-import { Action, FrameData } from "./frameData";
+import React, { useState } from "react";
 import Whiteboard from "./board";
 import Thumbnail from "./Thumbnail";
+import { Action, FrameData } from "./frameData";
 import "./styles/FrameInterface.css";
-import { useState } from "react";
 
 export interface FrameInterfaceProps {
   frames: FrameData[];
@@ -35,25 +35,38 @@ export default function FrameInterface(props: FrameInterfaceProps) {
   const [frameArray, setFrameArray] = useState<FrameData[]>(props.frames);
 
   const handleAddThumbnail = () => {
-    const frameNum = frameArray.length + 1;
+    const newFrameNum = frameArray.length + 1;
     const newFrameActions: Action[] = [{}, {}];
     const newFrame: FrameData = {
       actions: newFrameActions,
       image: createBlankImage(),
-      frameNum: frameNum + 1,
+      frameNum: newFrameNum,
     };
-    setFrameArray([...frameArray, newFrame]);
+    setFrameArray((prevFrames) => [...prevFrames, newFrame]);
+  };
+
+  const handleThumbnailClick = (frame: FrameData) => {
+    // instead of just logging, we could use the setCurrentFrame fxn to change the frame that is being displayed
+    console.log(frame.frameNum);
+    setCurrentFrame(frame);
   };
 
   return (
-    <div className="Frames">
-      {frameArray.map((object: FrameData, i) => (
-        <Thumbnail setCurrentFrame={setCurrentFrame} key={i} data={object} />
-      ))}
-      <button className="addFrameButton" onClick={handleAddThumbnail}>
-        +
-      </button>
-      <div className="whiteboardDisplay">
+    <div className="frameContainer">
+      <div className="frameList">
+        {frameArray.map((object: FrameData, i) => (
+          <Thumbnail
+            key={i}
+            data={object}
+            onClick={handleThumbnailClick}
+            setCurrentFrame={setCurrentFrame}
+          />
+        ))}
+        <button className="addFrameButton" onClick={handleAddThumbnail}>
+          +
+        </button>
+      </div>
+      <div className="whiteboardContainer">
         <Whiteboard
           currentFrame={currentFrame}
           setCurrentFrame={setCurrentFrame}

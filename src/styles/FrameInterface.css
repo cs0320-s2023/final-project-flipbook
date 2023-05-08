@@ -3,7 +3,10 @@
 }
 
 .frameThumbnail {
-  margin: 10px;
+  margin-bottom: 10px;
+  margin-right: 20px;
+  margin-top: 20px;
+  margin-left: 250px;
   cursor: pointer;
   border: black 2px solid;
   display: flex;
@@ -12,16 +15,21 @@
 
 .addFrameButton {
   margin: 10px;
-  margin-left: 47px;
   cursor: pointer;
   display: flex;
   justify-content: center;
-  align-content: center;
+  align-items: center;
+  margin-left: 290px;
 }
 
 .frameContainer {
   overflow-y: auto;
-  height: calc(100vh - 120px); /* Adjust the height as needed */
+  overflow-x: hidden;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
 }
 
 .frameContainer::-webkit-scrollbar {
