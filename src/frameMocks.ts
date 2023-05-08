@@ -1,4 +1,4 @@
-import { FrameData, Action } from "./frameData"
+import { FrameData, Action } from "./frameData";
 
 const width = 100; // width of the image
 const height = 50; // height of the image
@@ -6,26 +6,25 @@ const channels = 4; // number of channels (R, G, B, Alpha)
 
 // Create an array to hold the pixel data
 
-function createMockImg():ImageData{
-    const imageData = new Uint8ClampedArray(width * height * channels);
+function createMockImg(): ImageData {
+  const imageData = new Uint8ClampedArray(width * height * channels);
 
-// Loop through each pixel and set its value
-    for (let i = 0; i < width * height; i++) {
+  // Loop through each pixel and set its value
+  for (let i = 0; i < width * height; i++) {
     const index = i * channels;
     imageData[index] = Math.random() * 255; // R channel
     imageData[index + 1] = Math.random() * 255; // G channel
     imageData[index + 2] = Math.random() * 255; // B channel
     imageData[index + 3] = 255; // Alpha channel (fully opaque)
     // console.log('working ',i);
-    }
+  }
 
-    console.log(imageData);
-// Create a new ImageData object using the pixel data
-    const mockedImageData = new ImageData(imageData, width, height);
-    return mockedImageData;
+  console.log(imageData);
+  // Create a new ImageData object using the pixel data
+  const mockedImageData = new ImageData(imageData, width, height);
+  return mockedImageData;
 }
 
- 
 let mockedFrames: FrameData[] = [];
 
 const frame1Actions: Action[] = [{ "color": "#000000", "radius": 5, "pos": [ [ 280, 312, 280, 311 ], [ 280, 311, 280, 308 ], [ 280, 308, 280, 303 ], [ 280, 303, 280, 293 ], [ 280, 293, 280, 282 ], [ 280, 282, 280, 268 ], [ 280, 268, 280, 252 ], [ 280, 252, 280, 235 ], [ 280, 235, 280, 229 ], [ 280, 229, 280, 215 ], [ 280, 215, 280, 201 ], [ 280, 201, 280, 198 ], [ 280, 198, 280, 192 ], [ 280, 192, 280, 186 ], [ 280, 186, 280, 182 ], [ 280, 182, 280, 180 ], [ 280, 180, 280, 179 ], [ 280, 179, 280, 179 ], [ 280, 179, 280, 179 ] ] }];
@@ -36,6 +35,7 @@ const frame2: FrameData = {actions:frame2Actions, image:createMockImg(), frameNu
 
 mockedFrames.push(frame1);
 mockedFrames.push(frame2);
+
 
 
 export function createMockFrame1():FrameData {

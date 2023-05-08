@@ -3,8 +3,7 @@ import "./styles/board.css";
 import { HsvaColor, ColorResult } from "@uiw/color-convert";
 import { FrameData, Action } from "./frameData";
 import Colorful from "@uiw/react-color-colorful";
-import mockedFrames, { createMockFrame1, createMockFrame2 } from './frameMocks';
-
+import mockedFrames, { createMockFrame1, createMockFrame2 } from "./frameMocks";
 
 interface DrawState {
   color: string;
@@ -31,8 +30,8 @@ export default function Whiteboard(props: WhiteboardProps) {
 
   const [currentColor, setCurrentColor] = useState<string>("#000000");
   const [currentWidth, setCurrentWidth] = useState<number>(5);
-  const [actions,setActions] = useState<Action[]>();
-  let currentActionPositions:number[][] = [];
+  const [actions, setActions] = useState<Action[]>();
+  let currentActionPositions: number[][] = [];
 
   useEffect(() => {
     clearCanvas();
@@ -67,7 +66,12 @@ export default function Whiteboard(props: WhiteboardProps) {
         currentColor,
         currentWidth
       );
-      currentActionPositions.push([current.x,current.y,e.nativeEvent.offsetX,e.nativeEvent.offsetY]);
+      currentActionPositions.push([
+        current.x,
+        current.y,
+        e.nativeEvent.offsetX,
+        e.nativeEvent.offsetY,
+      ]);
     }
     // setCurrent(prev => ({
     //     ...prev,
@@ -86,7 +90,24 @@ export default function Whiteboard(props: WhiteboardProps) {
     };
   }
 
+<<<<<<< HEAD
+  function undo() {
+    if (boardRef != null && boardRef.current != null) {
+      const ctx: undefined | CanvasRenderingContext2D | null =
+        boardRef.current.getContext("2d");
+      if (ctx instanceof CanvasRenderingContext2D && actions != undefined) {
+        ctx.clearRect(0, 0, 800, 600);
+        for (var i = 0; i < actions.length - 1; i++) {
+          if (i >= 0) {
+            drawAction(actions[i]);
+          }
+        }
+      }
+    }
+  }
+=======
   
+>>>>>>> a46e8842e8af517ebfaf33b115d5a1e001f5aa95
 
   function mouseUp(e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) {
     if (!drawing) {
@@ -103,16 +124,22 @@ export default function Whiteboard(props: WhiteboardProps) {
         currentWidth
       );
     }
-    let addedAction:Action = {color:currentColor,radius:currentWidth,pos:currentActionPositions}
-    if (actions!=undefined){
-      setActions([...actions,addedAction]);
-    }else {
+    let addedAction: Action = {
+      color: currentColor,
+      radius: currentWidth,
+      pos: currentActionPositions,
+    };
+    if (actions != undefined) {
+      setActions([...actions, addedAction]);
+    } else {
       setActions([addedAction]);
     }
     currentActionPositions = [];
     console.log(actions);
   }
 
+<<<<<<< HEAD
+=======
 
   function clearCanvas() {
     if (boardRef != null && boardRef.current != null) {
@@ -124,6 +151,7 @@ export default function Whiteboard(props: WhiteboardProps) {
     }
   }
 
+>>>>>>> a46e8842e8af517ebfaf33b115d5a1e001f5aa95
   function mouseDown(e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) {
     setDrawing(true);
     currentActionPositions = [];
@@ -133,7 +161,12 @@ export default function Whiteboard(props: WhiteboardProps) {
       y: e.nativeEvent.offsetY,
     };
     if (current.x != undefined && current.y != undefined) {
-      currentActionPositions.push([current.x,current.y,e.nativeEvent.offsetX,e.nativeEvent.offsetY]);
+      currentActionPositions.push([
+        current.x,
+        current.y,
+        e.nativeEvent.offsetX,
+        e.nativeEvent.offsetY,
+      ]);
     }
     if (resyncColors.indexOf(currentColor) == -1) {
       {
@@ -152,9 +185,6 @@ export default function Whiteboard(props: WhiteboardProps) {
   const maybeBoard = document.getElementsByClassName("board-canvas");
 
   const boardRef = useRef<HTMLCanvasElement | null>(null);
-  // const [current,setCurrent] = useState<DrawState>({
-  //     color:'black'
-  // });
   function changeColor(colorHex: string) {
     setCurrentColor(colorHex);
   }
@@ -194,8 +224,15 @@ export default function Whiteboard(props: WhiteboardProps) {
   ]);
 
   function drawAction(a: Action) {
-    for(var i=0;i<a.pos.length;i++) {
-      drawLine(a.pos[i][0],a.pos[i][1],a.pos[i][2],a.pos[i][3],a.color,a.radius);
+    for (var i = 0; i < a.pos.length; i++) {
+      drawLine(
+        a.pos[i][0],
+        a.pos[i][1],
+        a.pos[i][2],
+        a.pos[i][3],
+        a.color,
+        a.radius
+      );
     }
   }
 
@@ -223,7 +260,7 @@ export default function Whiteboard(props: WhiteboardProps) {
         onMouseLeave={(e) => mouseUp(e)}
         ref={boardRef}
       />
-      <button onClick={()=>drawAction(createMockFrame1().actions[0])}>mockAction</button>
+      <button onClick={() => undo()}>Undo</button>
       <div className="colorPicker">
         <Colorful
           className="colorful"

@@ -4,6 +4,7 @@ import Thumbnail from "./Thumbnail"
 import "./styles/FrameInterface.css";
 import { useState } from "react";
 import { createMockFramesJSON } from "./frameMocks";
+import Save from "./Save.jsx";
 
 export interface FrameInterfaceProps {
     frames: FrameData[]
@@ -30,6 +31,9 @@ export default function FrameInterface(props: FrameInterfaceProps) {
         </div>
         <div className="whiteboardDisplay">
             <Whiteboard displayedFrame={props.frames[currentFrame]} setCurrentFrame={(frameNum:number)=> {setCurrentFrame(findFrameIndex(frameNum))}}/>
+        </div>
+        <div className="Save">
+            <Save frames={props.frames}  ></Save>
         </div>
         </>
     )
