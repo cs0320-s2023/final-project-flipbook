@@ -34,6 +34,11 @@ function createBlankImage() {
 
 export default function FrameInterface(props: FrameInterfaceProps) {
   const [frameArray, setFrameArray] = useState<FrameData[]>(props.frames);
+  const [traceChecked, setChecked] = React.useState(false);
+
+  const handleChange = () => {
+    setChecked(!traceChecked);
+  };
 
   const handleAddThumbnail = () => {
     const newFrameNum = frameArray.length + 1;
@@ -43,7 +48,17 @@ export default function FrameInterface(props: FrameInterfaceProps) {
       image: createBlankImage(),
       frameNum: newFrameNum,
     };
-    setFrameArray((prevFrames) => [...prevFrames, newFrame]);
+    const traceFrame: FrameData = {
+      actions: structuredClone(frameArray[frameArray.length - 1].actions),
+      image: createBlankImage(),
+      frameNum: newFrameNum,
+    };
+    if (traceChecked) {
+      setFrameArray((prevFrames) => [...prevFrames, traceFrame]);
+    }
+    else {
+      setFrameArray((prevFrames) => [...prevFrames, newFrame]);
+    }
   };
 
   function findFrameIndex(frameNum: number): number {
@@ -82,6 +97,15 @@ export default function FrameInterface(props: FrameInterfaceProps) {
           <button className="addFrameButton" onClick={handleAddThumbnail}>
             +
           </button>
+          <label>
+            <input
+              type="checkbox"
+              id="trace"
+              checked={traceChecked}
+              onChange={handleChange}
+            />
+            Trace
+          </label>
         </div>
         <div className="whiteboardDisplay">
           <Whiteboard

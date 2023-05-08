@@ -59,12 +59,9 @@ export default function Whiteboard(props: WhiteboardProps) {
     ) {
       // Check for "Command + +" or "Command + =" key combination
       console.log("Zoom in");
-    } else if (
-      (event.key === "s") && (event.metaKey || event.ctrlKey)
-    ) {
+    } else if (event.key === "s" && (event.metaKey || event.ctrlKey)) {
       // Check for "Command + s"
       console.log("save");
-      
     }
   }
 
@@ -161,8 +158,7 @@ export default function Whiteboard(props: WhiteboardProps) {
       setActions([addedAction]);
     }
     currentActionPositions = [];
-    props.displayedFrame.actions.push(addedAction)
-
+    props.displayedFrame.actions.push(addedAction);
   }
 
   function clearCanvas() {
@@ -246,9 +242,9 @@ export default function Whiteboard(props: WhiteboardProps) {
     "#ff0000",
   ]);
 
-   function drawAction(a: Action) {
+  function drawAction(a: Action) {
     for (var i = 0; i < a.pos.length; i++) {
-      console.log(a.radius)
+      console.log(a.radius);
       drawLine(
         a.pos[i][0],
         a.pos[i][1],
@@ -289,6 +285,7 @@ export default function Whiteboard(props: WhiteboardProps) {
         <Colorful
           className="colorful"
           color={currentColor}
+          aria-label={"selected color of hex: " + currentColor}
           onChange={(color) => changeColor(color.hex)}
         />
         <div className="controls">
@@ -297,6 +294,7 @@ export default function Whiteboard(props: WhiteboardProps) {
               <div
                 key={i}
                 className="color-swatch"
+                aria-label={"color swatch with hex: " + color}
                 style={{ backgroundColor: color }}
                 onClick={() => setCurrentColor(color)}
               ></div>
