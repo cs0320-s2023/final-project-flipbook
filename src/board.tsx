@@ -35,7 +35,9 @@ export default function Whiteboard(props: WhiteboardProps) {
 
   useEffect(() => {
     clearCanvas();
-    props.displayedFrame.actions.forEach((action)=>{drawAction(action)});
+    props.displayedFrame.actions.forEach((action) => {
+      drawAction(action);
+    });
   }, [props.displayedFrame]);
 
   function throttledMouseMove(
@@ -66,15 +68,6 @@ export default function Whiteboard(props: WhiteboardProps) {
         currentColor,
         currentWidth
       );
-<<<<<<< HEAD
-=======
-      currentActionPositions.push([
-        current.x,
-        current.y,
-        e.nativeEvent.offsetX,
-        e.nativeEvent.offsetY,
-      ]);
->>>>>>> main
     }
     // setCurrent(prev => ({
     //     ...prev,
@@ -137,13 +130,12 @@ export default function Whiteboard(props: WhiteboardProps) {
     console.log(actions);
   }
 
-
   function clearCanvas() {
     if (boardRef != null && boardRef.current != null) {
       const context: undefined | CanvasRenderingContext2D | null =
         boardRef.current.getContext("2d");
       if (context instanceof CanvasRenderingContext2D) {
-        context.clearRect(0,0,800,600);
+        context.clearRect(0, 0, 800, 600);
       }
     }
   }
@@ -253,16 +245,9 @@ export default function Whiteboard(props: WhiteboardProps) {
         onMouseMove={(e) => {
           mouseMove(e);
         }}
-<<<<<<< HEAD
         onMouseLeave={() => setDrawing(false)}
         ref={boardRef}
       />
-=======
-        onMouseLeave={(e) => mouseUp(e)}
-        ref={boardRef}
-      />
-      <button onClick={() => undo()}>Undo</button>
->>>>>>> main
       <div className="colorPicker">
         <Colorful
           className="colorful"
