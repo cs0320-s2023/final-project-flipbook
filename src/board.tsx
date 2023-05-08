@@ -59,6 +59,12 @@ export default function Whiteboard(props: WhiteboardProps) {
     ) {
       // Check for "Command + +" or "Command + =" key combination
       console.log("Zoom in");
+    } else if (
+      (event.key === "s") && (event.metaKey || event.ctrlKey)
+    ) {
+      // Check for "Command + s"
+      console.log("save");
+      
     }
   }
 

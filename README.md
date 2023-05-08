@@ -74,7 +74,6 @@ Bugs
 
 Accessibility todo
 * zooming in doesn't break the fit of whiteboard
-* keyboard shortcut for undo
 * keyboard shortcut for adding frame
 * color reading feature, read hexcode?
 Defensive/Error Handling todo
