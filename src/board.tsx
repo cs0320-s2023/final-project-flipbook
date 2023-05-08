@@ -35,11 +35,7 @@ export default function Whiteboard(props: WhiteboardProps) {
 
   useEffect(() => {
     clearCanvas();
-    for (var i = 0; i < props.displayedFrame.actions.length - 1; i++) {
-      if (i >= 0) {
-        drawAction(props.displayedFrame.actions[i]);
-      }
-    }
+    props.displayedFrame.actions.forEach((action)=>{drawAction(action)});
   }, [props.displayedFrame]);
 
   function throttledMouseMove(
