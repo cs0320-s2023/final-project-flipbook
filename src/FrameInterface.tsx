@@ -65,29 +65,32 @@ export default function FrameInterface(props: FrameInterfaceProps) {
 
   return (
     <>
-      <div className="Frames">
-        {frameArray.map((object: FrameData, i) => (
-          <Thumbnail
-            setCurrentFrame={(value: number) =>
-              setCurrentFrame(findFrameIndex(value))
+      <div className="frameContainer">
+        <div className="frameList">
+          {frameArray.map((object: FrameData, i) => (
+            <Thumbnail
+              setCurrentFrame={(value: number) =>
+                setCurrentFrame(findFrameIndex(value))
+              }
+              handleThumbnailClick={handleThumbnailClick}
+              key={i}
+              data={object}
+              onClick={handleThumbnailClick}
+              // frameNumber={object.frameNum}
+            />
+          ))}
+          <button className="addFrameButton" onClick={handleAddThumbnail}>
+            +
+          </button>
+        </div>
+        <div className="whiteboardDisplay">
+          <Whiteboard
+            displayedFrame={frameArray[currentFrame]}
+            setCurrentFrame={(frameNum: number) =>
+              setCurrentFrame(findFrameIndex(frameNum))
             }
-            handleThumbnailClick={handleThumbnailClick}
-            key={i}
-            data={object}
-            onClick={handleThumbnailClick}
           />
-        ))}
-        <button className="addFrameButton" onClick={handleAddThumbnail}>
-          +
-        </button>
-      </div>
-      <div className="whiteboardDisplay">
-        <Whiteboard
-          displayedFrame={frameArray[currentFrame]}
-          setCurrentFrame={(frameNum: number) =>
-            setCurrentFrame(findFrameIndex(frameNum))
-          }
-        />
+        </div>
       </div>
       <div className="Save">
         <Save frames={frameArray}></Save>

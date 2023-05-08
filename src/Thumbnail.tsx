@@ -6,6 +6,7 @@ export interface ThumbnailProps {
   handleThumbnailClick: (frame: FrameData) => void;
   setCurrentFrame: (n: number) => void;
   onClick: (frame: FrameData) => void;
+  // frameNumber: number;
 }
 
 const Thumbnail: React.FC<ThumbnailProps> = (props: ThumbnailProps) => {
@@ -17,7 +18,6 @@ const Thumbnail: React.FC<ThumbnailProps> = (props: ThumbnailProps) => {
       ctx?.putImageData(props.data.image, 0, 0, 0, 0, 80, 60);
     }
   }, [props.data.image, canvasRef.current]);
-
 
   return (
     <canvas
