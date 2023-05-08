@@ -161,11 +161,7 @@ export default function Whiteboard(props: WhiteboardProps) {
       setActions([addedAction]);
     }
     currentActionPositions = [];
-    console.log(actions);
-    console.log("actions")
     props.displayedFrame.actions.push(addedAction)
-    console.log(props.displayedFrame.actions)
-    console.log("prop actions")
 
   }
 
@@ -233,7 +229,7 @@ export default function Whiteboard(props: WhiteboardProps) {
         context.lineTo(x2, y2);
         context.strokeStyle = color;
         context.lineCap = "round"; //make it so that a stroke is a circle, not a rectangle
-        context.lineWidth = currentWidth;
+        context.lineWidth = width;
         context.stroke();
         context.closePath();
       }
@@ -252,6 +248,7 @@ export default function Whiteboard(props: WhiteboardProps) {
 
    function drawAction(a: Action) {
     for (var i = 0; i < a.pos.length; i++) {
+      console.log(a.radius)
       drawLine(
         a.pos[i][0],
         a.pos[i][1],
@@ -265,7 +262,6 @@ export default function Whiteboard(props: WhiteboardProps) {
 
   function changeStroke(e: React.ChangeEvent<HTMLInputElement>) {
     const parsedValue: number = parseInt(e.target.value);
-
     setCurrentWidth(parsedValue);
   }
 
