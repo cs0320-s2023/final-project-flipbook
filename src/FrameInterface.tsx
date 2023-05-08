@@ -63,6 +63,7 @@ export default function FrameInterface(props: FrameInterfaceProps) {
 
     
     const [currentFrame,setCurrentFrame] = useState<number>(0);
+    
     return (
         <>
         <div className="Frames">

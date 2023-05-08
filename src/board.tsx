@@ -66,15 +66,12 @@ export default function Whiteboard(props: WhiteboardProps) {
         currentColor,
         currentWidth
       );
-<<<<<<< HEAD
-=======
       currentActionPositions.push([
         current.x,
         current.y,
         e.nativeEvent.offsetX,
         e.nativeEvent.offsetY,
       ]);
->>>>>>> main
     }
     // setCurrent(prev => ({
     //     ...prev,
@@ -253,16 +250,10 @@ export default function Whiteboard(props: WhiteboardProps) {
         onMouseMove={(e) => {
           mouseMove(e);
         }}
-<<<<<<< HEAD
-        onMouseLeave={() => setDrawing(false)}
-        ref={boardRef}
-      />
-=======
         onMouseLeave={(e) => mouseUp(e)}
         ref={boardRef}
       />
       <button onClick={() => undo()}>Undo</button>
->>>>>>> main
       <div className="colorPicker">
         <Colorful
           className="colorful"
