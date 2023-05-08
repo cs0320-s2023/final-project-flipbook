@@ -90,7 +90,6 @@ export default function Whiteboard(props: WhiteboardProps) {
     };
   }
 
-<<<<<<< HEAD
   function undo() {
     if (boardRef != null && boardRef.current != null) {
       const ctx: undefined | CanvasRenderingContext2D | null =
@@ -105,9 +104,6 @@ export default function Whiteboard(props: WhiteboardProps) {
       }
     }
   }
-=======
-  
->>>>>>> a46e8842e8af517ebfaf33b115d5a1e001f5aa95
 
   function mouseUp(e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) {
     if (!drawing) {
@@ -138,8 +134,6 @@ export default function Whiteboard(props: WhiteboardProps) {
     console.log(actions);
   }
 
-<<<<<<< HEAD
-=======
 
   function clearCanvas() {
     if (boardRef != null && boardRef.current != null) {
@@ -151,7 +145,6 @@ export default function Whiteboard(props: WhiteboardProps) {
     }
   }
 
->>>>>>> a46e8842e8af517ebfaf33b115d5a1e001f5aa95
   function mouseDown(e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) {
     setDrawing(true);
     currentActionPositions = [];
