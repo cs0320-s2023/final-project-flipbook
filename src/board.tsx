@@ -246,7 +246,7 @@ export default function Whiteboard(props: WhiteboardProps) {
     "#ff0000",
   ]);
 
-  function drawAction(a: Action) {
+   function drawAction(a: Action) {
     for (var i = 0; i < a.pos.length; i++) {
       console.log(a.radius);
       drawLine(
@@ -264,6 +264,12 @@ export default function Whiteboard(props: WhiteboardProps) {
     const parsedValue: number = parseInt(e.target.value);
     setCurrentWidth(parsedValue);
   }
+
+  const [imageURL, setImageURL] = useState<string>(
+    "https://i.ibb.co/djvJMbM/8045-ADB9-EC9-F-4-D56-A1-E5-1-DA942-DC0031.jpg"
+  );
+
+
 
   return (
     <div className="whiteboard">
@@ -285,7 +291,14 @@ export default function Whiteboard(props: WhiteboardProps) {
       />
       <button onClick={() => undo()}>Undo</button>
       <div className="AddImage">
-      <AddImage imageUrl="https://i.ibb.co/djvJMbM/8045-ADB9-EC9-F-4-D56-A1-E5-1-DA942-DC0031.jpg" boardRef={boardRef} />
+        <input
+          type="text"
+          value={imageURL}
+          onChange={(e) => setImageURL(e.target.value)}
+        />
+        <button onClick={() => setImageURL(imageURL)}>Set Image URL</button>
+
+        <AddImage imageUrl={imageURL} boardRef={boardRef} props={props}/>
       </div>
       <div className="colorPicker">
         <Colorful
