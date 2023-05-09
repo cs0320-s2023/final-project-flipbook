@@ -92,6 +92,16 @@ export default function Whiteboard(props: WhiteboardProps) {
       return;
     }
     if (current.x != undefined && current.y != undefined) {
+      // if (current.color == "#ffffff") {
+      //   console.log("in the loop");
+      //   for (var i = 0; i < currentActionPositions.length; i++) {
+      //     for (var j = 0; j < currentActionPositions[i].length; j++) {
+      //       if (current.x == currentActionPositions[i][j]) {
+      //         currentActionPositions.splice(i, 1);
+      //       }
+      //     }
+      //   }
+      // }
       drawLine(
         current.x,
         current.y,
@@ -124,20 +134,20 @@ export default function Whiteboard(props: WhiteboardProps) {
     };
   }
 
-  function undo() {
-    if (boardRef != null && boardRef.current != null) {
-      const ctx: undefined | CanvasRenderingContext2D | null =
-        boardRef.current.getContext("2d");
-      if (ctx instanceof CanvasRenderingContext2D && actions != undefined) {
-        ctx.clearRect(0, 0, 800, 600);
-        for (var i = 0; i < actions.length - 1; i++) {
-          if (i >= 0) {
-            drawAction(actions[i]);
-          }
-        }
-      }
-    }
-  }
+  // function undo() {
+  //   if (boardRef != null && boardRef.current != null) {
+  //     const ctx: undefined | CanvasRenderingContext2D | null =
+  //       boardRef.current.getContext("2d");
+  //     if (ctx instanceof CanvasRenderingContext2D && actions != undefined) {
+  //       ctx.clearRect(0, 0, 800, 600);
+  //       for (var i = 0; i < actions.length - 1; i++) {
+  //         if (i >= 0) {
+  //           drawAction(actions[i]);
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 
   function mouseUp(e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) {
     if (!drawing) {
