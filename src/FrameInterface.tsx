@@ -53,12 +53,13 @@ export default function FrameInterface(props: FrameInterfaceProps) {
       image: createBlankImage(),
       frameNum: newFrameNum,
     };
-    if (traceChecked) {
-      setFrameArray((prevFrames) => [...prevFrames, traceFrame]);
-    }
-    else {
-      setFrameArray((prevFrames) => [...prevFrames, newFrame]);
-    }
+    // if (traceChecked) {
+    //   setFrameArray((prevFrames) => [...prevFrames, traceFrame]);
+    // }
+    // else {
+    //   setFrameArray((prevFrames) => [...prevFrames, newFrame]);
+    // }
+    setFrameArray((prevFrames) => [...prevFrames, newFrame]);
   };
 
   function findFrameIndex(frameNum: number): number {
@@ -109,6 +110,11 @@ export default function FrameInterface(props: FrameInterfaceProps) {
         </div>
         <div className="whiteboardDisplay">
           <Whiteboard
+            traceFrame={
+              traceChecked
+                ? frameArray[frameArray.length - 1]
+                : frameArray[currentFrame]
+            }
             displayedFrame={frameArray[currentFrame]}
             setCurrentFrame={(frameNum: number) =>
               setCurrentFrame(findFrameIndex(frameNum))

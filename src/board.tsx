@@ -12,6 +12,7 @@ interface DrawState {
 }
 
 export interface WhiteboardProps {
+  traceFrame: FrameData;
   displayedFrame: FrameData;
   setCurrentFrame: (n: number) => void;
 }
@@ -35,6 +36,9 @@ export default function Whiteboard(props: WhiteboardProps) {
 
   useEffect(() => {
     clearCanvas();
+    props.traceFrame.actions.forEach((action) => {
+      drawAction(action);
+    });
     props.displayedFrame.actions.forEach((action) => {
       drawAction(action);
     });
