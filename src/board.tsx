@@ -222,7 +222,7 @@ export default function Whiteboard(props: WhiteboardProps) {
     y2: number,
     color: string,
     width: number
-  ): void {
+  ): CanvasRenderingContext2D | undefined | null {
     if (boardRef != null && boardRef.current != null) {
       const context: undefined | CanvasRenderingContext2D | null =
         boardRef.current.getContext("2d");
@@ -235,6 +235,7 @@ export default function Whiteboard(props: WhiteboardProps) {
         context.lineWidth = width;
         context.stroke();
         context.closePath();
+        return context;
       }
     }
   }
@@ -259,6 +260,9 @@ export default function Whiteboard(props: WhiteboardProps) {
         a.pos[i][3],
         a.color,
         a.radius
+      );
+      return (
+        a.pos[i][0], a.pos[i][1], a.pos[i][2], a.pos[i][3], a.color, a.radius
       );
     }
   }
