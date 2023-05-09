@@ -5,6 +5,7 @@ import { Action, FrameActionData, FrameData } from "./frameData";
 import "../styles/FrameInterface.css";
 import { createMockFramesJSON } from "../mocks/frameMocks";
 import Save from "./Save.jsx";
+import Export from "./Export";
 
 export interface FrameInterfaceProps {
   frames: FrameData[];
@@ -172,9 +173,9 @@ export default function FrameInterface(props: FrameInterfaceProps) {
       <div className="Save">
         <Save frames={removeImageData(frameArray)}></Save>
       </div>
-      {/* <div className="Export">
+      <div className="Export">
         <Export frames={frameArray}></Export>
-      </div> */}
+      </div> 
     </>
   );
 }
