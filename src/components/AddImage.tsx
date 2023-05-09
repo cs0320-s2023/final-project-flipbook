@@ -87,7 +87,3 @@ export const AddImage: React.FC<AddImageProps> = ({
 
   return <button onClick={addImage}>Add Image</button>;
 };
-
-
-  return <button onClick={addImage}>Add Image</button>;
-};
