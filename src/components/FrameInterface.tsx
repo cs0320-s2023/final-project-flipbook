@@ -11,33 +11,58 @@ export interface FrameInterfaceProps {
   frames: FrameData[];
 }
 
-function createBlankImage() {
-  const width = 800; // width of the image
-  const height = 600; // height of the image
-  const channels = 4; // number of channels (R, G, B, Alpha)
-
-  // Create an array to hold the pixel data
-  const imageData = new Uint8ClampedArray(width * height * channels);
-
-  // Loop through each pixel and set its value
-  for (let i = 0; i < width * height; i++) {
-    const index = i * channels;
-    imageData[index] = 255; // R channel
-    imageData[index + 1] = 255; // G channel
-    imageData[index + 2] = 255; // B channel
-    imageData[index + 3] = 255; // Alpha channel (fully opaque)
-  }
-
-  // Create a new ImageData object using the pixel data
-  const blankImageData = new ImageData(imageData, width, height);
-  return blankImageData;
-}
 
 
 
 export default function FrameInterface(props: FrameInterfaceProps) {
+
   const [frameArray, setFrameArray] = useState<FrameData[]>(props.frames);
   const [traceChecked, setChecked] = React.useState(false);
+
+
+  function createBlankImage() {
+    const width = 800; // width of the image
+    const height = 600; // height of the image
+    const channels = 4; // number of channels (R, G, B, Alpha)
+  
+    // Create an array to hold the pixel data
+    const imageData = new Uint8ClampedArray(width * height * channels);
+  
+    // Loop through each pixel and set its value
+    for (let i = 0; i < width * height; i++) {
+      const index = i * channels;
+      imageData[index] = 255; // R channel
+      imageData[index + 1] = 255; // G channel
+      imageData[index + 2] = 255; // B channel
+      imageData[index + 3] = 255; // Alpha channel (fully opaque)
+    }
+  
+    // Create a new ImageData object using the pixel data
+    const blankImageData = new ImageData(imageData, width, height);
+    return blankImageData;
+  }
+
+  function createYellowImage() {
+    const width = 800; // width of the image
+    const height = 600; // height of the image
+    const channels = 4; // number of channels (R, G, B, Alpha)
+  
+    // Create an array to hold the pixel data
+    const imageData = new Uint8ClampedArray(width * height * channels);
+  
+    // Loop through each pixel and set its value
+    for (let i = 0; i < width * height; i++) {
+      const index = i * channels;
+      imageData[index] = 255; // R channel
+      imageData[index + 1] = 255; // G channel
+      imageData[index + 2] = 1; // B channel
+      imageData[index + 3] = 255; // Alpha channel (fully opaque)
+    }
+  
+    // Create a new ImageData object using the pixel data
+    const blankImageData = new ImageData(imageData, width, height);
+    return blankImageData;
+  }
 
   useEffect(() => {
     setFrameArray(props.frames);
@@ -46,7 +71,6 @@ export default function FrameInterface(props: FrameInterfaceProps) {
   const handleChange = () => {
     setChecked(!traceChecked);
   };
-  const boardRef = useRef<HTMLCanvasElement | null>(null);
 
   const handleAddThumbnail = () => {
     const newFrameNum = frameArray.length + 1;
