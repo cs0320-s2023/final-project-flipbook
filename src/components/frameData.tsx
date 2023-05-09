@@ -29,6 +29,7 @@ export function convertToFrameDataList(fas:FrameActionData[]) {
   return res;
 }
 
+//returns image data in thumbnail size, given FrameActionData
 function createImageDataFromActionData(fa:FrameActionData): ImageData {
   const canvas = document.createElement('canvas');
   canvas.width = 80;
@@ -39,6 +40,8 @@ function createImageDataFromActionData(fa:FrameActionData): ImageData {
   return context.createImageData(canvas.width, canvas.height);
 }
 
+
+//draws an "action" on 2d rendering context
 function drawAction(a: Action,context:CanvasRenderingContext2D) {
   for (var i = 0; i < a.pos.length; i++) {
     drawLine(
@@ -53,6 +56,7 @@ function drawAction(a: Action,context:CanvasRenderingContext2D) {
   }
 }
 
+//draws a line of a certain color and width between two points, given a 2d rendering context
 function drawLine(
   x1: number,
   y1: number,

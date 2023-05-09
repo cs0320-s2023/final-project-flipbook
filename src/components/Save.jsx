@@ -3,8 +3,9 @@ import axios from 'axios';
 
 export default function Save(props) {
 
-  async function saveData(){
-    const url = 'http://localhost:3001/data?pid=12345678'; // Replace with your API endpoint URL
+  //returns a usermodel to be saved
+  async function saveData(pidstring){
+    const url = 'http://localhost:3001/data?pid='+pidstring; // Replace with your API endpoint URL
 
     // const data = {
     //   key1: 'value1',
@@ -64,7 +65,7 @@ export default function Save(props) {
   
     
   return (<>
-    <button onClick={saveData}>Save</button>
+    <button onClick={()=>saveData('12345678')}>Save</button>
     <button onClick={()=>getData('12345678')}>Get</button>
     </>
   );

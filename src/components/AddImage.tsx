@@ -8,6 +8,11 @@ interface AddImageProps {
   props: WhiteboardProps
 }
 
+/**
+ * adds traceable image to whiteboard
+ * @param param0 contains image url, reference to canvas, and whiteboard properties
+ * @returns image adding button
+ */
 export const AddImage: React.FC<AddImageProps> = ({ imageUrl, boardRef, props,  }) => {
 
   function drawLine(
@@ -48,8 +53,11 @@ export const AddImage: React.FC<AddImageProps> = ({ imageUrl, boardRef, props,  
     }
   }
 
-  
+  /**
+   * adds image to whiteboard
+   */
   function addImage() {
+    //typecheck boardref
     if (boardRef != null && boardRef.current != null) {
       const context: undefined | CanvasRenderingContext2D | null =
         boardRef.current.getContext("2d");
@@ -58,7 +66,7 @@ export const AddImage: React.FC<AddImageProps> = ({ imageUrl, boardRef, props,  
   
         image.src = imageUrl;
   
-        // Once the image has loaded, draw it on the canvas
+        // Once the image has loaded, draw it on the canvas, along with redrawing previous action
 
         //now need to choose opacity and choose image 
         image.onload = () => {

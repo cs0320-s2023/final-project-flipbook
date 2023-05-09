@@ -27,6 +27,8 @@ export interface ColorfulProps
   disableAlpha?: boolean;
 }
 
+
+//Whiteboard component for displaying currentframe
 export default function Whiteboard(props: WhiteboardProps) {
   let current: DrawState = { color: "#000000" };
 
@@ -35,6 +37,8 @@ export default function Whiteboard(props: WhiteboardProps) {
   const [actions, setActions] = useState<Action[]>();
   let currentActionPositions: number[][] = [];
 
+
+  //called when the current displayedFrame is changed by a user clicked on the thumbnail
   useEffect(() => {
     clearCanvas();
     props.traceFrame.actions.forEach((action) => {
@@ -88,21 +92,14 @@ export default function Whiteboard(props: WhiteboardProps) {
     };
   }
 
+  //called by mousemove event listener
   function mouseMove(e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) {
-    if (!drawing) {
+    if (!drawing) {//only when the user is holding mouse
       return;
     }
     if (current.x != undefined && current.y != undefined) {
-      // if (current.color == "#ffffff") {
-      //   console.log("in the loop");
-      //   for (var i = 0; i < currentActionPositions.length; i++) {
-      //     for (var j = 0; j < currentActionPositions[i].length; j++) {
-      //       if (current.x == currentActionPositions[i][j]) {
-      //         currentActionPositions.splice(i, 1);
-      //       }
-      //     }
-      //   }
-      // }
+
+      //draw a line from previous coords to current mouse coords
       drawLine(
         current.x,
         current.y,
@@ -111,6 +108,8 @@ export default function Whiteboard(props: WhiteboardProps) {
         currentColor,
         currentWidth
       );
+
+      //add another action position of current mouse coords
       currentActionPositions.push([
         current.x,
         current.y,
@@ -118,16 +117,8 @@ export default function Whiteboard(props: WhiteboardProps) {
         e.nativeEvent.offsetY,
       ]);
     }
-    // setCurrent(prev => ({
-    //     ...prev,
-    //     x:e.clientX,
-    //     y:e.clientY
-    // }));
-    // current = {
-    //     ...current,
-    //     x:e.nativeEvent.clientX+e.nativeEvent.offsetX,
-    //     y:e.nativeEvent.clientY+e.nativeEvent.offsetY
-    // }
+
+    //set the current draw state to new mouse coords
     current = {
       ...current,
       x: e.nativeEvent.offsetX,

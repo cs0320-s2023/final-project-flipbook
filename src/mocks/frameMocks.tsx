@@ -32,13 +32,13 @@ const frame1Actions: Action[] = [{
   radius: 5,
   pos: [
     
-  ],
+  ]
 }, {
   color: "#000000",
   radius: 5,
   pos: [
     
-  ],
+  ]
 }];
 const frame1: FrameData = {
   actions: frame1Actions,
@@ -51,13 +51,13 @@ const frame2Actions: Action[] = [{
   radius: 5,
   pos: [
     
-  ],
+  ]
 },{
   color: "#000000",
   radius: 5,
   pos: [
     
-  ],
+  ]
 }];
 const frame2: FrameData = {
   actions: frame2Actions,

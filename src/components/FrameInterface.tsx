@@ -10,6 +10,8 @@ export interface FrameInterfaceProps {
   frames: FrameData[];
 }
 
+
+//creates blank ImageData, to be used for Thumbnail previews
 function createBlankImage() {
   const width = 100; // width of the image
   const height = 50; // height of the image

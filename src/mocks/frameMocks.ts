@@ -25,6 +25,11 @@ function createMockImg(): ImageData {
   return mockedImageData;
 }
 
+
+/**
+ * creates blank image data for thumbnail
+ * @returns ImageData object of thumbnail size, blank
+ */
 function createBlankImageData(): ImageData {
   const canvas = document.createElement('canvas');
   canvas.width = 80;
@@ -69,6 +74,11 @@ const frame2: FrameData = {
 mockedFrames.push(frame1);
 mockedFrames.push(frame2);
 
+
+/**
+ * creates first mock frame, used in blank template
+ * @returns FrameData object representing first blank frame
+ */
 export function createMockFrame1(): FrameData {
   let mockedFrames: FrameData[] = [];
 
@@ -89,6 +99,11 @@ export function createMockFrame1(): FrameData {
   return frame1;
 }
 
+
+/**
+ * creates second mock frame, used in blank template
+ * @returns FrameData object representing second blank frame
+ */
 export function createMockFrame2(): FrameData {
   const frame2Actions: Action[] = [
     {
@@ -107,6 +122,10 @@ export function createMockFrame2(): FrameData {
   return frame2;
 }
 
+/**
+ * 
+ * @returns a string representing the frameData of first mock frame
+ */
 export function createMockFramesJSON() {
   return JSON.stringify(createMockFrame1());
 }
