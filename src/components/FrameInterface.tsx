@@ -56,9 +56,12 @@ export default function FrameInterface(props: FrameInterfaceProps) {
     };
     setCurrentFrame(newFrameNum - 1);
     const traceFrame: FrameData = {
-      actions: structuredClone(frameArray[frameArray.length - 1].actions).map(action => ({
-        ...action,
-        opacity: 0.3})),
+      actions: structuredClone(frameArray[frameArray.length - 1].actions).map(
+        (action) => ({
+          ...action,
+          opacity: 0.3,
+        })
+      ),
       image: createBlankImage(),
       frameNum: newFrameNum,
     };
@@ -82,11 +85,13 @@ export default function FrameInterface(props: FrameInterfaceProps) {
   };
 
   const handleRemoveThumbnail = () => {
-    const newFrameArray = frameArray.filter(
-      (frame) => frame.frameNum !== frameArray.length
-    );
-    setFrameArray(newFrameArray);
-    setCurrentFrame(frameArray.length - 2);
+    if (frameArray.length != 1) {
+      const newFrameArray = frameArray.filter(
+        (frame) => frame.frameNum !== frameArray.length
+      );
+      setFrameArray(newFrameArray);
+      setCurrentFrame(frameArray.length - 2);
+    }
   };
 
   function findFrameIndex(frameNum: number): number {
@@ -165,17 +170,19 @@ export default function FrameInterface(props: FrameInterfaceProps) {
               setCurrentFrame(findFrameIndex(frameNum))
             }
           />
+          <div className="animate">
+            <Export frames={frameArray}></Export>
+          </div>
         </div>
-        <div className="undoButton">
-          <button onClick={handleUndoAction}>Undo</button>
+        <div className="buttonContainer2">
+          <div className="undoButton">
+            <button onClick={handleUndoAction}>Undo</button>
+          </div>
+          <div className="save">
+            <Save frames={removeImageData(frameArray)}></Save>
+          </div>
         </div>
       </div>
-      <div className="Save">
-        <Save frames={removeImageData(frameArray)}></Save>
-      </div>
-      <div className="Export">
-        <Export frames={frameArray}></Export>
-      </div> 
     </>
   );
 }

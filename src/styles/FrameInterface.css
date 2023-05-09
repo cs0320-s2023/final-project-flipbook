@@ -71,8 +71,31 @@
   justify-content: center;
   align-items: center;
 }
+
+.buttonContainer2 {
+  margin-top: 620px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-items: flex-start;
+}
+
 .undoButton {
-  margin-top: 600px;
+  margin-left: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+}
+
+.animate {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.save {
+  margin-top: 10px;
   margin-left: 20px;
   cursor: pointer;
   display: flex;
