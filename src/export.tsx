@@ -39,7 +39,7 @@ export async function createPngFile(actions: Action[]): Promise<File> {
         const canvas = document.createElement('canvas');
         canvas.width = 800;
         canvas.height = 600;
-        const ctx = canvas.getContext('2d'); //issue here 
+        const ctx = canvas.getContext('2d'); 
         if (ctx) {
           for (let i = 0; i < actions.length; i++) {
             const action = actions[i];
@@ -57,6 +57,11 @@ export async function createPngFile(actions: Action[]): Promise<File> {
           const dataUrl = canvas.toDataURL('image/png');
           const blob = await (await fetch(dataUrl)).blob();
           const file = new File([blob], "frame.png", { type: blob.type });
+          const a = document.createElement("a");
+          a.href = dataUrl;
+          a.download = "animation.png";
+          a.click();
+          console.log(file)
           return file;
         } else {
           throw new Error("Could not create canvas context.");
