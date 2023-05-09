@@ -62,23 +62,32 @@ export const AddImage: React.FC<AddImageProps> = ({
       if (context instanceof CanvasRenderingContext2D) {
         const image = new Image();
 
+
         image.src = imageUrl;
 
         // Once the image has loaded, draw it on the canvas
 
         //now need to choose opacity and choose image
         image.onload = () => {
-          context.clearRect(0, 0, 800, 600);
-          context.globalAlpha = 0.5;
-          context.drawImage(image, 0, 0, 800, 600);
-          context.globalAlpha = 1.0;
-          props.displayedFrame.actions.forEach((action) => {
-            drawAction(boardRef, action);
-          });
+          try {
+            context.clearRect(0, 0, 800, 600);
+            context.globalAlpha = 0.5;;
+            context.drawImage(image, 0, 0, 800, 600);
+            context.globalAlpha = 1.0;;
+            props.displayedFrame.actions.forEach((action) => {
+              drawAction(boardRef, action);
+            });
+          } catch (error) {
+            console.error("An error occurred while loading the image:", error);
+          }
         };
       }
     }
   }
+
+  return <button onClick={addImage}>Add Image</button>;
+};
+
 
   return <button onClick={addImage}>Add Image</button>;
 };
