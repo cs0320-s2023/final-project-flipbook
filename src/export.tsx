@@ -44,44 +44,6 @@ module.exports = exportGif;
 
 
 
-/*
-Here is Ben's attempt to export:
-
-Had major problems in that I needed to make these require statements work. I tried browserify to fix the requires but 
-that was wholly problematic. I tried adding type declarations so I could just import but that was convoluted. Good luck to
-the next gladiator. 
-
-const GIFEncoder = require('gif-encoder');
-const createWriteStream = require('stream');
-
-  export default async function exportGif() {
-    const encoder = new GIFEncoder(600, 800);
-    encoder.setDelay(500);
-    encoder.start();
-
-    props.frames.forEach(function (frame) {
-      var canvas = document.createElement('canvas');
-      var ctx = canvas.getContext('2d');
-      canvas.width = frame.image.width;
-      canvas.height = frame.image.height;
-      ctx.putImageData(frame.image, 0, 0);
-      encoder.addFrame(ctx);
-    });
-    encoder.finish();
-
-    const buffer = encoder.out.getData();
-    console.log(buffer);
-
-    const stream = createWriteStream('example.gif');
-    stream.write(Buffer.from(buffer));
-    stream.end();
-  }
-
-module.exports = exportGif;
-*/
-
-
-
 export default function Export(props: FrameInterfaceProps) {
   async function exportGif() {
     let convertApi = ConvertApi.auth("M14k2t0rrCHHD7Ox");
