@@ -126,7 +126,7 @@ export default function FrameInterface(props: FrameInterfaceProps) {
   return (
     <>
       <div className="frameContainer">
-        <div className="frameList">
+        <div className="frameList" role="list">
           {frameArray.map((object: FrameData, i) => (
             <Thumbnail
               setCurrentFrame={(value: number) =>
@@ -136,16 +136,22 @@ export default function FrameInterface(props: FrameInterfaceProps) {
               key={i}
               data={object}
               onClick={handleThumbnailClick}
+              aria-label={`Thumbnail ${i + 1}`}
               // frameNumber={object.frameNum}
             />
           ))}
           <div className="buttonContainer">
-            <button className="addFrameButton" onClick={handleAddThumbnail}>
+            <button
+              className="addFrameButton"
+              onClick={handleAddThumbnail}
+              aria-label="Add Frame"
+            >
               +
             </button>
             <button
               className="removeFrameButton"
               onClick={handleRemoveThumbnail}
+              aria-label="Remove Frame"
             >
               –
             </button>
@@ -156,8 +162,9 @@ export default function FrameInterface(props: FrameInterfaceProps) {
               id="trace"
               checked={traceChecked}
               onChange={handleChange}
+              aria-checked={traceChecked}
             />
-            Trace
+            <span aria-hidden="true">Trace</span>
           </label>
         </div>
         <div className="whiteboardDisplay">
@@ -171,20 +178,30 @@ export default function FrameInterface(props: FrameInterfaceProps) {
             setCurrentFrame={(frameNum: number) =>
               setCurrentFrame(findFrameIndex(frameNum))
             }
+            aria-label="Whiteboard"
           />
           <div className="animate">
-            <Export frames={frameArray}></Export>
+            <Export
+              frames={frameArray}
+              aria-label="Export Animation"
+            ></Export>
           </div>
         </div>
         <div className="buttonContainer2">
           <div className="undoButton">
-            <button onClick={handleUndoAction}>Undo</button>
+            <button onClick={handleUndoAction} aria-label="Undo">
+              Undo
+            </button>
           </div>
           <div className="save">
-            <Save frames={removeImageData(frameArray)}></Save>
+            <Save
+              frames={removeImageData(frameArray)}
+              aria-label="Save Animation"
+            ></Save>
           </div>
         </div>
       </div>
     </>
   );
 }
+

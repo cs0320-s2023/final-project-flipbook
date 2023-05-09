@@ -29,7 +29,7 @@ export function convertToFrameDataList(fas:FrameActionData[]) {
   return res;
 }
 
-function createImageDataFromActionData(fa:FrameActionData): ImageData {
+export function createImageDataFromActionData(fa:FrameActionData): ImageData {
   const canvas = document.createElement('canvas');
   canvas.width = 80;
   canvas.height = 60;

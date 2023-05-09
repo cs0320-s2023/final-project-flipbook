@@ -3,7 +3,10 @@ import "../styles/board.css";
 import { HsvaColor, ColorResult } from "@uiw/color-convert";
 import { FrameData, Action } from "./frameData";
 import Colorful from "@uiw/react-color-colorful";
-import mockedFrames, { createMockFrame1, createMockFrame2 } from "../mocks/frameMocks";
+import mockedFrames, {
+  createMockFrame1,
+  createMockFrame2,
+} from "../mocks/frameMocks";
 import { AddImage } from "./AddImage";
 
 interface DrawState {
@@ -57,7 +60,10 @@ export function drawLine(
   }
 }
 
-export function drawAction(boardRef: React.RefObject<HTMLCanvasElement>, a: Action) {
+export function drawAction(
+  boardRef: React.RefObject<HTMLCanvasElement>,
+  a: Action
+) {
   console.log("length", a.pos.length);
   for (var i = 0; i < a.pos.length; i++) {
     drawLine(
@@ -70,6 +76,13 @@ export function drawAction(boardRef: React.RefObject<HTMLCanvasElement>, a: Acti
       a.radius,
       a.opacity
     );
+  }
+  if (boardRef != null && boardRef.current != null) {
+    const context: undefined | CanvasRenderingContext2D | null =
+      boardRef.current.getContext("2d");
+    if (context instanceof CanvasRenderingContext2D) {
+      return boardRef.current.getContext("2d");
+    }
   }
 }
 
@@ -89,7 +102,7 @@ export default function Whiteboard(props: WhiteboardProps) {
     props.displayedFrame.actions.forEach((action) => {
       drawAction(boardRef, action);
     });
-    console.log("disa",props.displayedFrame.actions);
+    console.log("disa", props.displayedFrame.actions);
     // clearAndPopulateCanvas("https://i.ibb.co/djvJMbM/8045-ADB9-EC9-F-4-D56-A1-E5-1-DA942-DC0031.jpg")
     document.addEventListener("keydown", handleKeyDown); // Add event listener
     return () => {
@@ -232,7 +245,7 @@ export default function Whiteboard(props: WhiteboardProps) {
       const context: undefined | CanvasRenderingContext2D | null =
         boardRef.current.getContext("2d");
       if (context instanceof CanvasRenderingContext2D) {
-        const da = context.getImageData(0, 0, 800, 600)
+        const da = context.getImageData(0, 0, 800, 600);
       }
     }
   }
@@ -328,13 +341,14 @@ export default function Whiteboard(props: WhiteboardProps) {
         <input
           type="text"
           value={imageURL}
+          aria-label="image url input"
           onChange={(e) => setImageURL(e.target.value)}
         />
-        <button className="setImageURL" onClick={() => setImageURL(imageURL)}>
+        <button className="setImageURL" aria-label="setImage button" onClick={() => setImageURL(imageURL)}>
           Set Image URL
         </button>
 
-        <AddImage imageUrl={imageURL} boardRef={boardRef} props={props} />
+        <AddImage aria-label="addImage button" imageUrl={imageURL} boardRef={boardRef} props={props} />
       </div>
       <div className="colorPicker">
         <Colorful

@@ -1,65 +1,64 @@
 import React, { useRef } from "react";
 import { render, fireEvent } from "@testing-library/react";
 import Whiteboard from "../components/board";
-import { FrameData } from "../components/frameData";
+import { Action, FrameData } from "../components/frameData";
 
 import { drawAction, drawLine } from "../components/board";
-import { convertToFrameDataList, } from "../components/frameData"
+import {
+  convertToFrameDataList,
+  createImageDataFromActionData,
+} from "../components/frameData";
 
 let context: CanvasRenderingContext2D | undefined;
-let boardRef: React.RefObject<HTMLCanvasElement> | null = null;
 let canvas: HTMLCanvasElement;
 
 beforeAll(() => {
-  const canvas = document.createElement("canvas");
-  const boardRef = useRef<HTMLCanvasElement | null>(null);
-  canvas.width = 100;
-  canvas.height = 100;
-  document.body.appendChild(canvas);
+  let mockedFrames: FrameData[] = [];
 
-  const context = canvas.getContext("2d");
-
-  console.log("beforeAll");
-
+  const frame1Actions: Action[] = [
+    {
+      opacity: 1.0,
+      color: "#000000",
+      radius: 5,
+      pos: [],
+    },
+  ];
+  const frame1: FrameData = {
+    actions: frame1Actions,
+    image: createMockImg(),
+    frameNum: 1,
+  };
 });
 
-// test("can draw a line", () => {
-//   if (context) {
-//     const result = drawLine(boardRef, 10, 10, 90, 90, "#FF0000", 5, 1);
-//     expect(result).toEqual(context);
-//   }
-// }
-// );
+afterAll(() => {
+  document.body.removeChild(canvas);
+});
 
 describe("Drawing functions", () => {
-  describe("drawLine", () => {
-    it("should draw a line with given parameters", () => {
+  it("should draw a line with given parameters", () => {
+    const boardRef = useRef<HTMLCanvasElement | null>(null);
 
-      if (context) {
-        const result = drawLine(boardRef, 10, 10, 90, 90, "#FF0000", 5, 1);
+    render(<Whiteboard boardRef={boardRef} />);
 
-        expect(result).toEqual(context);
+    if (context) {
+      const result = drawLine(boardRef, 10, 10, 90, 90, "#FF0000", 5, 1);
 
-        const imageData = context.getImageData(
-          0,
-          0,
-          canvas.width,
-          canvas.height
-        );
-        const pixel = imageData.data;
+      expect(result).toEqual(context);
 
-        // Check the first and last pixel of the line to see if it's drawn correctly
-        expect(pixel[0]).toBe(255);
-        expect(pixel[1]).toBe(0);
-        expect(pixel[2]).toBe(0);
-        expect(pixel[3]).toBe(255);
+      const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+      const pixel = imageData.data;
 
-        expect(pixel[pixel.length - 4]).toBe(255);
-        expect(pixel[pixel.length - 3]).toBe(0);
-        expect(pixel[pixel.length - 2]).toBe(0);
-        expect(pixel[pixel.length - 1]).toBe(255);
-      }
-    });
+      // Check the first and last pixel of the line to see if it's drawn correctly
+      expect(pixel[0]).toBe(255);
+      expect(pixel[1]).toBe(0);
+      expect(pixel[2]).toBe(0);
+      expect(pixel[3]).toBe(255);
+
+      expect(pixel[pixel.length - 4]).toBe(255);
+      expect(pixel[pixel.length - 3]).toBe(0);
+      expect(pixel[pixel.length - 2]).toBe(0);
+      expect(pixel[pixel.length - 1]).toBe(255);
+    }
   });
 });
 
