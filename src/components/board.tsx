@@ -180,6 +180,13 @@ export default function Whiteboard(props: WhiteboardProps) {
     }
     currentActionPositions = [];
     props.displayedFrame.actions.push(addedAction);
+    if (boardRef != null && boardRef.current != null) {
+      const context: undefined | CanvasRenderingContext2D | null =
+        boardRef.current.getContext("2d");
+      if (context instanceof CanvasRenderingContext2D) {
+        const da = context.getImageData(0, 0, 800, 600)
+      }
+    }
   }
 
   function clearCanvas() {
