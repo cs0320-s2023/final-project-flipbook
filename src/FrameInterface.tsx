@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import Whiteboard from "./board";
 import Thumbnail from "./Thumbnail";
 import { Action, FrameData } from "./frameData";
@@ -39,6 +39,7 @@ export default function FrameInterface(props: FrameInterfaceProps) {
   const handleChange = () => {
     setChecked(!traceChecked);
   };
+  const boardRef = useRef<HTMLCanvasElement | null>(null);
 
   const handleAddThumbnail = () => {
     const newFrameNum = frameArray.length + 1;
@@ -48,6 +49,7 @@ export default function FrameInterface(props: FrameInterfaceProps) {
       image: createBlankImage(),
       frameNum: newFrameNum,
     };
+    setCurrentFrame(newFrameNum - 1);
     const traceFrame: FrameData = {
       actions: structuredClone(frameArray[frameArray.length - 1].actions),
       image: createBlankImage(),
@@ -55,6 +57,13 @@ export default function FrameInterface(props: FrameInterfaceProps) {
     };
     if (traceChecked) {
       setFrameArray((prevFrames) => [...prevFrames, traceFrame]);
+      if (boardRef != null && boardRef.current != null) {
+        const ctx: undefined | CanvasRenderingContext2D | null =
+          boardRef.current.getContext("2d");
+        if (ctx instanceof CanvasRenderingContext2D) {
+          ctx.globalAlpha = 0.2;
+        }
+      }
     } else {
       setFrameArray((prevFrames) => [...prevFrames, newFrame]);
     }
