@@ -5,7 +5,7 @@ export interface FrameData {
 }
 
 export interface Action {
-  // opacity: number;
+  opacity: number;
   color: string;
   radius: number;
   pos: number[][];

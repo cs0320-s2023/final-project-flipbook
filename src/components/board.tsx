@@ -109,7 +109,8 @@ export default function Whiteboard(props: WhiteboardProps) {
         e.nativeEvent.offsetX,
         e.nativeEvent.offsetY,
         currentColor,
-        currentWidth
+        currentWidth,
+        1.0
       );
       currentActionPositions.push([
         current.x,
@@ -162,10 +163,12 @@ export default function Whiteboard(props: WhiteboardProps) {
         e.nativeEvent.offsetX,
         e.nativeEvent.offsetY,
         currentColor,
-        currentWidth
+        currentWidth,
+        1.0
       );
     }
     let addedAction: Action = {
+      opacity: 1.0,
       color: currentColor,
       radius: currentWidth,
       pos: currentActionPositions,
@@ -232,12 +235,14 @@ export default function Whiteboard(props: WhiteboardProps) {
     x2: number,
     y2: number,
     color: string,
-    width: number
+    width: number,
+    opacity: number
   ): CanvasRenderingContext2D | undefined | null {
     if (boardRef != null && boardRef.current != null) {
       const context: undefined | CanvasRenderingContext2D | null =
         boardRef.current.getContext("2d");
       if (context instanceof CanvasRenderingContext2D) {
+        context.globalAlpha = opacity
         context.beginPath();
         context.moveTo(x1, y1);
         context.lineTo(x2, y2);
@@ -246,6 +251,7 @@ export default function Whiteboard(props: WhiteboardProps) {
         context.lineWidth = width;
         context.stroke();
         context.closePath();
+        context.globalAlpha = 1.0
         return context;
       }
     }
@@ -271,7 +277,8 @@ export default function Whiteboard(props: WhiteboardProps) {
         a.pos[i][2],
         a.pos[i][3],
         a.color,
-        a.radius
+        a.radius,
+        a.opacity
       );
       // return (
       //   a.pos[i][0], a.pos[i][1], a.pos[i][2], a.pos[i][3], a.color, a.radius

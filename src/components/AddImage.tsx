@@ -16,12 +16,14 @@ export const AddImage: React.FC<AddImageProps> = ({ imageUrl, boardRef, props,  
     x2: number,
     y2: number,
     color: string,
-    width: number
+    width: number,
+    opacity: number
   ): void {
     if (boardRef != null && boardRef.current != null) {
       const context: undefined | CanvasRenderingContext2D | null =
         boardRef.current.getContext("2d");
       if (context instanceof CanvasRenderingContext2D) {
+        context.globalAlpha = opacity
         context.beginPath();
         context.moveTo(x1, y1);
         context.lineTo(x2, y2);
@@ -30,6 +32,7 @@ export const AddImage: React.FC<AddImageProps> = ({ imageUrl, boardRef, props,  
         context.lineWidth = width;
         context.stroke();
         context.closePath();
+        context.globalAlpha = 1.0
       }
     }
   }
@@ -43,7 +46,8 @@ export const AddImage: React.FC<AddImageProps> = ({ imageUrl, boardRef, props,  
         a.pos[i][2],
         a.pos[i][3],
         a.color,
-        a.radius
+        a.radius,
+        a.opacity
       );
     }
   }
