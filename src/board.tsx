@@ -43,6 +43,7 @@ export default function Whiteboard(props: WhiteboardProps) {
     props.displayedFrame.actions.forEach((action) => {
       drawAction(action);
     });
+    console.log("disa",props.displayedFrame.actions);
     // clearAndPopulateCanvas("https://i.ibb.co/djvJMbM/8045-ADB9-EC9-F-4-D56-A1-E5-1-DA942-DC0031.jpg")
     document.addEventListener("keydown", handleKeyDown); // Add event listener
     return () => {
@@ -261,7 +262,9 @@ export default function Whiteboard(props: WhiteboardProps) {
   ]);
 
   function drawAction(a: Action) {
+    console.log('length',a.pos.length);
     for (var i = 0; i < a.pos.length; i++) {
+
       drawLine(
         a.pos[i][0],
         a.pos[i][1],
@@ -270,9 +273,9 @@ export default function Whiteboard(props: WhiteboardProps) {
         a.color,
         a.radius
       );
-      return (
-        a.pos[i][0], a.pos[i][1], a.pos[i][2], a.pos[i][3], a.color, a.radius
-      );
+      // return (
+      //   a.pos[i][0], a.pos[i][1], a.pos[i][2], a.pos[i][3], a.color, a.radius
+      // );
     }
   }
 

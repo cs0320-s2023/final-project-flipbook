@@ -181,9 +181,9 @@ export default function FrameInterface(props: FrameInterfaceProps) {
       <div className="Save">
         <Save frames={removeImageData(frameArray)}></Save>
       </div>
-      <div className="Export">
+      {/* <div className="Export">
         <Export frames={frameArray}></Export>
-      </div>
+      </div> */}
     </>
   );
 }
