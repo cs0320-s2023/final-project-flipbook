@@ -38,6 +38,7 @@ let mockedFrames: FrameData[] = [];
 
 const frame1Actions: Action[] = [
   {
+    opacity: 1.0,
     color: "#000000",
     radius: 5,
     pos: [
@@ -53,6 +54,7 @@ const frame1: FrameData = {
 
 const frame2Actions: Action[] = [
   {
+    opacity: 1.0,
     color: "#000000",
     radius: 5,
     pos: [
@@ -74,6 +76,7 @@ export function createMockFrame1(): FrameData {
 
   const frame1Actions: Action[] = [
     {
+      opacity: 1.0,
       color: "#000000",
       radius: 5,
       pos: [
@@ -92,6 +95,7 @@ export function createMockFrame1(): FrameData {
 export function createMockFrame2(): FrameData {
   const frame2Actions: Action[] = [
     {
+      opacity: 1.0,
       color: "#000000",
       radius: 5,
       pos: [

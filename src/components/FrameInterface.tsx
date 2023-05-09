@@ -58,19 +58,14 @@ export default function FrameInterface(props: FrameInterfaceProps) {
     };
     setCurrentFrame(newFrameNum - 1);
     const traceFrame: FrameData = {
-      actions: structuredClone(frameArray[frameArray.length - 1].actions),
+      actions: structuredClone(frameArray[frameArray.length - 1].actions).map(action => ({
+        ...action,
+        opacity: 0.3})),
       image: createBlankImage(),
       frameNum: newFrameNum,
     };
     if (traceChecked) {
       setFrameArray((prevFrames) => [...prevFrames, traceFrame]);
-      if (boardRef != null && boardRef.current != null) {
-        const ctx: undefined | CanvasRenderingContext2D | null =
-          boardRef.current.getContext("2d");
-        if (ctx instanceof CanvasRenderingContext2D) {
-          ctx.globalAlpha = 0.2;
-        }
-      }
     } else {
       setFrameArray((prevFrames) => [...prevFrames, newFrame]);
     }
