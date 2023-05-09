@@ -1,15 +1,18 @@
-import React, { useEffect } from 'react';
-import { WhiteboardProps } from './board';
-import { Action } from './frameData';
+import React, { useEffect } from "react";
+import { WhiteboardProps } from "./board";
+import { Action } from "./frameData";
 
 interface AddImageProps {
   imageUrl: string;
   boardRef: React.MutableRefObject<HTMLCanvasElement | null>;
-  props: WhiteboardProps
+  props: WhiteboardProps;
 }
 
-export const AddImage: React.FC<AddImageProps> = ({ imageUrl, boardRef, props,  }) => {
-
+export const AddImage: React.FC<AddImageProps> = ({
+  imageUrl,
+  boardRef,
+  props,
+}) => {
   function drawLine(
     x1: number,
     y1: number,
@@ -23,7 +26,7 @@ export const AddImage: React.FC<AddImageProps> = ({ imageUrl, boardRef, props,  
       const context: undefined | CanvasRenderingContext2D | null =
         boardRef.current.getContext("2d");
       if (context instanceof CanvasRenderingContext2D) {
-        context.globalAlpha = opacity
+        context.globalAlpha = opacity;
         context.beginPath();
         context.moveTo(x1, y1);
         context.lineTo(x2, y2);
@@ -32,7 +35,7 @@ export const AddImage: React.FC<AddImageProps> = ({ imageUrl, boardRef, props,  
         context.lineWidth = width;
         context.stroke();
         context.closePath();
-        context.globalAlpha = 1.0
+        context.globalAlpha = 1.0;
       }
     }
   }
@@ -52,36 +55,34 @@ export const AddImage: React.FC<AddImageProps> = ({ imageUrl, boardRef, props,  
     }
   }
 
-  
   function addImage() {
     if (boardRef != null && boardRef.current != null) {
       const context: undefined | CanvasRenderingContext2D | null =
         boardRef.current.getContext("2d");
       if (context instanceof CanvasRenderingContext2D) {
         const image = new Image();
-  
+
         image.src = imageUrl;
-  
+
         // Once the image has loaded, draw it on the canvas
 
-        //now need to choose opacity and choose image 
+        //now need to choose opacity and choose image
         image.onload = () => {
-          context.clearRect(0, 0, 800, 600);
-          context.globalAlpha = 0.5
-          context.drawImage(image, 0, 0, 800, 600);
-          context.globalAlpha = 1.0
-          props.displayedFrame.actions.forEach((action) => {
-            drawAction(action);
-          });
+          try {
+            context.clearRect(0, 0, 800, 600);
+            context.globalAlpha = 0.5;
+            context.drawImage(image, 0, 0, 800, 600);
+            context.globalAlpha = 1.0;
+            props.displayedFrame.actions.forEach((action) => {
+              drawAction(action);
+            });
+          } catch (error) {
+            console.error("An error occurred while loading the image:", error);
+          }
         };
       }
     }
   }
-  
-  
-    
-  return (
-    <button onClick={addImage}>Add Image</button>
-  );
-  
-}
+
+  return <button onClick={addImage}>Add Image</button>;
+};
