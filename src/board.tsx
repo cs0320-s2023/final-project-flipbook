@@ -4,6 +4,7 @@ import { HsvaColor, ColorResult } from "@uiw/color-convert";
 import { FrameData, Action } from "./frameData";
 import Colorful from "@uiw/react-color-colorful";
 import mockedFrames, { createMockFrame1, createMockFrame2 } from "./frameMocks";
+import { AddImage } from "./AddImage";
 
 interface DrawState {
   color: string;
@@ -42,6 +43,7 @@ export default function Whiteboard(props: WhiteboardProps) {
     props.displayedFrame.actions.forEach((action) => {
       drawAction(action);
     });
+    // clearAndPopulateCanvas("https://i.ibb.co/djvJMbM/8045-ADB9-EC9-F-4-D56-A1-E5-1-DA942-DC0031.jpg")
     document.addEventListener("keydown", handleKeyDown); // Add event listener
     return () => {
       document.removeEventListener("keydown", handleKeyDown); // Remove event listener on cleanup
@@ -50,11 +52,12 @@ export default function Whiteboard(props: WhiteboardProps) {
 
   //keyboard shortcuts
   function handleKeyDown(event: KeyboardEvent) {
+    //TODO change the undo to be attatched to the frame interface
     //shortcut for undo --> "Command + Z"
     if (event.key === "z" && (event.metaKey || event.ctrlKey)) {
       // Check for "Command + Z" key combination
       console.log("Undo");
-      undo();
+      // undo();
     }
     //shortcut for zoom in --> "Command + +" or "Command + ="
     else if (
@@ -265,6 +268,10 @@ export default function Whiteboard(props: WhiteboardProps) {
     setCurrentWidth(parsedValue);
   }
 
+  const [imageURL, setImageURL] = useState<string>(
+    "https://i.ibb.co/djvJMbM/8045-ADB9-EC9-F-4-D56-A1-E5-1-DA942-DC0031.jpg"
+  );
+
   return (
     <div className="whiteboard">
       <canvas
@@ -283,8 +290,21 @@ export default function Whiteboard(props: WhiteboardProps) {
         onMouseLeave={(e) => mouseUp(e)}
         ref={boardRef}
       />
-      <button onClick={() => undo()}>Undo</button>
+      {/* <button className="undoButton" onClick={() => undo()}>
+        Undo
+      </button> */}
+      <div className="imageHandlers">
+        <input
+          type="text"
+          value={imageURL}
+          onChange={(e) => setImageURL(e.target.value)}
+        />
+        <button className="setImageURL" onClick={() => setImageURL(imageURL)}>
+          Set Image URL
+        </button>
 
+        <AddImage imageUrl={imageURL} boardRef={boardRef} props={props} />
+      </div>
       <div className="colorPicker">
         <Colorful
           className="colorful"

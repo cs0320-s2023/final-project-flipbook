@@ -3,7 +3,8 @@
 }
 
 .frameThumbnail {
-  margin: 10px;
+  margin-top: 20px;
+  margin-right: 15px;
   cursor: pointer;
   border: black 2px solid;
   display: flex;
@@ -11,8 +12,24 @@
 }
 
 .addFrameButton {
-  margin: 10px;
+  margin-top: 10px;
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.removeFrameButton {
+  margin-top: 10px;
+  margin-left: 10px;
+  margin-right: 15px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonContainer {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -26,6 +43,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: flex-start;
+  justify-content: center;
 }
 
 .frameContainer::-webkit-scrollbar {
@@ -43,4 +61,21 @@
 
 .frameContainer::-webkit-scrollbar-track {
   background-color: #eee;
+}
+
+.traceBox {
+  margin-top: 10px;
+  margin-right: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.undoButton {
+  margin-top: 600px;
+  margin-left: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
