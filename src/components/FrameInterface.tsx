@@ -11,8 +11,8 @@ export interface FrameInterfaceProps {
 }
 
 function createBlankImage() {
-  const width = 100; // width of the image
-  const height = 50; // height of the image
+  const width = 80; // width of the image
+  const height = 60; // height of the image
   const channels = 4; // number of channels (R, G, B, Alpha)
 
   // Create an array to hold the pixel data
@@ -33,15 +33,12 @@ function createBlankImage() {
 }
 
 export default function FrameInterface(props: FrameInterfaceProps) {
-  
   const [frameArray, setFrameArray] = useState<FrameData[]>(props.frames);
   const [traceChecked, setChecked] = React.useState(false);
 
-
-  useEffect(()=> {
+  useEffect(() => {
     setFrameArray(props.frames);
-  },props.frames)
-
+  }, props.frames);
 
   const handleChange = () => {
     setChecked(!traceChecked);
@@ -102,18 +99,18 @@ export default function FrameInterface(props: FrameInterfaceProps) {
 
   const handleThumbnailClick = (frame: FrameData) => {
     setCurrentFrame(findFrameIndex(frame.frameNum));
-    console.log("clicked",frame);
+    console.log("clicked", frame);
   };
 
   const [currentFrame, setCurrentFrame] = useState<number>(0);
 
-  function removeImageData(framesInput: FrameData[]):FrameActionData[] {
-    let res: FrameActionData[] =  [];
-    framesInput.forEach((fd)=> {
+  function removeImageData(framesInput: FrameData[]): FrameActionData[] {
+    let res: FrameActionData[] = [];
+    framesInput.forEach((fd) => {
       res.push({
-        frameNum:fd.frameNum,
-        actions:fd.actions
-      })
+        frameNum: fd.frameNum,
+        actions: fd.actions,
+      });
     });
     return res;
   }
