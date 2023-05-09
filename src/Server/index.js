@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const user = require("./models/users.js")
-const frame = require("./models/frame.js")
+const frameM = require("./models/frame.js")
 const action = require("./models/action.js")
 const express = require('express')
 const fs = require('fs');
@@ -22,30 +22,44 @@ async function main() {
 
   app.post('/data', async (req, res) => {
     try {
-      console.log(req.body)
-      // console.log(res)
-      // console.log(req)
-      // console.log(res)
-      // const { name, age } = req.body;
-      // const newData = new MyDataModel({ name, age });
-      // await newData.save();
-      // res.status(201).json({ message: 'Data saved successfully' });
+      console.log('rqp',req.query.pid);
+      saveFrames(req.body.frames).then((um)=>{
+        user.model.findOneAndUpdate(
+          { pid: req.query.pid },
+          { frameData: um.frameData }
+        );
+      });
+      res.status(201).json({ message: 'Data saved successfully' });
 
-      // async function saveFrames() {  
-      //   const frames = [];
-      //   props.frames.forEach(function (frame) {
-      //     const modelledFrame = new frameM.model(frame);
-      //     frames.push(modelledFrame);
-      //   });
-      //   const toSave = new user.model({
-      //     title: "to save",
-      //     pid: "1234567",
-      //     frameData: frames,
-      //   });
-      //   toSave.save()
+      async function saveFrames(inputFrames) {  
+        const modelledFrames = [];
+        inputFrames.forEach(function (frame) {
+          const modelledFrame = new frameM.model(frame);
+          modelledFrames.push(modelledFrame);
+        });
+        const toSave = new user.model({
+          title: "to savexx",
+          pid: req.query.pid,
+          frameData: modelledFrames,
+        });
+        return toSave;
+      }
     } catch (error) {
       console.error('Error saving data:', error);
       // res.status(500).json({ error: 'An error occurred while saving data' });
+    }
+  });
+
+  app.get('/data', async (req, res) => {
+    try {
+      const userData = await user.model.findOne({ pid: req.query.pid });
+      if (!userData) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+      res.status(200).json(userData);
+    } catch (error) {
+      console.error('Error retrieving data:', error);
+      res.status(500).json({ error: 'An error occurred while retrieving data' });
     }
   });
   

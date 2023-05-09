@@ -19,7 +19,7 @@ function createMockImg(): ImageData {
     // console.log('working ',i);
   }
 
-  console.log(imageData);
+  // console.log(imageData);
   // Create a new ImageData object using the pixel data
   const mockedImageData = new ImageData(imageData, width, height);
   return mockedImageData;

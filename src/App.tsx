@@ -1,14 +1,9 @@
-import logo from './logo.svg';
-import Whiteboard from './board';
-import FrameInterface from './FrameInterface';
-import mockedFrames, { createMockFrame1, createMockFrame2 } from './frameMocks';
+
+import { BrowserRouter } from 'react-router-dom';
+import Flipbook from './Flipbook';
 
 function App() {
-  return (
-    <div className="App">
-      <FrameInterface frames={[createMockFrame1(),createMockFrame2()]}/>
-    </div>
-  );
+  return (<BrowserRouter><Flipbook></Flipbook></BrowserRouter>);
 }
 
 export default App;

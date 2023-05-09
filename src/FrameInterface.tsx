@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Whiteboard from "./board";
 import Thumbnail from "./Thumbnail";
-import { Action, FrameData } from "./frameData";
+import { Action, FrameActionData, FrameData } from "./frameData";
 import "./styles/FrameInterface.css";
 import { createMockFramesJSON } from "./frameMocks";
 import Save from "./Save.jsx";
@@ -33,8 +33,15 @@ function createBlankImage() {
 }
 
 export default function FrameInterface(props: FrameInterfaceProps) {
+  
   const [frameArray, setFrameArray] = useState<FrameData[]>(props.frames);
   const [traceChecked, setChecked] = React.useState(false);
+
+
+  useEffect(()=> {
+    setFrameArray(props.frames);
+  },props.frames)
+
 
   const handleChange = () => {
     setChecked(!traceChecked);
@@ -78,12 +85,22 @@ export default function FrameInterface(props: FrameInterfaceProps) {
   }
 
   const handleThumbnailClick = (frame: FrameData) => {
-    console.log("hi");
-    console.log(frame.actions);
     setCurrentFrame(findFrameIndex(frame.frameNum));
+    console.log("clicked",frame);
   };
 
   const [currentFrame, setCurrentFrame] = useState<number>(0);
+
+  function removeImageData(framesInput: FrameData[]):FrameActionData[] {
+    let res: FrameActionData[] =  [];
+    framesInput.forEach((fd)=> {
+      res.push({
+        frameNum:fd.frameNum,
+        actions:fd.actions
+      })
+    });
+    return res;
+  }
 
   return (
     <>
@@ -132,7 +149,7 @@ export default function FrameInterface(props: FrameInterfaceProps) {
         </div>
       </div>
       <div className="Save">
-        <Save frames={frameArray}></Save>
+        <Save frames={removeImageData(frameArray)}></Save>
       </div>
     </>
   );

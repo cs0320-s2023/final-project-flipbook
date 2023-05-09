@@ -4,7 +4,7 @@ import axios from 'axios';
 export default function Save(props) {
 
   async function saveData(){
-    const url = 'http://localhost:3001/data'; // Replace with your API endpoint URL
+    const url = 'http://localhost:3001/data?pid=12345678'; // Replace with your API endpoint URL
 
     // const data = {
     //   key1: 'value1',
@@ -31,6 +31,26 @@ export default function Save(props) {
       });
   }
 
+  async function getData(pid) {
+    const url = `http://localhost:3001/data?pid=${pid}`; // Replace with your API endpoint URL
+    
+    const options = {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json' // Set the appropriate content type for your API
+      }
+    };
+    
+    try {
+      const response = await fetch(url, options);
+      const data = await response.json();
+      console.log(data);
+      return data;
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  }
+
 
   // async function saveData() {
   //   const data = "hello my name ben"
@@ -43,7 +63,9 @@ export default function Save(props) {
   // };
   
     
-  return (
+  return (<>
     <button onClick={saveData}>Save</button>
+    <button onClick={()=>getData('12345678')}>Get</button>
+    </>
   );
 }

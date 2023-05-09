@@ -36,6 +36,7 @@ export default function Whiteboard(props: WhiteboardProps) {
 
   useEffect(() => {
     clearCanvas();
+    console.log('display frame',props.displayedFrame);
     props.displayedFrame.actions.forEach((action) => {
       drawAction(action);
     });
@@ -248,7 +249,6 @@ export default function Whiteboard(props: WhiteboardProps) {
 
   function drawAction(a: Action) {
     for (var i = 0; i < a.pos.length; i++) {
-      console.log(a.radius);
       drawLine(
         a.pos[i][0],
         a.pos[i][1],
