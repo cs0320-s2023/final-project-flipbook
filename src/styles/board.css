@@ -87,3 +87,10 @@
   display: flex;
   justify-content: center;
 }
+
+.undoButton {
+  margin-top: 10px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+}

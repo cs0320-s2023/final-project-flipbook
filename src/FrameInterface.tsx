@@ -70,6 +70,18 @@ export default function FrameInterface(props: FrameInterfaceProps) {
     }
   };
 
+  //handles the undo action --> should we add a redo?
+  const handleUndoAction = () => {
+    setFrameArray((prevFrames) => {
+      const newFrameArray = [...prevFrames]; // Create a copy of prevFrames
+      const currentFrameData = newFrameArray[currentFrame];
+      const updatedActions = currentFrameData.actions.slice(0, -1); // Remove the last action
+      const updatedFrameData = { ...currentFrameData, actions: updatedActions };
+      newFrameArray[currentFrame] = updatedFrameData;
+      return newFrameArray;
+    });
+  };
+
   const handleRemoveThumbnail = () => {
     const newFrameArray = frameArray.filter(
       (frame) => frame.frameNum !== frameArray.length
@@ -139,6 +151,9 @@ export default function FrameInterface(props: FrameInterfaceProps) {
               setCurrentFrame(findFrameIndex(frameNum))
             }
           />
+        </div>
+        <div className="undoButton">
+          <button onClick={handleUndoAction}>Undo</button>
         </div>
       </div>
       <div className="Save">

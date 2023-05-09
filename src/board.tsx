@@ -48,11 +48,12 @@ export default function Whiteboard(props: WhiteboardProps) {
 
   //keyboard shortcuts
   function handleKeyDown(event: KeyboardEvent) {
+    //TODO change the undo to be attatched to the frame interface
     //shortcut for undo --> "Command + Z"
     if (event.key === "z" && (event.metaKey || event.ctrlKey)) {
       // Check for "Command + Z" key combination
       console.log("Undo");
-      undo();
+      // undo();
     }
     //shortcut for zoom in --> "Command + +" or "Command + ="
     else if (
@@ -285,9 +286,9 @@ export default function Whiteboard(props: WhiteboardProps) {
         onMouseLeave={(e) => mouseUp(e)}
         ref={boardRef}
       />
-      <button className="undoButton" onClick={() => undo()}>
+      {/* <button className="undoButton" onClick={() => undo()}>
         Undo
-      </button>
+      </button> */}
       <div className="imageHandlers">
         <input
           type="text"
