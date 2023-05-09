@@ -262,7 +262,6 @@ export default function Whiteboard(props: WhiteboardProps) {
 
   function drawAction(a: Action) {
     for (var i = 0; i < a.pos.length; i++) {
-      console.log(a.radius);
       drawLine(
         a.pos[i][0],
         a.pos[i][1],

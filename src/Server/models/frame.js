@@ -6,14 +6,10 @@ const frameDataSchema = new mongoose.Schema({
     type: [action.schema],
     required: true,
   },
-  image: {
-    type: Object,
-    required: true,
-  },
   frameNum: {
     type: Number,
     required: true,
-  },
+  }
 });
 
 const frameModel = mongoose.model("frame", frameDataSchema);

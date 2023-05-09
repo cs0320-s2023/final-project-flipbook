@@ -17,7 +17,7 @@ const Thumbnail: React.FC<ThumbnailProps> = (props: ThumbnailProps) => {
     if (canvasRef.current && props.data.image) {
       ctx?.putImageData(props.data.image, 0, 0, 0, 0, 80, 60);
     }
-  }, [props.data.image, canvasRef.current]);
+  }, [props.data, canvasRef.current]);
 
   return (
     <canvas
