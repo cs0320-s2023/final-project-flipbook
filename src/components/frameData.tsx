@@ -31,8 +31,8 @@ export function convertToFrameDataList(fas:FrameActionData[]) {
 
 function createImageDataFromActionData(fa:FrameActionData): ImageData {
   const canvas = document.createElement('canvas');
-  canvas.width = 80;
-  canvas.height = 60;
+  canvas.width = 800;
+  canvas.height = 600;
   const context = canvas.getContext('2d');
   if (!context) throw new Error('Could not get canvas context');
   fa.actions.forEach((a)=>drawAction(a,context))

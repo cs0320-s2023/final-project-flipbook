@@ -12,8 +12,8 @@ export interface FrameInterfaceProps {
 }
 
 function createBlankImage() {
-  const width = 80; // width of the image
-  const height = 60; // height of the image
+  const width = 800; // width of the image
+  const height = 600; // height of the image
   const channels = 4; // number of channels (R, G, B, Alpha)
 
   // Create an array to hold the pixel data

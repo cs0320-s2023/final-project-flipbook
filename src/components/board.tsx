@@ -184,7 +184,7 @@ export default function Whiteboard(props: WhiteboardProps) {
       const context: undefined | CanvasRenderingContext2D | null =
         boardRef.current.getContext("2d");
       if (context instanceof CanvasRenderingContext2D) {
-        const da = context.getImageData(0, 0, 800, 600)
+        props.displayedFrame.image = context.getImageData(0, 0, 800, 600)
       }
     }
   }

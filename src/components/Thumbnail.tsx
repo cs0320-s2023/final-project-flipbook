@@ -13,11 +13,11 @@ const Thumbnail: React.FC<ThumbnailProps> = (props: ThumbnailProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const ctx = canvasRef.current?.getContext("2d");
 
-  useEffect(() => {
-    if (canvasRef.current && props.data.image) {
-      ctx?.putImageData(props.data.image, 0, 0, 0, 0, 80, 60);
-    }
-  }, [props.data, canvasRef.current]);
+  // useEffect(() => {
+  //   if (canvasRef.current && props.data.image) {
+  //     ctx?.putImageData(props.data.image, 0, 0, 0, 0, 80, 60);
+  //   }
+  // }, [props.data, canvasRef.current]);
 
   return (
     <canvas
