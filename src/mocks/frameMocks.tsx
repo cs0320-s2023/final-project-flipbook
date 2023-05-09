@@ -1,4 +1,4 @@
-import { FrameData, Action } from "./frameData";
+import { FrameData, Action } from "../components/frameData";
 
 const width = 100; // width of the image
 const height = 50; // height of the image
@@ -27,14 +27,38 @@ function createMockImg(): ImageData {
 
 let mockedFrames: FrameData[] = [];
 
-const frame1Actions: Action[] = [{}, {}];
+const frame1Actions: Action[] = [{
+  color: "#000000",
+  radius: 5,
+  pos: [
+    
+  ],
+}, {
+  color: "#000000",
+  radius: 5,
+  pos: [
+    
+  ],
+}];
 const frame1: FrameData = {
   actions: frame1Actions,
   image: createMockImg(),
   frameNum: 1,
 };
 
-const frame2Actions: Action[] = [{}, {}];
+const frame2Actions: Action[] = [{
+  color: "#000000",
+  radius: 5,
+  pos: [
+    
+  ],
+},{
+  color: "#000000",
+  radius: 5,
+  pos: [
+    
+  ],
+}];
 const frame2: FrameData = {
   actions: frame2Actions,
   image: createMockImg(),
