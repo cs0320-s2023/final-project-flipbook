@@ -1,9 +1,9 @@
 import React, { useState, useRef, useEffect } from "react";
-import "./styles/board.css";
+import "../styles/board.css";
 import { HsvaColor, ColorResult } from "@uiw/color-convert";
 import { FrameData, Action } from "./frameData";
 import Colorful from "@uiw/react-color-colorful";
-import mockedFrames, { createMockFrame1, createMockFrame2 } from "./frameMocks";
+import mockedFrames, { createMockFrame1, createMockFrame2 } from "../mocks/frameMocks";
 import { AddImage } from "./AddImage";
 
 interface DrawState {

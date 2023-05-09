@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import Whiteboard from './board';
 import FrameInterface from './FrameInterface';
-import mockedFrames, { createMockFrame1, createMockFrame2 } from './frameMocks';
+import mockedFrames, { createMockFrame1, createMockFrame2 } from '../mocks/frameMocks';
 import { BrowserRouter, useSearchParams } from "react-router-dom";
 import { convertToFrameDataList } from './frameData';
 import { FrameActionData, FrameData } from './frameData';

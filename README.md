@@ -1,80 +1,44 @@
-# Getting Started with Create React App
+# Flipbook
+## Contributors
+Developed by `lukegriley`, `bmaizes`, `oanders6`, `a0ng`, `dylansaunders23`
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Github Repo: https://github.com/cs0320-s2023/final-project-flipbook
 
-## Available Scripts
+## Project Description
+Project spec: https://docs.google.com/document/d/1Xc5Jg6texvkdbBEIs02idzjTLh9GLVPpc13pwhFhpEE/edit?usp=sharing
 
-In the project directory, you can run:
 
-### `yarn start`
+## Design Choices
+**Frontend:** Our frontend was built using Typescript and React. Flipbook, our main component generates a FrameInterface consisting of a Google Slides-style UI of thumbnails for each frame, along with a main display for the currently selected frame. We heavily relied on React state variables to keep track of drawing data across all components and update them accordingly. This consisted of a large frameArray data structure containing a list of our own FrameData objects, which could be passed into Thumbnail and Whiteboard components.
+ * Drawing functionality: We decided to use Javascript's CanvasRenderingContext2D object to draw on HTML canvas. The logic for this utilized React state variables, Typescript functions, and HTML input events. For color picking, we decided to use a third party component to allow users to select from a full range of colors
+ * Drawing data: Despite being a visual tool, we decided to store our drawing data not as images, but in a numerical interface that we called Actions. Almost whenever we needed to replicate an image, we would simply pass these Actions to a function to be drawn on a canvas. This greatly reduced the size of our data, along with allowing for a more dynamic drawing functionality such as undo. 
+ * Tracing functionality: Key to animation is the ability to replicate the previous frame with only minor, gradual changes to specific objects. Our application allows for the previous frame to be displaced at low opacity for the user to trace. Images can also be uploaded via URL to be traced. 
+ **Backend:** Our backend relies on MongoDB to store our drawing data. As mentioned above, our numerical representation of drawing data greatly minimizes the size of each frame. Along with MongoDB, our app requires a express.js server to be run locally along with the frontend application to act as an intermediary between our Typescript based application and mongoose-based backend. While we do see this as a pitfall for what could have been a seamless front/backend user experience, the clash between our Typescript data and mongoose data models created unforeseen complications. 
+ * Data transfer: We convert our drawing data, stored as FrameActionData (FrameData without any ImageData) to a json that is then sent to our express.js API server on the /data endpoint. This is then passed via mongoose to MongoDB.  
+ * Data retrieval: If a pid is passed to the frontend url, our API server will search for the corresponding pid in the MongoDB database and load the project data into our frontend.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## File Architecture (contained in /src)
+  * `Server` contains the backend functionality for saving animation projects to a MongoDB database
+    * `mocks` contains mocked FrameData, and User data for testing and early backend development
+    * `index.js` runs the express.js server locally on port :3001. **Although data is ultimately stored on MongoDB, this local server must also be run during use.**
+  * `Frontend` 
+           
+## Tests
+* `backend`
+    * `unitTesting` tests the various commands accessed through qHandle, both individually, and in set sequences to ensure that state works properly
+    * `fuzzTesting` generate random API calls roughly in the form expected by the backend and tests for non-200 result codes to ensure that all errors are handled properly by the API.
 
-### `yarn test`
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## API Endpoints
+* `data` the only api endpoint - for data transfer between client and server
+    * `pid`: a parameter representing a string of random digits, associated with the current project. To access a project already present in the database, the user must simply pass the associated pid in the url. If no pid is given, a blank project template is given and a new pid will be generated upon saving.
+## Errors and Bugs
+TODO
 
-### `yarn build`
+## Accessibility Considerations
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-
-Bugs
-* error where when user scrolls down, the drawing points "detaches" from the cursorq
-
-Accessibility todo
-* zooming in doesn't break the fit of whiteboard
-* keyboard shortcut for adding frame
-* color reading feature, read hexcode?
-Defensive/Error Handling todo
-Unit testing todo
+## Running the Program
+• `Frontend:` under the root directory, run **npm start**
+• `Backend:` under the src/Server directory, in a separate terminal, run **node index.js**

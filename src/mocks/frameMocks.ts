@@ -1,4 +1,4 @@
-import { FrameData, Action } from "./frameData";
+import { FrameData, Action } from "../components/frameData";
 
 const width = 100; // width of the image
 const height = 50; // height of the image

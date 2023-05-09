@@ -1,5 +1,4 @@
-import { createPngFile } from "../export";
-import { FrameData } from "../frameData";
+import { FrameData } from "../components/frameData";
 
 describe("createPngFile", () => {
   it("should return a PNG file from action arrays", async () => {

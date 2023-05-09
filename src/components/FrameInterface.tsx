@@ -2,10 +2,9 @@ import React, { useRef, useEffect, useState } from "react";
 import Whiteboard from "./board";
 import Thumbnail from "./Thumbnail";
 import { Action, FrameActionData, FrameData } from "./frameData";
-import "./styles/FrameInterface.css";
-import { createMockFramesJSON } from "./frameMocks";
+import "../styles/FrameInterface.css";
+import { createMockFramesJSON } from "../mocks/frameMocks";
 import Save from "./Save.jsx";
-import Export from "./export";
 
 export interface FrameInterfaceProps {
   frames: FrameData[];
