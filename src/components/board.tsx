@@ -28,7 +28,7 @@ export interface ColorfulProps
 }
 
 //helpers for Whiteboard
-function drawLine(
+export function drawLine(
   boardRef: React.RefObject<HTMLCanvasElement>,
   x1: number,
   y1: number,
@@ -57,7 +57,7 @@ function drawLine(
   }
 }
 
-function drawAction(boardRef: React.RefObject<HTMLCanvasElement>, a: Action) {
+export function drawAction(boardRef: React.RefObject<HTMLCanvasElement>, a: Action) {
   console.log("length", a.pos.length);
   for (var i = 0; i < a.pos.length; i++) {
     drawLine(
@@ -356,7 +356,7 @@ export default function Whiteboard(props: WhiteboardProps) {
             ))}
           </div>
           <div className="color-text">
-            <span id="currentColor" style={{ color: currentColor }}>
+            <span id="currentColor" style={{ color: "000000" }}>
               {currentColor}
             </span>
           </div>
