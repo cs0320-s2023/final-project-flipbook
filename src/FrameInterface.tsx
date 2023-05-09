@@ -5,6 +5,7 @@ import { Action, FrameData } from "./frameData";
 import "./styles/FrameInterface.css";
 import { createMockFramesJSON } from "./frameMocks";
 import Save from "./Save.jsx";
+import Export from "./export";
 
 export interface FrameInterfaceProps {
   frames: FrameData[];
@@ -67,6 +68,18 @@ export default function FrameInterface(props: FrameInterfaceProps) {
     } else {
       setFrameArray((prevFrames) => [...prevFrames, newFrame]);
     }
+  };
+
+  //handles the undo action --> should we add a redo?
+  const handleUndoAction = () => {
+    setFrameArray((prevFrames) => {
+      const newFrameArray = [...prevFrames]; // Create a copy of prevFrames
+      const currentFrameData = newFrameArray[currentFrame];
+      const updatedActions = currentFrameData.actions.slice(0, -1); // Remove the last action
+      const updatedFrameData = { ...currentFrameData, actions: updatedActions };
+      newFrameArray[currentFrame] = updatedFrameData;
+      return newFrameArray;
+    });
   };
 
   const handleRemoveThumbnail = () => {
@@ -133,15 +146,26 @@ export default function FrameInterface(props: FrameInterfaceProps) {
         </div>
         <div className="whiteboardDisplay">
           <Whiteboard
+            traceFrame={
+              traceChecked
+                ? frameArray[frameArray.length - 1]
+                : frameArray[currentFrame]
+            }
             displayedFrame={frameArray[currentFrame]}
             setCurrentFrame={(frameNum: number) =>
               setCurrentFrame(findFrameIndex(frameNum))
             }
           />
         </div>
+        <div className="undoButton">
+          <button onClick={handleUndoAction}>Undo</button>
+        </div>
       </div>
       <div className="Save">
         <Save frames={frameArray}></Save>
+      </div>
+      <div className="Export">
+        <Export frames={frameArray}></Export>
       </div>
     </>
   );
