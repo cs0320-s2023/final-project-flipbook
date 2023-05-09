@@ -4,7 +4,7 @@ import { HsvaColor, ColorResult } from "@uiw/color-convert";
 import { FrameData, Action } from "./frameData";
 import Colorful from "@uiw/react-color-colorful";
 import mockedFrames, { createMockFrame1, createMockFrame2 } from "./frameMocks";
-import {AddImage} from "./AddImage"
+import { AddImage } from "./AddImage";
 
 interface DrawState {
   color: string;
@@ -13,6 +13,7 @@ interface DrawState {
 }
 
 export interface WhiteboardProps {
+  traceFrame: FrameData;
   displayedFrame: FrameData;
   setCurrentFrame: (n: number) => void;
 }
@@ -36,7 +37,9 @@ export default function Whiteboard(props: WhiteboardProps) {
 
   useEffect(() => {
     clearCanvas();
-    console.log('display frame',props.displayedFrame);
+    props.traceFrame.actions.forEach((action) => {
+      drawAction(action);
+    });
     props.displayedFrame.actions.forEach((action) => {
       drawAction(action);
     });
@@ -49,11 +52,12 @@ export default function Whiteboard(props: WhiteboardProps) {
 
   //keyboard shortcuts
   function handleKeyDown(event: KeyboardEvent) {
+    //TODO change the undo to be attatched to the frame interface
     //shortcut for undo --> "Command + Z"
     if (event.key === "z" && (event.metaKey || event.ctrlKey)) {
       // Check for "Command + Z" key combination
       console.log("Undo");
-      undo();
+      // undo();
     }
     //shortcut for zoom in --> "Command + +" or "Command + ="
     else if (
@@ -88,6 +92,16 @@ export default function Whiteboard(props: WhiteboardProps) {
       return;
     }
     if (current.x != undefined && current.y != undefined) {
+      // if (current.color == "#ffffff") {
+      //   console.log("in the loop");
+      //   for (var i = 0; i < currentActionPositions.length; i++) {
+      //     for (var j = 0; j < currentActionPositions[i].length; j++) {
+      //       if (current.x == currentActionPositions[i][j]) {
+      //         currentActionPositions.splice(i, 1);
+      //       }
+      //     }
+      //   }
+      // }
       drawLine(
         current.x,
         current.y,
@@ -120,20 +134,20 @@ export default function Whiteboard(props: WhiteboardProps) {
     };
   }
 
-  function undo() {
-    if (boardRef != null && boardRef.current != null) {
-      const ctx: undefined | CanvasRenderingContext2D | null =
-        boardRef.current.getContext("2d");
-      if (ctx instanceof CanvasRenderingContext2D && actions != undefined) {
-        ctx.clearRect(0, 0, 800, 600);
-        for (var i = 0; i < actions.length - 1; i++) {
-          if (i >= 0) {
-            drawAction(actions[i]);
-          }
-        }
-      }
-    }
-  }
+  // function undo() {
+  //   if (boardRef != null && boardRef.current != null) {
+  //     const ctx: undefined | CanvasRenderingContext2D | null =
+  //       boardRef.current.getContext("2d");
+  //     if (ctx instanceof CanvasRenderingContext2D && actions != undefined) {
+  //       ctx.clearRect(0, 0, 800, 600);
+  //       for (var i = 0; i < actions.length - 1; i++) {
+  //         if (i >= 0) {
+  //           drawAction(actions[i]);
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
 
   function mouseUp(e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) {
     if (!drawing) {
@@ -173,8 +187,6 @@ export default function Whiteboard(props: WhiteboardProps) {
       }
     }
   }
-
-  
 
   function mouseDown(e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) {
     setDrawing(true);
@@ -220,7 +232,7 @@ export default function Whiteboard(props: WhiteboardProps) {
     y2: number,
     color: string,
     width: number
-  ): void {
+  ): CanvasRenderingContext2D | undefined | null {
     if (boardRef != null && boardRef.current != null) {
       const context: undefined | CanvasRenderingContext2D | null =
         boardRef.current.getContext("2d");
@@ -233,6 +245,7 @@ export default function Whiteboard(props: WhiteboardProps) {
         context.lineWidth = width;
         context.stroke();
         context.closePath();
+        return context;
       }
     }
   }
@@ -257,6 +270,9 @@ export default function Whiteboard(props: WhiteboardProps) {
         a.color,
         a.radius
       );
+      return (
+        a.pos[i][0], a.pos[i][1], a.pos[i][2], a.pos[i][3], a.color, a.radius
+      );
     }
   }
 
@@ -264,6 +280,10 @@ export default function Whiteboard(props: WhiteboardProps) {
     const parsedValue: number = parseInt(e.target.value);
     setCurrentWidth(parsedValue);
   }
+
+  const [imageURL, setImageURL] = useState<string>(
+    "https://i.ibb.co/djvJMbM/8045-ADB9-EC9-F-4-D56-A1-E5-1-DA942-DC0031.jpg"
+  );
 
   return (
     <div className="whiteboard">
@@ -283,9 +303,20 @@ export default function Whiteboard(props: WhiteboardProps) {
         onMouseLeave={(e) => mouseUp(e)}
         ref={boardRef}
       />
-      <button onClick={() => undo()}>Undo</button>
-      <div className="AddImage">
-      <AddImage imageUrl="https://i.ibb.co/djvJMbM/8045-ADB9-EC9-F-4-D56-A1-E5-1-DA942-DC0031.jpg" boardRef={boardRef} />
+      {/* <button className="undoButton" onClick={() => undo()}>
+        Undo
+      </button> */}
+      <div className="imageHandlers">
+        <input
+          type="text"
+          value={imageURL}
+          onChange={(e) => setImageURL(e.target.value)}
+        />
+        <button className="setImageURL" onClick={() => setImageURL(imageURL)}>
+          Set Image URL
+        </button>
+
+        <AddImage imageUrl={imageURL} boardRef={boardRef} props={props} />
       </div>
       <div className="colorPicker">
         <Colorful

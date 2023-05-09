@@ -1,49 +1,83 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { WhiteboardProps } from './board';
+import { Action } from './frameData';
 
 interface AddImageProps {
   imageUrl: string;
   boardRef: React.MutableRefObject<HTMLCanvasElement | null>;
+  props: WhiteboardProps
 }
 
-export const AddImage: React.FC<AddImageProps> = ({ imageUrl, boardRef }) => {
+export const AddImage: React.FC<AddImageProps> = ({ imageUrl, boardRef, props,  }) => {
+
+  function drawLine(
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number,
+    color: string,
+    width: number
+  ): void {
+    if (boardRef != null && boardRef.current != null) {
+      const context: undefined | CanvasRenderingContext2D | null =
+        boardRef.current.getContext("2d");
+      if (context instanceof CanvasRenderingContext2D) {
+        context.beginPath();
+        context.moveTo(x1, y1);
+        context.lineTo(x2, y2);
+        context.strokeStyle = color;
+        context.lineCap = "round"; //make it so that a stroke is a circle, not a rectangle
+        context.lineWidth = width;
+        context.stroke();
+        context.closePath();
+      }
+    }
+  }
+
+  function drawAction(a: Action) {
+    for (var i = 0; i < a.pos.length; i++) {
+      console.log(a.radius);
+      drawLine(
+        a.pos[i][0],
+        a.pos[i][1],
+        a.pos[i][2],
+        a.pos[i][3],
+        a.color,
+        a.radius
+      );
+    }
+  }
+
+  
   function addImage() {
     if (boardRef != null && boardRef.current != null) {
       const context: undefined | CanvasRenderingContext2D | null =
         boardRef.current.getContext("2d");
       if (context instanceof CanvasRenderingContext2D) {
-        // Clear the canvas
-        context.clearRect(0, 0, 800, 600);
-  
         const image = new Image();
   
         image.src = imageUrl;
-        
+  
         // Once the image has loaded, draw it on the canvas
+
+        //now need to choose opacity and choose image 
         image.onload = () => {
-          // const aspectRatio = image.width / image.height;
-
-          // // Calculate the new width and height to fit the canvas
-          // let newWidth, newHeight;
-          // if (aspectRatio > 1) {
-          //   newWidth = 800;
-          //   newHeight = 800 / aspectRatio;
-          // } else {
-          //   newWidth = 600 * aspectRatio;
-          //   newHeight = 600;
-          // }
-          context.globalAlpha = 0.5;
-
-          // // Draw the image on the canvas with the calculated dimensions
-          
+          context.clearRect(0, 0, 800, 600);
+          context.globalAlpha = 0.5
           context.drawImage(image, 0, 0, 800, 600);
           context.globalAlpha = 1.0
+          props.displayedFrame.actions.forEach((action) => {
+            drawAction(action);
+          });
         };
       }
     }
   }
+  
+  
     
   return (
-    <button onClick={addImage}>addImage</button>
+    <button onClick={addImage}>Add Image</button>
   );
   
 }

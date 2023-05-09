@@ -71,3 +71,11 @@
   justify-content: center;
   align-items: center;
 }
+.undoButton {
+  margin-top: 600px;
+  margin-left: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
