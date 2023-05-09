@@ -4,7 +4,7 @@ import { HsvaColor, ColorResult } from "@uiw/color-convert";
 import { FrameData, Action } from "./frameData";
 import Colorful from "@uiw/react-color-colorful";
 import mockedFrames, { createMockFrame1, createMockFrame2 } from "./frameMocks";
-import {AddImage} from "./AddImage"
+import { AddImage } from "./AddImage";
 
 interface DrawState {
   color: string;
@@ -173,8 +173,6 @@ export default function Whiteboard(props: WhiteboardProps) {
     }
   }
 
-  
-
   function mouseDown(e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) {
     setDrawing(true);
     currentActionPositions = [];
@@ -246,7 +244,7 @@ export default function Whiteboard(props: WhiteboardProps) {
     "#ff0000",
   ]);
 
-   function drawAction(a: Action) {
+  function drawAction(a: Action) {
     for (var i = 0; i < a.pos.length; i++) {
       console.log(a.radius);
       drawLine(
@@ -269,8 +267,6 @@ export default function Whiteboard(props: WhiteboardProps) {
     "https://i.ibb.co/djvJMbM/8045-ADB9-EC9-F-4-D56-A1-E5-1-DA942-DC0031.jpg"
   );
 
-
-
   return (
     <div className="whiteboard">
       <canvas
@@ -289,16 +285,20 @@ export default function Whiteboard(props: WhiteboardProps) {
         onMouseLeave={(e) => mouseUp(e)}
         ref={boardRef}
       />
-      <button onClick={() => undo()}>Undo</button>
-      <div className="AddImage">
+      <button className="undoButton" onClick={() => undo()}>
+        Undo
+      </button>
+      <div className="imageHandlers">
         <input
           type="text"
           value={imageURL}
           onChange={(e) => setImageURL(e.target.value)}
         />
-        <button onClick={() => setImageURL(imageURL)}>Set Image URL</button>
+        <button className="setImageURL" onClick={() => setImageURL(imageURL)}>
+          Set Image URL
+        </button>
 
-        <AddImage imageUrl={imageURL} boardRef={boardRef} props={props}/>
+        <AddImage imageUrl={imageURL} boardRef={boardRef} props={props} />
       </div>
       <div className="colorPicker">
         <Colorful
