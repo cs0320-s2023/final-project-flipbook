@@ -49,8 +49,8 @@ export default function Export(props: ExportProps) {
         canvas.width = frame.image.width;
         canvas.height = frame.image.height;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.putImageData(createMockImg(frame.image.width, frame.image.height, 4), 0, 0);
-        console.log(ctx.getImageData(0, 0, frame.image.width, frame.image.height))
+        ctx.putImageData(frame.image, 0, 0);
+        // ctx.putImageData(createMockImg(frame.image.width, frame.image.height, 4), 0, 0);
       }
 
       // Schedule the next frame to be displayed after 500 milliseconds (0.5 seconds)

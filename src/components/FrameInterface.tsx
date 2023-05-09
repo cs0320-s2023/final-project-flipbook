@@ -33,6 +33,8 @@ function createBlankImage() {
   return blankImageData;
 }
 
+
+
 export default function FrameInterface(props: FrameInterfaceProps) {
   const [frameArray, setFrameArray] = useState<FrameData[]>(props.frames);
   const [traceChecked, setChecked] = React.useState(false);
