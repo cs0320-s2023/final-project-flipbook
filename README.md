@@ -22,11 +22,13 @@ Project spec: https://docs.google.com/document/d/1Xc5Jg6texvkdbBEIs02idzjTLh9GLV
   * `Server` contains the backend functionality for saving animation projects to a MongoDB database
     * `mocks` contains mocked FrameData, and User data for testing and early backend development
     * `index.js` runs the express.js server locally on port :3001. **Although data is ultimately stored on MongoDB, this local server must also be run during use.**
-  * `Frontend` 
+  * `Frontend` contains the frontend functionality to draw, animate, and export.
+    * `components` contains all React components used in Flipbook. The Flipbook component generates a FrameInterface, which in turn generates Thumbnail and Whiteboard components.
+    * `mocks` contains mocked frame data. While this is used for testing, it is also used to create a blank template when generating a new project.
            
 ## Tests
-* `backend`
-    * `unitTesting` tests the various commands accessed through qHandle, both individually, and in set sequences to ensure that state works properly
+* `Server`
+    * `test` contains various unit tests, 
     * `fuzzTesting` generate random API calls roughly in the form expected by the backend and tests for non-200 result codes to ensure that all errors are handled properly by the API.
 
 
@@ -34,7 +36,10 @@ Project spec: https://docs.google.com/document/d/1Xc5Jg6texvkdbBEIs02idzjTLh9GLV
 * `data` the only api endpoint - for data transfer between client and server
     * `pid`: a parameter representing a string of random digits, associated with the current project. To access a project already present in the database, the user must simply pass the associated pid in the url. If no pid is given, a blank project template is given and a new pid will be generated upon saving.
 ## Errors and Bugs
-TODO
+In creating a visual imagery tool in a short period of time, there was a lot of room for user and application-caused errors to appear – some coming up very often, some rarely, and some only appearing once or twice.
+    * Drawing off canvas: we had difficulties with our HTML event listeners and the often asynchronous nature of the react state variables they updated. A major issue caused by this was the ability to continue drawing once the mouse left the canvas, stopped dragging, and returned to the canvas. We solved this by checking the mouse position relative to the canvas on every mouse move.
+    * Data transfers: this encompasses a large source of errors we had convert our Typescript drawing data into a format that was accepted by mongoose in node.js. Our (suboptimal) solution was to create a intermediary server run locally to accept an API request containing the drawing data in JSON format and then pass that to mongoose/MongoDB.
+    * Updating canvases: since so many of our components used the same high-level state variable, we had multiple issues with updating canvases across the app when frame data was updated. We solved most of these by using useEffect hooks.
 
 ## Accessibility Considerations
 

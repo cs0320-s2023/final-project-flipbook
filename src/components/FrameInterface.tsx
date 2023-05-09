@@ -6,6 +6,7 @@ import "../styles/FrameInterface.css";
 import { createMockFramesJSON } from "../mocks/frameMocks";
 import Save from "./Save.jsx";
 import Export from "./Export";
+import { useSearchParams } from "react-router-dom";
 
 export interface FrameInterfaceProps {
   frames: FrameData[];
@@ -38,6 +39,8 @@ function createBlankImage() {
 export default function FrameInterface(props: FrameInterfaceProps) {
   const [frameArray, setFrameArray] = useState<FrameData[]>(props.frames);
   const [traceChecked, setChecked] = React.useState(false);
+  const [params] = useSearchParams();
+  const pid = params.get('pid');
 
   useEffect(() => {
     setFrameArray(props.frames);
@@ -197,6 +200,7 @@ export default function FrameInterface(props: FrameInterfaceProps) {
             <Save
               frames={removeImageData(frameArray)}
               aria-label="Save Animation"
+              urlpid={pid}
             ></Save>
           </div>
         </div>

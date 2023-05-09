@@ -3,13 +3,28 @@ import axios from 'axios';
 
 export default function Save(props) {
 
-  async function saveData(){
-    const url = 'http://localhost:3001/data?pid=12345678'; // Replace with your API endpoint URL
 
-    // const data = {
-    //   key1: 'value1',
-    //   key2: 'value2'
-    // }; 
+  function generateRandomPID() {
+    const digits = '0123456789';
+    let randomString = '';
+    for (let i = 0; i < 8; i++) {
+      const randomIndex = Math.floor(Math.random() * digits.length);
+      randomString += digits[randomIndex];
+    }
+    return randomString;
+  }
+
+  async function saveData(){
+    let urlpid;
+    if(!props.urlpid) {
+      urlpid = generateRandomPID();
+      window.location.search += '?pid='+urlpid;
+    }
+    else {
+      urlpid = props.urlpid;
+    }
+    let url = 'http://localhost:3001/data?pid='+urlpid;
+     
     console.log(props)
     const options = {
       method: 'POST',
@@ -65,7 +80,7 @@ export default function Save(props) {
     
   return (<>
     <button onClick={saveData}>Save</button>
-    <button onClick={()=>getData('12345678')}>Get</button>
+    <button onClick={()=>getData(props.urlpid)}>Get</button>
     </>
   );
 }
