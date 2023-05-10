@@ -42,7 +42,17 @@ In creating a visual imagery tool in a short period of time, there was a lot of 
     * Updating canvases: since so many of our components used the same high-level state variable, we had multiple issues with updating canvases across the app when frame data was updated. We solved most of these by using useEffect hooks.
 
 ## Accessibility Considerations
+* created shortcuts to make common actions easier for users: 
+  * `control` + `z` is the shortcut for undo
+  * `control` + `+` is the shortcut for add frame
+  * `control` + `-` is the shortcut for delete frame
+  * `control` + `s` is the shortcut for save
+* put aria-labels on the major components of our website to make the screenreader more descriptive
 
+# Defensive/Error Handling
+* check URL is valid when adding image
+* check length of frames array to make sure you can't remove the first frame
+* make a structuredClone (defensive copy) of the previous frame's actions when tracing
 
 ## Running the Program
 • `Frontend:` under the root directory, run **npm start**
