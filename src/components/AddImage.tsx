@@ -63,10 +63,10 @@ export const AddImage: React.FC<AddImageProps> = ({ imageUrl, boardRef, props,  
         image.src = imageUrl;
   
         // Once the image has loaded, draw it on the canvas
-
+        image.crossOrigin = "Anonymous";
         //now need to choose opacity and choose image 
         image.onload = () => {
-          context.clearRect(0, 0, 800, 600);
+          context.clearRect(0, 0, 800, 600); 
           context.globalAlpha = 0.5
           context.drawImage(image, 0, 0, 800, 600);
           context.globalAlpha = 1.0
@@ -74,6 +74,7 @@ export const AddImage: React.FC<AddImageProps> = ({ imageUrl, boardRef, props,  
             drawAction(action);
           });
         };
+        props.displayedFrame.image = context.getImageData(0, 0, 800, 600)
       }
     }
   }
