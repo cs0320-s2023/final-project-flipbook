@@ -12,6 +12,9 @@ export interface FrameInterfaceProps {
   frames: FrameData[];
 }
 
+export default function FrameInterface(props: FrameInterfaceProps) {
+  const [frameArray, setFrameArray] = useState<FrameData[]>(props.frames);
+  const [traceChecked, setChecked] = React.useState(false);
 
   function createBlankImage() {
     const width = 800; // width of the image
