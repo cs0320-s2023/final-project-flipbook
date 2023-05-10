@@ -43,7 +43,14 @@ export default function Whiteboard(props: WhiteboardProps) {
     props.displayedFrame.actions.forEach((action) => {
       drawAction(action);
     });
-    console.log("disa",props.displayedFrame.actions);
+    console.log("this should go when i click undo",props.displayedFrame.actions);
+    if (boardRef != null && boardRef.current != null) {
+      const context: undefined | CanvasRenderingContext2D | null =
+        boardRef.current.getContext("2d");
+      if (context instanceof CanvasRenderingContext2D) {
+        props.displayedFrame.image = context.getImageData(0, 0, 800, 600)
+      }
+    }
     // clearAndPopulateCanvas("https://i.ibb.co/djvJMbM/8045-ADB9-EC9-F-4-D56-A1-E5-1-DA942-DC0031.jpg")
     document.addEventListener("keydown", handleKeyDown); // Add event listener
     return () => {
