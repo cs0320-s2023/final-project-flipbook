@@ -9,18 +9,41 @@ import mockedFrames, {
 } from "../mocks/frameMocks";
 import { AddImage } from "./AddImage";
 
+/**
+ * Represents the state of a drawing action.
+ * @interface
+ * @property {string} color - The color of the drawing action.
+ * @property {number} [x] - The x-coordinate of the drawing action.
+ * @property {number} [y] - The y-coordinate of the drawing action.
+ */
 interface DrawState {
   color: string;
   x?: number;
   y?: number;
 }
 
+/**
+ * Represents the props for the Whiteboard component.
+ * @interface
+ * @property {FrameData} traceFrame - The data for the trace frame.
+ * @property {FrameData} displayedFrame - The data for the displayed frame.
+ * @property {function} setCurrentFrame - A function to set the current frame.
+ */
 export interface WhiteboardProps {
   traceFrame: FrameData;
   displayedFrame: FrameData;
   setCurrentFrame: (n: number) => void;
 }
 
+/**
+ * Represents the props for the ColorWheel component.
+ * @interface
+ * @extends React.HTMLAttributes<HTMLDivElement>
+ * @property {string} [prefixCls] - The prefix class for the component.
+ * @property {function} [onChange] - A function to handle color change.
+ * @property {(string | HsvaColor)} [color] - The initial color for the component.
+ * @property {boolean} [disableAlpha] - Whether or not to disable alpha.
+ */
 // ColorWheel Interface
 export interface ColorfulProps
   extends Omit<React.HTMLAttributes<HTMLDivElement>, "onChange" | "color"> {
@@ -30,7 +53,20 @@ export interface ColorfulProps
   disableAlpha?: boolean;
 }
 
-//helpers for Whiteboard
+  /**
+   * Draws a line on the canvas.
+   * @function
+   * @param {React.RefObject<HTMLCanvasElement>} boardRef - The canvas element.
+   * @param {number} x1 - The x-coordinate of the starting point.
+   * @param {number} y1 - The y-coordinate of the starting point.
+   * @param {number} x2 - The x-coordinate of the ending point.
+   * @param {number} y2 - The y-coordinate of the ending point.
+   * @param {string} color - The color of the line.
+   * @param {number} width - The width of the line.
+   * @param {number} opacity - The opacity of the line.
+   * @returns {CanvasRenderingContext2D | undefined | null} The canvas rendering context.
+   */
+
 export function drawLine(
   boardRef: React.RefObject<HTMLCanvasElement>,
   x1: number,
@@ -60,6 +96,13 @@ export function drawLine(
   }
 }
 
+/**
+ * Draws an action on the canvas.
+ * @function
+ * @param {React.RefObject<HTMLCanvasElement>} boardRef - The canvas element.
+ * @param {Action} a - The action to be drawn.
+ */
+
 export function drawAction(
   boardRef: React.RefObject<HTMLCanvasElement>,
   a: Action
@@ -86,6 +129,11 @@ export function drawAction(
   }
 }
 
+  /**
+
+  Creates the Whiteboard component which tracks drawing.
+  @param {WhiteboardProps} props - The props passed to the component.
+  */
 export default function Whiteboard(props: WhiteboardProps) {
   let current: DrawState = { color: "#000000" };
 
@@ -114,6 +162,15 @@ export default function Whiteboard(props: WhiteboardProps) {
     // clearAndPopulateCanvas("https://i.ibb.co/djvJMbM/8045-ADB9-EC9-F-4-D56-A1-E5-1-DA942-DC0031.jpg")
   }, [props.displayedFrame]);
 
+  /**
+
+    Throttles mouse move event using a delay.
+
+    @param {React.MouseEvent<HTMLCanvasElement, MouseEvent>} e - Mouse move event object.
+
+    @param {number} delay - Delay in milliseconds.
+
+*/
   function throttledMouseMove(
     e: React.MouseEvent<HTMLCanvasElement, MouseEvent>,
     delay: number
@@ -129,21 +186,16 @@ export default function Whiteboard(props: WhiteboardProps) {
     };
   }
 
+  /**
+
+  Handles mouse move event by drawing a line if necessary.
+  @param {React.MouseEvent<HTMLCanvasElement, MouseEvent>} e - Mouse move event object.
+*/
   function mouseMove(e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) {
     if (!drawing) {
       return;
     }
     if (current.x != undefined && current.y != undefined) {
-      // if (current.color == "#ffffff") {
-      //   console.log("in the loop");
-      //   for (var i = 0; i < currentActionPositions.length; i++) {
-      //     for (var j = 0; j < currentActionPositions[i].length; j++) {
-      //       if (current.x == currentActionPositions[i][j]) {
-      //         currentActionPositions.splice(i, 1);
-      //       }
-      //     }
-      //   }
-      // }
       drawLine(
         boardRef,
         current.x,
@@ -161,16 +213,6 @@ export default function Whiteboard(props: WhiteboardProps) {
         e.nativeEvent.offsetY,
       ]);
     }
-    // setCurrent(prev => ({
-    //     ...prev,
-    //     x:e.clientX,
-    //     y:e.clientY
-    // }));
-    // current = {
-    //     ...current,
-    //     x:e.nativeEvent.clientX+e.nativeEvent.offsetX,
-    //     y:e.nativeEvent.clientY+e.nativeEvent.offsetY
-    // }
     current = {
       ...current,
       x: e.nativeEvent.offsetX,
@@ -178,21 +220,11 @@ export default function Whiteboard(props: WhiteboardProps) {
     };
   }
 
-  // function undo() {
-  //   if (boardRef != null && boardRef.current != null) {
-  //     const ctx: undefined | CanvasRenderingContext2D | null =
-  //       boardRef.current.getContext("2d");
-  //     if (ctx instanceof CanvasRenderingContext2D && actions != undefined) {
-  //       ctx.clearRect(0, 0, 800, 600);
-  //       for (var i = 0; i < actions.length - 1; i++) {
-  //         if (i >= 0) {
-  //           drawAction(actions[i]);
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
+  /**
 
+  Handles mouse up event by ending the drawing.
+  @param {React.MouseEvent<HTMLCanvasElement, MouseEvent>} e - Mouse up event object.
+  */
   function mouseUp(e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) {
     if (!drawing) {
       return;
@@ -233,6 +265,10 @@ export default function Whiteboard(props: WhiteboardProps) {
     }
   }
 
+  /**
+ * Clears the canvas by drawing a transparent rectangle over it.
+ */
+
   function clearCanvas() {
     if (boardRef != null && boardRef.current != null) {
       const context: undefined | CanvasRenderingContext2D | null =
@@ -243,6 +279,12 @@ export default function Whiteboard(props: WhiteboardProps) {
     }
   }
 
+  /**
+   * Handles the mouse down event by setting the drawing state to true,
+   * setting the current position, and adding it to the action positions.
+   * Also checks if the current color needs to be resynced.
+   * @param {React.MouseEvent<HTMLCanvasElement, MouseEvent>} e - The mouse event.
+   */
   function mouseDown(e: React.MouseEvent<HTMLCanvasElement, MouseEvent>) {
     setDrawing(true);
     currentActionPositions = [];

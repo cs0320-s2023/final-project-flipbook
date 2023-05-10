@@ -2,17 +2,36 @@ import React, { useEffect } from "react";
 import { WhiteboardProps, drawAction } from "./board";
 import { Action } from "./frameData";
 
+/**
+
+React component to add an image to the whiteboard.
+@param imageUrl - The URL of the image to be added.
+@param boardRef - A mutable reference to the canvas element that the image will be added to.
+@param props - The props of the whiteboard component.
+*/
 interface AddImageProps {
   imageUrl: string;
   boardRef: React.MutableRefObject<HTMLCanvasElement | null>;
   props: WhiteboardProps;
 }
 
+
 export const AddImage: React.FC<AddImageProps> = ({
   imageUrl,
   boardRef,
   props,
 }) => {
+  /**
+
+    Function to draw a line on the canvas.
+    @param x1 - The x-coordinate of the starting point of the line.
+    @param y1 - The y-coordinate of the starting point of the line.
+    @param x2 - The x-coordinate of the ending point of the line.
+    @param y2 - The y-coordinate of the ending point of the line.
+    @param color - The color of the line.
+    @param width - The width of the line.
+    @param opacity - The opacity of the line.
+  */
   function drawLine(
     x1: number,
     y1: number,
@@ -39,7 +58,11 @@ export const AddImage: React.FC<AddImageProps> = ({
       }
     }
   }
+    /**
 
+    Function to draw an action on the canvas.
+    @param a - The action to be drawn.
+    */
   function drawAction(a: Action) {
     for (var i = 0; i < a.pos.length; i++) {
       console.log(a.radius);
@@ -55,6 +78,10 @@ export const AddImage: React.FC<AddImageProps> = ({
     }
   }
 
+  /**
+
+    Function to add an image to the canvas.
+  */
   function addImage() {
     if (boardRef != null && boardRef.current != null) {
       const context: undefined | CanvasRenderingContext2D | null =

@@ -25,7 +25,16 @@ function createMockImg(
   return mockedImageData;
 }
 
+/**
+
+Export component displays an animation of the frames passed in as props.
+@param {ExportProps} props - The props object that contains the frames to be exported.
+*/
+  
 export default function Export(props: ExportProps) {
+  /**
+  Function that displays the animation of the frames by looping through each frame and displaying it.
+  */
   function animate() {
     const frameWindow = window.open("", "_blank");
 
@@ -44,6 +53,9 @@ export default function Export(props: ExportProps) {
 
     let frameIndex = 0;
 
+    /**
+     * Function that displays the next frame in the animation.
+     */
     function displayNextFrame() {
       if (frameIndex >= props.frames.length) {
         // All frames have been displayed, close the window/tab

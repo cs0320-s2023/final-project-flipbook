@@ -16,6 +16,9 @@ export default function FrameInterface(props: FrameInterfaceProps) {
   const [frameArray, setFrameArray] = useState<FrameData[]>(props.frames);
   const [traceChecked, setChecked] = React.useState(false);
 
+  /**
+   * Creates a blank canvas displayed on the screen
+   */
   function createBlankImage() {
     const width = 800; // width of the image
     const height = 600; // height of the image
@@ -49,7 +52,10 @@ export default function FrameInterface(props: FrameInterfaceProps) {
     };
   }, props.frames);
 
-  //keyboard shortcuts
+  /**
+   * Creates shortcuts for user to use, increasing accessability
+   * @param event - keyboard event that occured
+   */
   function handleKeyDown(event: KeyboardEvent) {
     //TODO change the undo to be attatched to the frame interface
     //shortcut for undo --> "Command + Z"

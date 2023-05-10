@@ -4,6 +4,11 @@ import axios from 'axios';
 export default function Save(props) {
 
 
+  /**
+
+    Generates a random 8-digit string used as a PID (Process ID) to identify data.
+    @returns {string} Randomly generated PID string.
+  */
   function generateRandomPID() {
     const digits = '0123456789';
     let randomString = '';
@@ -14,6 +19,12 @@ export default function Save(props) {
     return randomString;
   }
 
+  /**
+
+    Sends data to the server for storage.
+    @async
+    @returns {Promise<void>} Promise that resolves once the data is saved.
+  */
   async function saveData(){
     let urlpid;
     if(!props.urlpid) {
@@ -50,6 +61,13 @@ export default function Save(props) {
       });
   }
 
+  /**
+
+    Retrieves data from the server using the provided PID.
+    @async
+    @param {string} pid - The Process ID (PID) used to identify the data.
+    @returns {Promise<Object>} Promise that resolves with the retrieved data object.
+  */
   async function getData(pid) {
     const url = `http://localhost:3001/data?pid=${pid}`; // Replace with your API endpoint URL
     
@@ -69,17 +87,6 @@ export default function Save(props) {
       console.error('Error:', error);
     }
   }
-
-
-  // async function saveData() {
-  //   const data = "hello my name ben"
-  //   try {
-  //     const response = await axios.post('http://localhost:3001/data', data);
-  //     console.log(response.data); 
-  //   } catch (error) {
-  //     console.error('Error saving data:', error);
-  //   }
-  // };
   
     
   return (<>

@@ -48,9 +48,6 @@ const Thumbnail: React.FC<ThumbnailProps> = (props: ThumbnailProps) => {
       ctx?.clearRect(0, 0, 800, 600);
       ctx?.scale(0.1, 0.1)
       ctx?.drawImage(mycanvas, 0, 0)
-
-
-      // ctx?.putImageData(props.data.image, 0, 0, 0, 0, 800, 600);
       
 
     }
