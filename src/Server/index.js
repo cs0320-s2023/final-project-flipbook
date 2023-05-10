@@ -25,9 +25,15 @@ async function main() {
       console.log(":"+req.query.pid+":");
       const um = await saveFrames(req.body.frames,req.query.pid);
       console.log("fm:"+um.frameData);
-      await user.model.findOneAndReplace(
+      // await user.model.findOneAndReplace(
+      //   { pid: req.query.pid },
+      //   um
+      // );
+
+      await user.model.findOneAndUpdate(
         { pid: req.query.pid },
-        um
+        um,
+        { upsert: true, new: true }
       );
       res.status(201).json({ message: 'Data saved successfully' });
     } catch (error) {

@@ -18,14 +18,13 @@ export default function Save(props) {
     let urlpid;
     if(!props.urlpid) {
       urlpid = generateRandomPID();
-      window.location.search += '?pid='+urlpid;
     }
     else {
       urlpid = props.urlpid;
     }
     let url = 'http://localhost:3001/data?pid='+urlpid;
      
-    console.log(props)
+    console.log(url);
     const options = {
       method: 'POST',
       headers: {
@@ -39,6 +38,11 @@ export default function Save(props) {
       .then(responseData => {
         // Process the response data
         console.log(responseData);
+        if(responseData.message=="Data saved successfully") {
+          window.location.search += '?pid='+urlpid;
+        }else {
+          alert("Error saving data");
+        }
       })
       .catch(error => {
         // Handle any errors
