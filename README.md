@@ -53,6 +53,7 @@ In creating a visual imagery tool in a short period of time, there was a lot of 
 * check URL is valid when adding image
 * check length of frames array to make sure you can't remove the first frame
 * make a structuredClone (defensive copy) of the previous frame's actions when tracing
+* typechecking
 
 ## Running the Program
 • `Frontend:` under the root directory, run **npm start**
