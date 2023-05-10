@@ -22,33 +22,43 @@ async function main() {
 
   app.post('/data', async (req, res) => {
     try {
-      console.log('rqp',req.query.pid);
-      saveFrames(req.body.frames).then((um)=>{
-        user.model.findOneAndUpdate(
-          { pid: req.query.pid },
-          { frameData: um.frameData }
-        );
-      });
-      res.status(201).json({ message: 'Data saved successfully' });
+      console.log(":"+req.query.pid+":");
+      const um = await saveFrames(req.body.frames,req.query.pid);
+      console.log("fm:"+um.frameData);
+      // await user.model.findOneAndReplace(
+      //   { pid: req.query.pid },
+      //   um
+      // );
 
-      async function saveFrames(inputFrames) {  
-        const modelledFrames = [];
-        inputFrames.forEach(function (frame) {
-          const modelledFrame = new frameM.model(frame);
-          modelledFrames.push(modelledFrame);
-        });
-        const toSave = new user.model({
-          title: "to savexx",
-          pid: req.query.pid,
-          frameData: modelledFrames,
-        });
-        return toSave;
-      }
+      await user.model.findOneAndUpdate(
+        { pid: req.query.pid },
+        um,
+        { upsert: true, new: true }
+      );
+      res.status(201).json({ message: 'Data saved successfully' });
     } catch (error) {
       console.error('Error saving data:', error);
-      // res.status(500).json({ error: 'An error occurred while saving data' });
+      res.status(500).json({ error: 'An error occurred while saving data' });
     }
   });
+  
+  async function saveFrames(inputFrames,reqpid) {  
+    const modelledFrames = [];
+    inputFrames.forEach(function (frame) {
+      const modelledFrame = new frameM.model(frame);
+      modelledFrames.push(modelledFrame);
+    });
+    // const toSave = new user.model({
+    //   title: "Animation",
+    //   pid: reqpid,
+    //   frameData: modelledFrames,
+    // });
+    return {
+        title: "Animation",
+        pid: reqpid,
+        frameData: modelledFrames,
+      };
+  }
 
   app.get('/data', async (req, res) => {
     try {

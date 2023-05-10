@@ -111,6 +111,7 @@ describe("convertToFrameDataList", () => {
 //     });
 //   });
 
+
 //   describe("drawAction", () => {
 //     it("should draw a line for each position in the given action", () => {
 //       const canvas = document.createElement("canvas");
@@ -132,7 +133,7 @@ describe("convertToFrameDataList", () => {
 //           radius: 5,
 //         };
 
-//         const result = drawAction(action, boardRef);
+
 
 //         expect(result).toEqual(context);
 

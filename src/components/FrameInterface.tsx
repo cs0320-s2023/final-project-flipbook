@@ -6,6 +6,7 @@ import "../styles/FrameInterface.css";
 import { createMockFramesJSON } from "../mocks/frameMocks";
 import Save from "./Save.jsx";
 import Export from "./Export";
+import { useSearchParams } from "react-router-dom";
 
 export interface FrameInterfaceProps {
   frames: FrameData[];
@@ -37,27 +38,12 @@ export default function FrameInterface(props: FrameInterfaceProps) {
     return blankImageData;
   }
 
-  function createYellowImage() {
-    const width = 800; // width of the image
-    const height = 600; // height of the image
-    const channels = 4; // number of channels (R, G, B, Alpha)
 
-    // Create an array to hold the pixel data
-    const imageData = new Uint8ClampedArray(width * height * channels);
-
-    // Loop through each pixel and set its value
-    for (let i = 0; i < width * height; i++) {
-      const index = i * channels;
-      imageData[index] = 255; // R channel
-      imageData[index + 1] = 255; // G channel
-      imageData[index + 2] = 1; // B channel
-      imageData[index + 3] = 255; // Alpha channel (fully opaque)
-    }
-
-    // Create a new ImageData object using the pixel data
-    const blankImageData = new ImageData(imageData, width, height);
-    return blankImageData;
-  }
+export default function FrameInterface(props: FrameInterfaceProps) {
+  const [frameArray, setFrameArray] = useState<FrameData[]>(props.frames);
+  const [traceChecked, setChecked] = React.useState(false);
+  const [params] = useSearchParams();
+  const pid = params.get('pid');
 
   useEffect(() => {
     setFrameArray(props.frames);
@@ -179,7 +165,7 @@ export default function FrameInterface(props: FrameInterfaceProps) {
   return (
     <>
       <div className="frameContainer">
-        <div className="frameList">
+        <div className="frameList" role="list">
           {frameArray.map((object: FrameData, i) => (
             <Thumbnail
               setCurrentFrame={(value: number) =>
@@ -189,6 +175,7 @@ export default function FrameInterface(props: FrameInterfaceProps) {
               key={i}
               data={object}
               onClick={handleThumbnailClick}
+              aria-label={`Thumbnail ${i + 1}`}
               // frameNumber={object.frameNum}
             />
           ))}
@@ -196,14 +183,15 @@ export default function FrameInterface(props: FrameInterfaceProps) {
             <button
               className="addFrameButton"
               onClick={handleAddThumbnail}
-              aria-label="add frame"
+
+              aria-label="Add Frame"
             >
               +
             </button>
             <button
               className="removeFrameButton"
               onClick={handleRemoveThumbnail}
-              aria-label="remove frame"
+              aria-label="Remove Frame"
             >
               –
             </button>
@@ -216,7 +204,7 @@ export default function FrameInterface(props: FrameInterfaceProps) {
               onChange={handleChange}
               aria-label="tracing checkbox"
             />
-            Trace
+            <span aria-hidden="true">Trace</span>
           </label>
         </div>
         <div className="whiteboardDisplay">
@@ -230,6 +218,7 @@ export default function FrameInterface(props: FrameInterfaceProps) {
             setCurrentFrame={(frameNum: number) =>
               setCurrentFrame(findFrameIndex(frameNum))
             }
+            aria-label="Whiteboard"
           />
           <div className="animate" aria-aria-label="animate button">
             <Export frames={frameArray}></Export>
@@ -240,10 +229,15 @@ export default function FrameInterface(props: FrameInterfaceProps) {
             <button onClick={handleUndoAction}>Undo</button>
           </div>
           <div className="save" aria-label="save button">
-            <Save frames={removeImageData(frameArray)}></Save>
+            <Save
+              frames={removeImageData(frameArray)}
+              aria-label="Save Animation"
+              urlpid={pid}
+            ></Save>
           </div>
         </div>
       </div>
     </>
   );
 }
+
