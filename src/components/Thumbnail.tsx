@@ -10,8 +10,8 @@ export interface ThumbnailProps {
 }
 
 function createYellowImage() {
-  const width = 800; // width of the image
-  const height = 600; // height of the image
+  const width = 80; // width of the image
+  const height = 60; // height of the image
   const channels = 4; // number of channels (R, G, B, Alpha)
 
   // Create an array to hold the pixel data
@@ -39,12 +39,19 @@ const Thumbnail: React.FC<ThumbnailProps> = (props: ThumbnailProps) => {
       
       console.log("image data below this")
       console.log(props.data.image)
-      // canvasRef.current.
+      var mycanvas = document.createElement("canvas");
+      mycanvas.width = props.data.image.width
+      mycanvas.height = props.data.image.height
+      mycanvas?.getContext("2d")?.putImageData(props.data.image, 0, 0);
       canvasRef.current.width = 80
       canvasRef.current.height = 60
-
-      ctx?.putImageData(props.data.image, 0, 0, 0, 0, 800, 600);
+      ctx?.clearRect(0, 0, 800, 600);
       ctx?.scale(0.1, 0.1)
+      ctx?.drawImage(mycanvas, 0, 0)
+
+
+      // ctx?.putImageData(props.data.image, 0, 0, 0, 0, 800, 600);
+      
 
     }
 

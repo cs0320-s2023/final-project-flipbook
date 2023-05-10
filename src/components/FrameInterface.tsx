@@ -131,6 +131,8 @@ export default function FrameInterface(props: FrameInterfaceProps) {
       const currentFrameData = newFrameArray[currentFrame];
       const updatedActions = currentFrameData.actions.slice(0, -1); // Remove the last action
       const updatedFrameData = { ...currentFrameData, actions: updatedActions };
+      
+      
       newFrameArray[currentFrame] = updatedFrameData;
       return newFrameArray;
     });
