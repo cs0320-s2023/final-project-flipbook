@@ -45,33 +45,7 @@ export default function Whiteboard(props: WhiteboardProps) {
     });
     console.log("disa",props.displayedFrame.actions);
     // clearAndPopulateCanvas("https://i.ibb.co/djvJMbM/8045-ADB9-EC9-F-4-D56-A1-E5-1-DA942-DC0031.jpg")
-    document.addEventListener("keydown", handleKeyDown); // Add event listener
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown); // Remove event listener on cleanup
-    };
   }, [props.displayedFrame]);
-
-  //keyboard shortcuts
-  function handleKeyDown(event: KeyboardEvent) {
-    //TODO change the undo to be attatched to the frame interface
-    //shortcut for undo --> "Command + Z"
-    if (event.key === "z" && (event.metaKey || event.ctrlKey)) {
-      // Check for "Command + Z" key combination
-      console.log("Undo");
-      // undo();
-    }
-    //shortcut for zoom in --> "Command + +" or "Command + ="
-    else if (
-      (event.key === "+" || event.key === "=") &&
-      (event.metaKey || event.ctrlKey)
-    ) {
-      // Check for "Command + +" or "Command + =" key combination
-      console.log("Zoom in");
-    } else if (event.key === "s" && (event.metaKey || event.ctrlKey)) {
-      // Check for "Command + s"
-      console.log("save");
-    }
-  }
 
   function throttledMouseMove(
     e: React.MouseEvent<HTMLCanvasElement, MouseEvent>,
