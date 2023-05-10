@@ -66,21 +66,26 @@ export const AddImage: React.FC<AddImageProps> = ({
         image.src = imageUrl;
 
         // Once the image has loaded, draw it on the canvas
-
-        //now need to choose opacity and choose image
+        image.crossOrigin = "Anonymous";
+        //now need to choose opacity and choose image 
         image.onload = () => {
-          try {
-            context.clearRect(0, 0, 800, 600);
-            context.globalAlpha = 0.5;;
-            context.drawImage(image, 0, 0, 800, 600);
-            context.globalAlpha = 1.0;;
-            props.displayedFrame.actions.forEach((action) => {
-              drawAction(boardRef, action);
-            });
-          } catch (error) {
+         try {
+
+          context.clearRect(0, 0, 800, 600); 
+          context.globalAlpha = 0.5
+          context.drawImage(image, 0, 0, 800, 600);
+          context.globalAlpha = 1.0
+          props.displayedFrame.actions.forEach((action) => {
+            drawAction(action);
+          });
+ } catch (error) {
             console.error("An error occurred while loading the image:", error);
           }
+
+        //now need to choose opacity and choose image
+
         };
+        props.displayedFrame.image = context.getImageData(0, 0, 800, 600)
       }
     }
   }

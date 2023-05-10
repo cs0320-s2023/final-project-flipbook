@@ -102,35 +102,17 @@ export default function Whiteboard(props: WhiteboardProps) {
     props.displayedFrame.actions.forEach((action) => {
       drawAction(boardRef, action);
     });
-    console.log("disa", props.displayedFrame.actions);
-    // clearAndPopulateCanvas("https://i.ibb.co/djvJMbM/8045-ADB9-EC9-F-4-D56-A1-E5-1-DA942-DC0031.jpg")
-    document.addEventListener("keydown", handleKeyDown); // Add event listener
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown); // Remove event listener on cleanup
-    };
-  }, [props.displayedFrame]);
+    console.log("this should go when i click undo",props.displayedFrame.actions);
+    if (boardRef != null && boardRef.current != null) {
+      const context: undefined | CanvasRenderingContext2D | null =
+        boardRef.current.getContext("2d");
+      if (context instanceof CanvasRenderingContext2D) {
+        props.displayedFrame.image = context.getImageData(0, 0, 800, 600)
+      }
+    }
 
-  //keyboard shortcuts
-  function handleKeyDown(event: KeyboardEvent) {
-    //TODO change the undo to be attatched to the frame interface
-    //shortcut for undo --> "Command + Z"
-    if (event.key === "z" && (event.metaKey || event.ctrlKey)) {
-      // Check for "Command + Z" key combination
-      console.log("Undo");
-      // undo();
-    }
-    //shortcut for zoom in --> "Command + +" or "Command + ="
-    else if (
-      (event.key === "+" || event.key === "=") &&
-      (event.metaKey || event.ctrlKey)
-    ) {
-      // Check for "Command + +" or "Command + =" key combination
-      console.log("Zoom in");
-    } else if (event.key === "s" && (event.metaKey || event.ctrlKey)) {
-      // Check for "Command + s"
-      console.log("save");
-    }
-  }
+    // clearAndPopulateCanvas("https://i.ibb.co/djvJMbM/8045-ADB9-EC9-F-4-D56-A1-E5-1-DA942-DC0031.jpg")
+  }, [props.displayedFrame]);
 
   function throttledMouseMove(
     e: React.MouseEvent<HTMLCanvasElement, MouseEvent>,
@@ -245,7 +227,8 @@ export default function Whiteboard(props: WhiteboardProps) {
       const context: undefined | CanvasRenderingContext2D | null =
         boardRef.current.getContext("2d");
       if (context instanceof CanvasRenderingContext2D) {
-        const da = context.getImageData(0, 0, 800, 600);
+        props.displayedFrame.image = context.getImageData(0, 0, 800, 600)
+
       }
     }
   }

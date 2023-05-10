@@ -12,28 +12,31 @@ export interface FrameInterfaceProps {
   frames: FrameData[];
 }
 
-function createBlankImage() {
-  const width = 80; // width of the image
-  const height = 60; // height of the image
-  const channels = 4; // number of channels (R, G, B, Alpha)
+export default function FrameInterface(props: FrameInterfaceProps) {
+  const [frameArray, setFrameArray] = useState<FrameData[]>(props.frames);
+  const [traceChecked, setChecked] = React.useState(false);
 
-  // Create an array to hold the pixel data
-  const imageData = new Uint8ClampedArray(width * height * channels);
+  function createBlankImage() {
+    const width = 800; // width of the image
+    const height = 600; // height of the image
+    const channels = 4; // number of channels (R, G, B, Alpha)
 
-  // Loop through each pixel and set its value
-  for (let i = 0; i < width * height; i++) {
-    const index = i * channels;
-    imageData[index] = 255; // R channel
-    imageData[index + 1] = 255; // G channel
-    imageData[index + 2] = 255; // B channel
-    imageData[index + 3] = 255; // Alpha channel (fully opaque)
+    // Create an array to hold the pixel data
+    const imageData = new Uint8ClampedArray(width * height * channels);
+
+    // Loop through each pixel and set its value
+    for (let i = 0; i < width * height; i++) {
+      const index = i * channels;
+      imageData[index] = 255; // R channel
+      imageData[index + 1] = 255; // G channel
+      imageData[index + 2] = 255; // B channel
+      imageData[index + 3] = 255; // Alpha channel (fully opaque)
+    }
+
+    // Create a new ImageData object using the pixel data
+    const blankImageData = new ImageData(imageData, width, height);
+    return blankImageData;
   }
-
-  // Create a new ImageData object using the pixel data
-  const blankImageData = new ImageData(imageData, width, height);
-  return blankImageData;
-}
-
 
 
 export default function FrameInterface(props: FrameInterfaceProps) {
@@ -44,12 +47,42 @@ export default function FrameInterface(props: FrameInterfaceProps) {
 
   useEffect(() => {
     setFrameArray(props.frames);
+    document.addEventListener("keydown", handleKeyDown); // Add event listener
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown); // Remove event listener on cleanup
+    };
   }, props.frames);
+
+  //keyboard shortcuts
+  function handleKeyDown(event: KeyboardEvent) {
+    //TODO change the undo to be attatched to the frame interface
+    //shortcut for undo --> "Command + Z"
+    if (event.key === "z" && (event.metaKey || event.ctrlKey)) {
+      // Check for "Command + Z" key combination
+      console.log("Undo");
+      handleUndoAction();
+      // undo();
+    }
+    //shortcut for add frame --> "control + +" or "control + ="
+    else if ((event.key === "+" || event.key === "=") && event.ctrlKey) {
+      // Check for "Command + +" or "Command + =" key combination
+      console.log("add frame");
+      handleAddThumbnail();
+    } else if ((event.key === "-" || event.key === "_") && event.ctrlKey) {
+      event.preventDefault();
+      // Check for "Command + +" or "Command + =" key combination
+      console.log("delete frame");
+      handleRemoveThumbnail();
+    } else if (event.key === "t" && (event.metaKey || event.ctrlKey)) {
+      // Check for "Command + s"
+      console.log("check toggled");
+      handleChange();
+    }
+  }
 
   const handleChange = () => {
     setChecked(!traceChecked);
   };
-  const boardRef = useRef<HTMLCanvasElement | null>(null);
 
   const handleAddThumbnail = () => {
     const newFrameNum = frameArray.length + 1;
@@ -84,6 +117,8 @@ export default function FrameInterface(props: FrameInterfaceProps) {
       const currentFrameData = newFrameArray[currentFrame];
       const updatedActions = currentFrameData.actions.slice(0, -1); // Remove the last action
       const updatedFrameData = { ...currentFrameData, actions: updatedActions };
+      
+      
       newFrameArray[currentFrame] = updatedFrameData;
       return newFrameArray;
     });
@@ -91,6 +126,7 @@ export default function FrameInterface(props: FrameInterfaceProps) {
 
   const handleRemoveThumbnail = () => {
     if (frameArray.length != 1) {
+      console.log("got here")
       const newFrameArray = frameArray.filter(
         (frame) => frame.frameNum !== frameArray.length
       );
@@ -147,6 +183,7 @@ export default function FrameInterface(props: FrameInterfaceProps) {
             <button
               className="addFrameButton"
               onClick={handleAddThumbnail}
+
               aria-label="Add Frame"
             >
               +
@@ -165,7 +202,7 @@ export default function FrameInterface(props: FrameInterfaceProps) {
               id="trace"
               checked={traceChecked}
               onChange={handleChange}
-              aria-checked={traceChecked}
+              aria-label="tracing checkbox"
             />
             <span aria-hidden="true">Trace</span>
           </label>
@@ -183,20 +220,15 @@ export default function FrameInterface(props: FrameInterfaceProps) {
             }
             aria-label="Whiteboard"
           />
-          <div className="animate">
-            <Export
-              frames={frameArray}
-              aria-label="Export Animation"
-            ></Export>
+          <div className="animate" aria-aria-label="animate button">
+            <Export frames={frameArray}></Export>
           </div>
         </div>
         <div className="buttonContainer2">
-          <div className="undoButton">
-            <button onClick={handleUndoAction} aria-label="Undo">
-              Undo
-            </button>
+          <div className="undoButton" aria-label="undo button">
+            <button onClick={handleUndoAction}>Undo</button>
           </div>
-          <div className="save">
+          <div className="save" aria-label="save button">
             <Save
               frames={removeImageData(frameArray)}
               aria-label="Save Animation"

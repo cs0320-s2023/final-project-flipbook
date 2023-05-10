@@ -18,10 +18,8 @@ function createMockImg(
     imageData[index + 1] = Math.random() * 255; // G channel
     imageData[index + 2] = Math.random() * 255; // B channel
     imageData[index + 3] = 255; // Alpha channel (fully opaque)
-    // console.log('working ',i);
   }
 
-  // console.log(imageData);
   // Create a new ImageData object using the pixel data
   const mockedImageData = new ImageData(imageData, width, height);
   return mockedImageData;
@@ -29,66 +27,51 @@ function createMockImg(
 
 export default function Export(props: ExportProps) {
   function animate() {
+    const frameWindow = window.open("", "_blank");
+
+    if (!frameWindow) {
+      return;
+    }
+
     const canvas = document.createElement("canvas");
     const ctx = canvas.getContext("2d");
 
-    // Append the canvas element to a container element in the document
-    const container = document.getElementById("canvasContainer");
-    if (container && ctx instanceof CanvasRenderingContext2D) {
-      container.appendChild(canvas);
+    if (!ctx) {
+      return;
     }
 
-    function displayFrame(index: number) {
-      if (index >= props.frames.length) {
-        // All frames have been displayed, stop the animation
+    frameWindow.document.body.appendChild(canvas);
+
+    let frameIndex = 0;
+
+    function displayNextFrame() {
+      if (frameIndex >= props.frames.length) {
+        // All frames have been displayed, close the window/tab
+        frameWindow?.close();
         return;
       }
 
-      if (ctx instanceof CanvasRenderingContext2D) {
-        const frame = props.frames[index];
-        canvas.width = frame.image.width;
-        canvas.height = frame.image.height;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.putImageData(frame.image, 0, 0);
-        // ctx.putImageData(createMockImg(frame.image.width, frame.image.height, 4), 0, 0);
-      }
+      const frame = props.frames[frameIndex];
+      canvas.width = frame.image.width;
+      canvas.height = frame.image.height;
+      ctx?.clearRect(0, 0, canvas.width, canvas.height);
+      ctx?.putImageData(frame.image, 0, 0);
+
+      frameIndex++;
 
       // Schedule the next frame to be displayed after 500 milliseconds (0.5 seconds)
-      setTimeout(function () {
-        displayFrame(index + 1);
-      }, 500);
+      setTimeout(displayNextFrame, 500);
     }
 
     // Start the animation by displaying the first frame
-    displayFrame(0);
+    displayNextFrame();
   }
 
   return (
     <>
-      <button onClick={animate}>Animate</button>
-      <div
-        id="canvasContainer"
-        style={{ width: "100%", height: "100%", position: "relative" }}
-      ></div>
+      <button className="animate" onClick={animate}>
+        Animate
+      </button>
     </>
   );
 }
-
-// function animate(){
-//     var canvas = document.createElement("canvas");
-//     var ctx: undefined | CanvasRenderingContext2D | null =
-//     canvas.getContext("2d");
-//     props.frames.forEach(function (frame) {
-//       setTimeout(function(){
-//           console.log("Executed after 0.5 second");
-//       }, 500);
-//       if (ctx instanceof CanvasRenderingContext2D) {
-//         ctx.putImageData(createMockImg(frame.image.width, frame.image.height, 4), 0, 0);
-//         console.log(ctx.getImageData(0, 0, frame.image.width, frame.image.height))
-//       }
-//     });
-// }
-// return (<>
-//     <button onClick={animate}>Export</button>
-//     </>
-//   );

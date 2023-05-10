@@ -27,8 +27,8 @@ function createMockImg(): ImageData {
 
 function createBlankImageData(): ImageData {
   const canvas = document.createElement('canvas');
-  canvas.width = 80;
-  canvas.height = 60;
+  canvas.width = 800;
+  canvas.height = 600;
   const context = canvas.getContext('2d');
   if (!context) throw new Error('Could not get canvas context');
   return context.createImageData(canvas.width, canvas.height);
