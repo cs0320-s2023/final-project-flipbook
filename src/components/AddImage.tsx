@@ -74,7 +74,7 @@ export const AddImage: React.FC<AddImageProps> = ({ imageUrl, boardRef, props,  
             drawAction(action);
           });
         };
-        // props.displayedFrame.image = context.getImageData(0, 0, 800, 600)
+        props.displayedFrame.image = context.getImageData(0, 0, 800, 600)
       }
     }
   }
