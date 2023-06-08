@@ -1,6 +1,6 @@
 # Flipbook
 ## Contributors
-Developed by `lukegriley`, `bmaizes`, `oanders6`, `a0ng`, `dylansaunders23`
+Developed by `oanders6`, `bmaizes`, `lukegriley`, `a0ng`, `dylansaunders23`
 
 Github Repo: https://github.com/cs0320-s2023/final-project-flipbook
 
